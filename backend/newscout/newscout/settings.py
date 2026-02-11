@@ -154,5 +154,9 @@ SPECTACULAR_SETTINGS = {
         {"name": "Sources", "description": "News sources and publishers"},
         {"name": "Article Tags", "description": "Tags for categorizing articles"},
         {"name": "Articles", "description": "News articles"},
+        {"name": "Bookmarks", "description": "User bookmarks for articles"},
+        {"name": "Plans", "description": "Subscription plans and pricing tiers"},
+        {"name": "Subscriptions", "description": "Tenant subscriptions and billing"},
+        {"name": "Tenants", "description": "Tenant organizations and workspaces"},
     ],
 }

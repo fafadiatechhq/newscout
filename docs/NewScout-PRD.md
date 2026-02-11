@@ -599,6 +599,100 @@ created_at
 * Billing (`/billing/*`)
 * Platform Admin & Account Adminial (`/Platform admin/*`)
 
+### Bookmarks API Endpoints
+
+The Bookmarks API (`/api/v1/bookmarks/`) provides full CRUD operations for managing user bookmarks:
+
+* **GET `/api/v1/bookmarks/`** - List all bookmarks for the authenticated user (paginated)
+* **POST `/api/v1/bookmarks/`** - Create a new bookmark (requires `article_id`)
+* **GET `/api/v1/bookmarks/{id}/`** - Retrieve a specific bookmark
+* **PUT `/api/v1/bookmarks/{id}/`** - Update a bookmark (full update)
+* **PATCH `/api/v1/bookmarks/{id}/`** - Partially update a bookmark
+* **DELETE `/api/v1/bookmarks/{id}/`** - Delete a bookmark
+
+**Security & Access:**
+* All endpoints require authentication (`IsAuthenticated` permission)
+* Users can only access their own bookmarks (queryset filtered by `user`)
+* The `user` field is automatically set from the authenticated user context
+* Bookmark responses include nested `article` and `user` objects
+
+**Request/Response Format:**
+* Create/Update: Use `article_id` to reference the article
+* Read: Returns full `article` object with nested sources, category, and tags
+* All timestamps (`created_at`, `updated_at`) are read-only and automatically managed
+
+### Plans API Endpoints
+
+The Plans API (`/api/v1/plans/`) provides full CRUD operations for managing subscription plans:
+
+* **GET `/api/v1/plans/`** - List all available subscription plans (paginated)
+* **POST `/api/v1/plans/`** - Create a new subscription plan (typically restricted to platform administrators)
+* **GET `/api/v1/plans/{id}/`** - Retrieve a specific plan
+* **PUT `/api/v1/plans/{id}/`** - Update a plan (full update, typically restricted to platform administrators)
+* **PATCH `/api/v1/plans/{id}/`** - Partially update a plan (typically restricted to platform administrators)
+* **DELETE `/api/v1/plans/{id}/`** - Delete a plan (typically restricted to platform administrators)
+
+**Security & Access:**
+* All endpoints require authentication (`IsAuthenticated` permission)
+* Plan viewing is available to all authenticated users
+* Plan creation, update, and deletion are typically restricted to platform administrators (permission checks should be implemented)
+
+**Request/Response Format:**
+* Fields: `id`, `name`, `description`, `price`, `created_at`, `updated_at`
+* `id`, `created_at`, `updated_at` are read-only
+* `price` is a decimal field (max 10 digits, 2 decimal places)
+
+### Subscriptions API Endpoints
+
+The Subscriptions API (`/api/v1/subscriptions/`) provides full CRUD operations for managing tenant subscriptions:
+
+* **GET `/api/v1/subscriptions/`** - List all subscriptions for the authenticated user's tenant (paginated)
+* **POST `/api/v1/subscriptions/`** - Create a new subscription (requires `tenant_id` and `plan_id`)
+* **GET `/api/v1/subscriptions/{id}/`** - Retrieve a specific subscription
+* **PUT `/api/v1/subscriptions/{id}/`** - Update a subscription (full update)
+* **PATCH `/api/v1/subscriptions/{id}/`** - Partially update a subscription (e.g., status, dates)
+* **DELETE `/api/v1/subscriptions/{id}/`** - Delete a subscription
+
+**Security & Access:**
+* All endpoints require authentication (`IsAuthenticated` permission)
+* Users can only access subscriptions for their tenant (queryset filtered by tenant)
+* The tenant is determined from the authenticated user's tenant association
+* Subscription responses include nested `tenant` and `plan` objects
+
+**Request/Response Format:**
+* Create/Update: Use `tenant_id` to reference the tenant, `plan_id` to reference the plan
+* Use `status` to set subscription status (choices: `active`, `inactive`, `cancelled`, `expired`, `pending`, `failed`, `refunded`, `other`)
+* Read: Returns full `tenant` and `plan` objects with nested details
+* Fields: `id`, `tenant`, `tenant_id`, `plan`, `plan_id`, `status`, `start_date`, `end_date`, `created_at`, `updated_at`
+* `id`, `created_at`, `updated_at` are read-only
+* `start_date` and `end_date` are DateTime fields
+
+### Tenants API Endpoints
+
+The Tenants API (`/api/v1/tenants/`) provides full CRUD operations for managing tenant organizations:
+
+* **GET `/api/v1/tenants/`** - List all tenants owned by the authenticated user (paginated)
+* **POST `/api/v1/tenants/`** - Create a new tenant organization (self-serve signup)
+* **GET `/api/v1/tenants/{id}/`** - Retrieve a specific tenant
+* **PUT `/api/v1/tenants/{id}/`** - Update a tenant (full update)
+* **PATCH `/api/v1/tenants/{id}/`** - Partially update a tenant (e.g., name)
+* **DELETE `/api/v1/tenants/{id}/`** - Delete a tenant
+
+**Security & Access:**
+* All endpoints require authentication (`IsAuthenticated` permission)
+* Users can only access tenants they own (queryset filtered by `owner`)
+* The `owner` field is automatically set from the authenticated user context when creating
+* Tenant responses include nested `owner` object
+* Deleting a tenant will cascade delete related subscriptions
+
+**Request/Response Format:**
+* Create/Update: Use `owner_id` to reference the owner (optional - defaults to authenticated user)
+* Read: Returns full `owner` object with nested user details
+* Fields: `id`, `name`, `owner`, `owner_id`, `created_at`, `updated_at`
+* `id`, `created_at`, `updated_at` are read-only
+* `name` is a required CharField (max 255 characters)
+* Supports self-serve tenant signup as per PRD requirements
+
 ---
 
 ## 16. KPIs
