@@ -1,0 +1,42 @@
+services:
+  django:
+    build:
+      context: ./backend/newscout
+    container_name: newscout-backend
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/newscout/.env
+    depends_on:
+      postgres:
+        condition: service_started
+    networks:
+      - app_net
+
+  postgres:
+    image: postgres:15
+    container_name: newscout-db
+    environment:
+      POSTGRES_DB: newscout
+      POSTGRES_USER: newscout
+      POSTGRES_PASSWORD: newscout
+    ports:
+      - "5432:5432"
+    networks:
+      - app_net
+
+  frontend:
+    build:
+      context: ./frontend/newscout
+    container_name: newscout-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - django
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    driver: bridge
