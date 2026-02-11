@@ -50,7 +50,7 @@ from .serializers import (
         tags=["Categories"],
     ),
 )
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryAPI(viewsets.ModelViewSet):
     """
     ViewSet for managing news article categories.
 
@@ -94,7 +94,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         tags=["Sources"],
     ),
 )
-class SourceViewSet(viewsets.ModelViewSet):
+class SourceAPI(viewsets.ModelViewSet):
     """
     ViewSet for managing news sources and publishers.
 
@@ -138,7 +138,7 @@ class SourceViewSet(viewsets.ModelViewSet):
         tags=["Article Tags"],
     ),
 )
-class ArticleTagViewSet(viewsets.ModelViewSet):
+class ArticleTagAPI(viewsets.ModelViewSet):
     """
     ViewSet for managing article tags.
 
@@ -182,7 +182,7 @@ class ArticleTagViewSet(viewsets.ModelViewSet):
         tags=["Articles"],
     ),
 )
-class ArticleViewSet(viewsets.ModelViewSet):
+class ArticleAPI(viewsets.ModelViewSet):
     """
     ViewSet for managing news articles.
 
@@ -235,7 +235,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
         tags=["Bookmarks"],
     ),
 )
-class BookmarkViewSet(viewsets.ModelViewSet):
+class BookmarkAPI(viewsets.ModelViewSet):
     """
     ViewSet for managing user bookmarks.
 
@@ -296,7 +296,7 @@ class BookmarkViewSet(viewsets.ModelViewSet):
         tags=["Plans"],
     ),
 )
-class PlanViewSet(viewsets.ModelViewSet):
+class PlanAPI(viewsets.ModelViewSet):
     """
     ViewSet for managing subscription plans.
 
@@ -345,7 +345,7 @@ class PlanViewSet(viewsets.ModelViewSet):
         tags=["Subscriptions"],
     ),
 )
-class SubscriptionViewSet(viewsets.ModelViewSet):
+class SubscriptionAPI(viewsets.ModelViewSet):
     """
     ViewSet for managing tenant subscriptions.
 
@@ -424,7 +424,7 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
         tags=["Tenants"],
     ),
 )
-class TenantViewSet(viewsets.ModelViewSet):
+class TenantAPI(viewsets.ModelViewSet):
     """
     ViewSet for managing tenant organizations.
 
