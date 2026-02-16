@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Award, BadgeCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { getEditorsPicks, formatTimeAgo } from "@/lib/mock-data";
+import { getEditorsPicks, formatTimeAgo } from "@/utils/mock-data";
 import Link from "next/link";
 
 const EditorsPicks = () => {

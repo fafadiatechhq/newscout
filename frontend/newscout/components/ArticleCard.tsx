@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { type Article, formatTimeAgo } from "@/lib/mock-data";
+import { type Article, formatTimeAgo } from "@/utils/mock-data";
 import { toast } from "@/hooks/use-toast";
 import Link from "next/link";
 

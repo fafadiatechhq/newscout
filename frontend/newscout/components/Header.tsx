@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/hooks/use-theme";
-import { categories } from "@/lib/mock-data";
+import { categories } from "@/utils/mock-data";
 
 const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);

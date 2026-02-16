@@ -4,7 +4,7 @@ import Layout from "./Layout";
 import BreakingNewsTicker from "./BreakingNewsTicker";
 import ArticleCardSkeleton from "./ArticleCardSkeleton";
 import ArticleCard from "./ArticleCard";
-import { articles, getTrendingArticles, formatTimeAgo } from "@/lib/mock-data";
+import { articles, getTrendingArticles, formatTimeAgo } from "@/utils/mock-data";
 import { motion } from "framer-motion";
 import { ArrowRight, BadgeCheck, Shield, TrendingUp, Zap } from "lucide-react";
 import Link from "next/link";
