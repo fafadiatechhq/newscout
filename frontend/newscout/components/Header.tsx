@@ -105,6 +105,12 @@ const Header = () => {
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
+            <Link
+              href="/feed"
+              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            >
+              All
+            </Link>
             {categories.slice(0, 6).map((cat) => (
               <Link
                 key={cat.id}
@@ -114,12 +120,6 @@ const Header = () => {
                 {cat.name}
               </Link>
             ))}
-            <Link
-              href="/feed"
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-            >
-              All
-            </Link>
           </nav>
         </div>
 

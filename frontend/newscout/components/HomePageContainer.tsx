@@ -99,7 +99,7 @@ const HomePageContainer = () => {
               <Link href="/trending">
                 <Button
                   variant="ghost"
-                  className="mt-3 w-full text-sm text-primary hover:text-white cursor-pointer"
+                  className=" mt-3 w-full text-sm text-accent hover:text-white cursor-pointer"
                 >
                   View all trending
                   <ArrowRight className="ml-1 h-4 w-4" />
