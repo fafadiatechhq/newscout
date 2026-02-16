@@ -1,6 +1,6 @@
 // import { Link } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
-import { articles } from "@/lib/mock-data";
+import { articles } from "@/utils/mock-data";
 import Link from "next/link";
 
 const BreakingNewsTicker = () => {

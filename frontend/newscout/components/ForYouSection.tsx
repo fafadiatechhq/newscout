@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { Sparkles, BadgeCheck, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { articles, formatTimeAgo } from "@/lib/mock-data";
+import { articles, formatTimeAgo } from "@/utils/mock-data";
 import { useReadingHistory } from "@/hooks/use-reading-history";
 import Link from "next/link";
 
