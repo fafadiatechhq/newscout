@@ -7,27 +7,29 @@ import { useEffect } from 'react'
 import MoreFromSource from '@/components/articles/MoreFromSource'
 import { Button } from '@/components/ui/button'
 import { useReadingHistory } from '@/hooks/use-reading-history'
-import { useToast } from '@/hooks/use-toast'
 import {
   getArticleById,
   getSourceCountForArticle,
   getSourcesForArticle,
+  formatTimeAgo,
 } from '@/utils/mock-data'
+import { BadgeCheck, Clock, Eye } from "lucide-react";
+import RelatedArticles from "@/components/articles/RelatedArticles";
+
+
 
 const ArticleDetail = () => {
-  const { id } = useParams<{ id: string }>()
-  const article = getArticleById(id || '')
-  const { toast } = useToast()
-  const { trackView } = useReadingHistory()
+    const { id } = useParams<{ id: string }>();
+    const article = getArticleById(id || "");
+    const { trackView } = useReadingHistory();
 
-  useEffect(() => {
-    if (article) {
-      trackView(article.id, article.category.slug)
-    }
-  }, [article, trackView])
-  if (!article) {
-    return (
-      <div>
+    useEffect(() => {
+      if (article) {
+        trackView(article.id, article.category.slug);
+      }
+    }, [article, trackView]);
+    if (!article) {
+      return (
         <Layout>
           <div className="container py-16 text-center">
             <h1 className="font-serif text-3xl font-bold text-foreground">
@@ -41,19 +43,9 @@ const ArticleDetail = () => {
             </Link>
           </div>
         </Layout>
-      </div>
-    )
-  }
-  const sourceCount = getSourceCountForArticle(article.id)
-  const articleSources = getSourcesForArticle(article.id)
+      );
+    }
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href)
-    toast({
-      title: 'Link copied!',
-      description: 'Article link copied to clipboard.',
-    })
-  }
 
   return (
     <Layout>
@@ -64,6 +56,29 @@ const ArticleDetail = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
+          {/* Title */}
+        <h1 className="mb-4 font-serif text-xl md:text-3xl font-bold leading-tight text-foreground  lg:text-4xl whitespace-normal">
+          {article.title}
+        </h1>
+        {/* Meta */}
+        <div className="mb-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+          <span className="flex items-center gap-1 font-medium text-foreground">
+            {article.source.is_verified && (
+              <BadgeCheck className="h-4 w-4 text-primary" />
+            )}
+            {article.source.name}
+          </span>
+          <span>By {article.author}</span>
+          <span className="flex items-center gap-1">
+            <Clock className="h-4 w-4" />
+            {article.reading_time} min read
+          </span>
+          <span>{formatTimeAgo(article.published_at)}</span>
+          <span className="flex items-center gap-1">
+            <Eye className="h-4 w-4" />
+            {article.views.toLocaleString()} views
+          </span>
+        </div>
           {/* Inline image */}
           <div className="mb-8 overflow-hidden rounded-xl">
             <img
@@ -99,13 +114,33 @@ const ArticleDetail = () => {
               accordingly.
             </p>
           </div>
+          {/* Source attribution */}
+        <div className="mt-8 rounded-lg bg-surface p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+              {article.source.name.charAt(0)}
+            </div>
+            <div>
+              <p className="flex items-center gap-1 font-medium text-foreground">
+                {article.source.name}
+                {article.source.is_verified && (
+                  <BadgeCheck className="h-4 w-4 text-primary" />
+                )}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Verified Publisher
+              </p>
+            </div>
+          </div>
+        </div>
         </motion.article>
         <div className="mx-auto max-w-5xl space-y-12 py-12">
+          <RelatedArticles article={article} />
           <MoreFromSource article={article} />
         </div>
       </div>
     </Layout>
   )
 }
-
 export default ArticleDetail
+        

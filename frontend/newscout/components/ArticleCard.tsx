@@ -1,6 +1,6 @@
-'use client'
-import { Clock, Eye, BadgeCheck, Share2, Link2, Twitter } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
+"use client";
+import { Clock, Eye, BadgeCheck, Share2, Link2, Twitter } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -84,7 +84,7 @@ const ShareButton = ({ article }: { article: Article }) => {
             openShare(
               e,
               `https://api.whatsapp.com/send?text=${encodeURIComponent(
-                text + ' ' + url,
+                text + " " + url,
               )}`,
             )
           }
