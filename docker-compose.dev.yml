@@ -1,0 +1,67 @@
+version: "3.9"
+
+services:
+  django:
+    build:
+      context: ./backend/newscout
+      dockerfile: Dockerfile.dev
+    container_name: newscout-backend
+    working_dir: /workspace/backend/newscout
+    command: >
+      sh -c "
+      sleep 5 &&
+      python manage.py migrate &&
+      python manage.py createsu &&
+      python manage.py runserver 0.0.0.0:8000
+      "
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/newscout/.env
+    volumes:
+      - .:/workspace
+    depends_on:
+      - postgres
+    networks:
+      - app_net
+
+  postgres:
+    image: postgres:15
+    container_name: newscout-db
+    environment:
+      POSTGRES_DB: newscout
+      POSTGRES_USER: newscout
+      POSTGRES_PASSWORD: newscout
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_net
+
+  frontend:
+    build:
+      context: ./frontend/newscout
+      dockerfile: Dockerfile.dev
+    container_name: newscout-frontend
+    working_dir: /workspace/frontend/newscout
+    command: >
+      sh -c "
+      npm install &&
+      npm run dev
+      "
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/workspace
+    depends_on:
+      - django
+    networks:
+      - app_net
+
+volumes:
+  postgres_data:
+
+networks:
+  app_net:
+    driver: bridge
