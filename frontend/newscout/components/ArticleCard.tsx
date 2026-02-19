@@ -1,40 +1,39 @@
-// import { Link } from "react-router-dom";
-import { Clock, Eye, BadgeCheck, Share2, Link2, Twitter } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+'use client'
+import { Clock, Eye, BadgeCheck, Share2, Link2, Twitter } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { type Article, formatTimeAgo } from "@/utils/mock-data";
-import { toast } from "@/hooks/use-toast";
-import Link from "next/link";
-
+} from '@/components/ui/dropdown-menu'
+import { type Article, formatTimeAgo } from '@/utils/mock-data'
+import { toast } from '@/hooks/use-toast'
+import Link from 'next/link'
 interface ArticleCardProps {
-  article: Article;
-  variant?: "default" | "compact" | "featured";
+  article: Article
+  variant?: 'default' | 'compact' | 'featured'
 }
 
 const ShareButton = ({ article }: { article: Article }) => {
-  const url = `${window.location.origin}/articles/${article.id}`;
-  const text = article.title;
+  const url = `${window.location.origin}/articles/${article.id}`
+  const text = article.title
 
   const handleCopy = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    await navigator.clipboard.writeText(url);
+    e.preventDefault()
+    e.stopPropagation()
+    await navigator.clipboard.writeText(url)
     toast({
-      title: "Link copied!",
-      description: "Article link copied to clipboard.",
-    });
-  };
+      title: 'Link copied!',
+      description: 'Article link copied to clipboard.',
+    })
+  }
 
   const openShare = (e: React.MouseEvent, shareUrl: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    window.open(shareUrl, "_blank", "noopener,noreferrer,width=600,height=400");
-  };
+    e.preventDefault()
+    e.stopPropagation()
+    window.open(shareUrl, '_blank', 'noopener,noreferrer,width=600,height=400')
+  }
 
   return (
     <DropdownMenu>
@@ -84,7 +83,7 @@ const ShareButton = ({ article }: { article: Article }) => {
             openShare(
               e,
               `https://api.whatsapp.com/send?text=${encodeURIComponent(
-                text + " " + url,
+                text + ' ' + url,
               )}`,
             )
           }
@@ -111,11 +110,11 @@ const ShareButton = ({ article }: { article: Article }) => {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-};
+  )
+}
 
-const ArticleCard = ({ article, variant = "default" }: ArticleCardProps) => {
-  if (variant === "featured") {
+const ArticleCard = ({ article, variant = 'default' }: ArticleCardProps) => {
+  if (variant === 'featured') {
     return (
       <Link
         href={`/articles/${article.id}`}
@@ -159,10 +158,10 @@ const ArticleCard = ({ article, variant = "default" }: ArticleCardProps) => {
           </div>
         </div>
       </Link>
-    );
+    )
   }
 
-  if (variant === "compact") {
+  if (variant === 'compact') {
     return (
       <Link
         href={`/articles/${article.id}`}
@@ -190,7 +189,7 @@ const ArticleCard = ({ article, variant = "default" }: ArticleCardProps) => {
           </div>
         </div>
       </Link>
-    );
+    )
   }
 
   return (
@@ -247,8 +246,8 @@ const ArticleCard = ({ article, variant = "default" }: ArticleCardProps) => {
         </div>
       </div>
     </Link>
-  );
-};
+  )
+}
 
 const TrendingIcon = ({ className }: { className?: string }) => (
   <svg
@@ -264,6 +263,6 @@ const TrendingIcon = ({ className }: { className?: string }) => (
     <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
     <polyline points="16 7 22 7 22 13" />
   </svg>
-);
+)
 
-export default ArticleCard;
+export default ArticleCard
