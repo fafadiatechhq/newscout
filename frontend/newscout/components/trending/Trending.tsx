@@ -49,10 +49,10 @@ const Trending = () => {
               <TrendingUp className="h-6 w-6 text-accent-foreground" />
             </div>
             <div>
-              <h1 className="font-serif text-3xl font-bold text-primary-foreground md:text-4xl">
+              <h1 className="font-serif text-2xl font-bold text-primary-foreground md:text-4xl">
                 Trending Now
               </h1>
-              <p className="text-primary-foreground/70">
+              <p className="text-primary-foreground/70 text-sm md:text-lg">
                 The most read stories across NewScout
               </p>
             </div>
@@ -85,7 +85,7 @@ const Trending = () => {
             </div>
             <ArticleCard article={topArticle} variant="featured" />
             {/* Stats Ribbon */}
-            <div className="mt-3 flex flex-wrap items-center gap-4 rounded-lg bg-muted px-4 py-2.5 text-sm text-muted-foreground">
+            <div className="mt-3 flex flex-wrap items-center gap-4 rounded-lg bg-muted px-4 py-2.5 text-xs md:text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <Eye className="h-4 w-4" />
                 {formatViews(topArticle.views)} views
@@ -94,7 +94,7 @@ const Trending = () => {
                 <Clock className="h-4 w-4" />
                 {topArticle.reading_time} min read
               </span>
-              <span className="text-xs">
+              <span className="">
                 Published {formatTimeAgo(topArticle.published_at)}
               </span>
               <span className="flex items-center gap-1.5">
