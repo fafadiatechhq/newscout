@@ -144,19 +144,22 @@ const ArticleDetail = () => {
 
           {/* Article Actions */}
           <div className="mb-8 flex flex-wrap items-center gap-2 border-b border-t border-border py-3">
-            <Button variant="outline" size="sm" className="gap-2">
+            <Button variant="outline" size="sm" className="cursor-pointer gap-2">
               <Bookmark className="h-4 w-4" />
               Bookmark
             </Button>
 
+            {/* Share Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
+                <Button variant="outline" size="sm" className="cursor-pointer gap-2">
                   <Share2 className="h-4 w-4" />
                   Share
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start">
+
+              {/* Dropdown Options */}
+              <DropdownMenuContent className="bg-card" align="start">
                 <DropdownMenuItem onClick={handleCopyLink}>
                   <Copy className="mr-2 h-4 w-4" />
                   Copy Link
@@ -180,7 +183,7 @@ const ArticleDetail = () => {
               sources={articleSources}
               articleTitle={article.title}
               trigger={
-                <Button variant="outline" size="sm" className="gap-2">
+                <Button variant="outline" size="sm" className="cursor-pointer gap-2">
                   <Layers className="h-4 w-4" />
                   {sourceCount} {sourceCount === 1 ? "Source" : "Sources"}
                 </Button>
@@ -188,7 +191,7 @@ const ArticleDetail = () => {
             />
 
             <a href={article.content_url} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button variant="outline" size="sm" className="cursor-pointer gap-2">
                 <ExternalLink className="h-4 w-4" />
                 Original
               </Button>
