@@ -1,15 +1,18 @@
-import { BadgeCheck } from "lucide-react";
-import { type Article, getArticlesBySource } from "@/utils/mock-data";
-import ArticleCard from "@/components/ArticleCard";
-
+'use client'
+import { BadgeCheck } from 'lucide-react'
+import { type Article, getArticlesBySource } from '@/utils/mock-data'
+import ArticleCard from '@/components/ArticleCard'
 interface MoreFromSourceProps {
-  article: Article;
+  article: Article
 }
 
 const MoreFromSource = ({ article }: MoreFromSourceProps) => {
-  const sourceArticles = getArticlesBySource(article.source.id, article.id).slice(0, 3);
+  const sourceArticles = getArticlesBySource(
+    article.source.id,
+    article.id,
+  ).slice(0, 3)
 
-  if (sourceArticles.length === 0) return null;
+  if (sourceArticles.length === 0) return null
 
   return (
     <section>
@@ -20,7 +23,9 @@ const MoreFromSource = ({ article }: MoreFromSourceProps) => {
         <h2 className="font-serif text-xl font-bold text-foreground">
           More from {article.source.name}
         </h2>
-        {article.source.is_verified && <BadgeCheck className="h-4 w-4 text-primary" />}
+        {article.source.is_verified && (
+          <BadgeCheck className="h-4 w-4 text-primary" />
+        )}
       </div>
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {sourceArticles.map((a) => (

@@ -239,7 +239,6 @@ const ArticleDetail = () => {
         </div>
       </div>
     </Layout>
-  );
-};
-
-export default ArticleDetail;
+  )
+}
+export default ArticleDetail
