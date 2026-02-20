@@ -35,7 +35,7 @@ const EditorsPicks = () => {
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                   />
-                  <Badge className="absolute left-3 top-3 bg-accent text-accent-foreground text-xs">
+                  <Badge className="absolute left-3 top-3 bg-accent text-accent-foreground hover:bg-accent/80 text-xs">
                     <Award className="mr-1 h-3 w-3" />
                     Editor's Pick
                   </Badge>

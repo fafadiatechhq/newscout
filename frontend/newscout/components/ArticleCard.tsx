@@ -46,7 +46,7 @@ const ShareButton = ({ article }: { article: Article }) => {
           <Share2 className="h-4 w-4" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuContent align="end" className="w-48 bg-card">
         <DropdownMenuItem onClick={handleCopy}>
           <Link2 className="mr-2 h-4 w-4" />
           Copy Link
