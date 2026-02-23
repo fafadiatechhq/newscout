@@ -1,13 +1,39 @@
-// import { Link } from "react-router-dom";
+"use client";
 import { motion } from "framer-motion";
 import { Sparkles, BadgeCheck, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { articles, formatTimeAgo } from "@/utils/mock-data";
 import { useReadingHistory } from "@/hooks/use-reading-history";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 const ForYouSection = () => {
+  const [mounted, setMounted] = useState(false);
   const { getPreferredCategories, getViewedArticleIds } = useReadingHistory();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    // Render a loading state or nothing to match server render
+    return (
+      <section className="border-b border-border bg-surface py-10">
+        <div className="container">
+          <div className="mb-6 flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-accent" />
+            <h2 className="font-serif text-2xl font-bold text-foreground">For You</h2>
+          </div>
+          <div className="rounded-xl border border-dashed border-border bg-card p-8 text-center">
+            <Sparkles className="mx-auto mb-3 h-8 w-8 text-muted-foreground" />
+            <p className="font-serif text-lg font-bold text-foreground">
+              Loading personalized picks...
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   const preferredCategories = getPreferredCategories();
   const viewedIds = getViewedArticleIds();
@@ -76,7 +102,7 @@ const ForYouSection = () => {
                 href={`/articles/${article.id}`}
                 className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-lg"
               >
-                <div className="aspect-[16/10] overflow-hidden">
+                <div className="aspect-16/10 overflow-hidden">
                   <img
                     src={article.image_url}
                     alt={article.title}
