@@ -31,7 +31,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import InviteMemberDialog from "./InviteMemberDialog";
-import { teamMembers as initialMembers, organization, TeamMember } from "@/utils/admin-mock-data";
+import { teamMembers as initialMembers, organization } from "@/utils/admin-mock-data";
+import type { TeamMember } from "@/types/users";
 import { toast } from "@/hooks/use-toast";
 
 // ─── Animations ─────────────────────────────────────────────────────────────

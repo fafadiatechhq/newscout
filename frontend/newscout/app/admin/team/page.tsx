@@ -1,10 +1,8 @@
 import AdminTeam from "@/components/admin/team/Team";
-const page = () => {
+const AdminTeamPage = () => {
     return (
-        <div>
-            <AdminTeam />
-        </div>
+        <><AdminTeam /></>
     );
 };
 
-export default page;
+export default AdminTeamPage;
