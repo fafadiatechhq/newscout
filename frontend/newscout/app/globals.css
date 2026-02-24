@@ -206,3 +206,25 @@
     text-wrap: balance;
   }
 }
+
+/* Role badge styles */
+.role-owner {
+  @apply bg-primary/10 text-primary border-primary/20;
+}
+
+.role-admin {
+  @apply bg-accent/10 text-accent border-accent/20;
+}
+
+.role-viewer {
+  @apply bg-muted text-muted-foreground border-border;
+}
+
+/* Status badge styles */
+.status-active {
+  @apply bg-emerald-500/10 text-emerald-700 border-emerald-200;
+}
+
+.status-pending {
+  @apply bg-amber-500/10 text-amber-700 border-amber-200;
+}

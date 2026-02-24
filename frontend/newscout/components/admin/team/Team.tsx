@@ -34,17 +34,7 @@ import InviteMemberDialog from "./InviteMemberDialog";
 import { teamMembers as initialMembers, organization, TeamMember } from "@/utils/admin-mock-data";
 import { toast } from "@/hooks/use-toast";
 
-const roleColors: Record<string, string> = {
-  owner: "bg-primary/10 text-primary border-primary/20",
-  admin: "bg-accent/10 text-accent border-accent/20",
-  viewer: "bg-muted text-muted-foreground border-border",
-};
-
-const statusColors: Record<string, string> = {
-  active: "bg-emerald-500/10 text-emerald-700 border-emerald-200",
-  pending: "bg-amber-500/10 text-amber-700 border-amber-200",
-};
-
+// ─── Animations ─────────────────────────────────────────────────────────────
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
   show: { opacity: 1, y: 0, transition: { duration: 0.35 } },
@@ -116,7 +106,7 @@ const Team = () => {
                     <TableCell className="text-muted-foreground">{member.email}</TableCell>
                     <TableCell>
                       {member.role === "owner" ? (
-                        <Badge variant="outline" className={roleColors.owner}>
+                        <Badge variant="outline" className={`role-${member.role}`}>
                           Owner
                         </Badge>
                       ) : (
@@ -135,7 +125,7 @@ const Team = () => {
                       )}
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline" className={statusColors[member.status]}>
+                      <Badge variant="outline" className={`status-${member.status}`}>
                         {member.status === "active" ? "Active" : "Pending"}
                       </Badge>
                     </TableCell>
