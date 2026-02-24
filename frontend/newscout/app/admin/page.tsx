@@ -2,14 +2,14 @@ import React from 'react'
 import Dashboard from '@/components/admin/Dashboard'
 import AdminLayout from '@/components/admin/AdminLayout'
 
-const page = () => {
+const Adminpage = () => {
   return (
-    <div>
+    <React.Fragment>
       <AdminLayout>
         <Dashboard />
       </AdminLayout>
-    </div>
+    </React.Fragment>
   )
 }
 
-export default page
+export default Adminpage
