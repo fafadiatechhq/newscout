@@ -1,11 +1,11 @@
 import Billing from "@/components/admin/Billing";
 
-const page = () => {
+const AdminBillingPage = () => {
   return (
     <>
-      <Billing />
+        <Billing />
     </>
   );
 };
 
-export default page;
+export default AdminBillingPage;
