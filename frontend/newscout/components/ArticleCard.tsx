@@ -142,11 +142,11 @@ const ArticleCard = ({ article, variant = 'default' }: ArticleCardProps) => {
         <div className="absolute right-4 top-4">
           <ShareButton article={article} />
         </div>
-        <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-          <Badge className="mb-3 bg-accent text-accent-foreground hover:bg-accent/90">
+        <div className="absolute inset-x-0 bottom-0 p-4 md:p-8">
+          <Badge className="mb-3 text-[8px] md:text-sm bg-accent text-accent-foreground hover:bg-accent/90">
             {article.category.name}
           </Badge>
-          <h2 className="mb-2 font-serif text-2xl font-bold leading-tight text-background md:text-3xl lg:text-4xl">
+          <h2 className="mb-2 font-serif text-sm md:text-2xl font-bold leading-tight text-background lg:text-4xl">
             {article.title}
           </h2>
           <p className="mb-4 hidden text-sm text-background/80 md:block md:text-base">

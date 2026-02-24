@@ -1,13 +1,15 @@
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { categories } from "@/utils/mock-data";
-import Link from "next/link";
+import { motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
+import { categories } from '@/utils/mock-data'
+import Link from 'next/link'
 
 const CategoryShowcase = () => {
   return (
     <section className="border-b border-border bg-surface">
       <div className="container py-8">
-        <h2 className="mb-6 font-serif text-2xl font-bold text-foreground">Popular Categories</h2>
+        <h2 className="mb-6 font-serif text-xl md:text-2xl font-bold text-foreground">
+          Popular Categories
+        </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {categories.map((cat, i) => (
             <motion.div
@@ -24,7 +26,9 @@ const CategoryShowcase = () => {
                   <h3 className="mb-1 font-serif text-lg font-bold text-card-foreground transition-colors group-hover:text-primary">
                     {cat.name}
                   </h3>
-                  <p className="text-sm text-muted-foreground">{cat.description}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {cat.description}
+                  </p>
                 </div>
                 <div className="mt-4 flex items-center justify-between">
                   <span className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground">
@@ -38,7 +42,7 @@ const CategoryShowcase = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default CategoryShowcase;
+export default CategoryShowcase
