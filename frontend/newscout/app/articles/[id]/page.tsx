@@ -1,11 +1,11 @@
 import ArticleDetail from "@/components/articles/ArticleDetail";
 
-const page = () => {
+const ArticleDetailPage = () => {
   return (
-    <div>
+    <>
       <ArticleDetail />
-    </div>
+    </>
   );
 };
 
-export default page;
+export default ArticleDetailPage;
