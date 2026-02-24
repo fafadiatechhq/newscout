@@ -1,9 +1,8 @@
-import Header from "./Header";
-import Footer from "./Footer";
-import BackToTop from "./BackToTop";
-
+import Header from './Header'
+import Footer from './Footer'
+import BackToTop from './BackToTop'
 interface LayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const Layout = ({ children }: LayoutProps) => {
@@ -14,7 +13,7 @@ const Layout = ({ children }: LayoutProps) => {
       <Footer />
       <BackToTop />
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout
