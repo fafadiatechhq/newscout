@@ -10,14 +10,23 @@ import {
 import { type Article, formatTimeAgo } from '@/utils/mock-data'
 import { toast } from '@/hooks/use-toast'
 import Link from 'next/link'
-
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 interface ArticleCardProps {
   article: Article
   variant?: 'default' | 'compact' | 'featured'
 }
 
 const ShareButton = ({ article }: { article: Article }) => {
-  const url = `${window.location.origin}/articles/${article.id}`
+  const pathname = usePathname()
+  const [origin, setOrigin] = useState('')
+
+  useEffect(() => {
+    setOrigin(window.location.origin)
+  }, [])
+
+  const articlePath = `/articles/${article.id}`
+  const url = `${origin}${articlePath}`
   const text = article.title
 
   const handleCopy = async (e: React.MouseEvent) => {
