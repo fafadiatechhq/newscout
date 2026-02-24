@@ -1,6 +1,6 @@
-// import { Link } from "react-router-dom";
-import { Clock, Eye, BadgeCheck, Share2, Link2, Twitter } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+'use client'
+import { Clock, Eye, BadgeCheck, Share2, Link2, Twitter } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,7 +46,7 @@ const ShareButton = ({ article }: { article: Article }) => {
           <Share2 className="h-4 w-4" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuContent align="end" className="w-48 bg-card">
         <DropdownMenuItem onClick={handleCopy}>
           <Link2 className="mr-2 h-4 w-4" />
           Copy Link
@@ -56,8 +56,8 @@ const ShareButton = ({ article }: { article: Article }) => {
             openShare(
               e,
               `https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                url
-              )}&text=${encodeURIComponent(text)}`
+                url,
+              )}&text=${encodeURIComponent(text)}`,
             )
           }
         >
@@ -69,8 +69,8 @@ const ShareButton = ({ article }: { article: Article }) => {
             openShare(
               e,
               `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                url
-              )}`
+                url,
+              )}`,
             )
           }
         >
@@ -84,8 +84,8 @@ const ShareButton = ({ article }: { article: Article }) => {
             openShare(
               e,
               `https://api.whatsapp.com/send?text=${encodeURIComponent(
-                text + " " + url
-              )}`
+                text + ' ' + url,
+              )}`,
             )
           }
         >
@@ -99,8 +99,8 @@ const ShareButton = ({ article }: { article: Article }) => {
             openShare(
               e,
               `https://t.me/share/url?url=${encodeURIComponent(
-                url
-              )}&text=${encodeURIComponent(text)}`
+                url,
+              )}&text=${encodeURIComponent(text)}`,
             )
           }
         >

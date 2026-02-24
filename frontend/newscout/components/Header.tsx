@@ -1,6 +1,7 @@
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+'use client'
+import { useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import {
   Search,
   Menu,
@@ -36,17 +37,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       {/* Top bar */}
       <div className="bg-primary">
-        <div className="container flex h-10 items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="text-xs font-medium text-primary-foreground/70">
-              {new Date().toLocaleDateString("en-US", {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </span>
-          </div>
+        <div className="container flex h-10 items-center justify-end">
           <div className="flex items-center gap-3">
             <Link
               href="/trending"
@@ -60,14 +51,6 @@ const Header = () => {
               <Bookmark className="h-3 w-3" />
               Bookmarks
             </button>
-            <span className="text-primary-foreground/30">|</span>
-            <Link
-              href="/admin"
-              className="flex items-center gap-1 text-xs font-medium text-primary-foreground/70 transition-colors hover:text-primary-foreground"
-            >
-              <Shield className="h-3 w-3" />
-              Admin
-            </Link>
             <span className="text-primary-foreground/30">|</span>
             <button
               onClick={toggleTheme}
@@ -105,6 +88,12 @@ const Header = () => {
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
+            <Link
+              href="/feed"
+              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            >
+              All
+            </Link>
             {categories.slice(0, 6).map((cat) => (
               <Link
                 key={cat.id}
@@ -114,12 +103,6 @@ const Header = () => {
                 {cat.name}
               </Link>
             ))}
-            <Link
-              href="/feed"
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-            >
-              All
-            </Link>
           </nav>
         </div>
 
