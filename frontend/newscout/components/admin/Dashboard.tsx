@@ -89,7 +89,7 @@ const Dashboard = () => {
           {organization.name}
         </h1>
         <p className="mt-1 text-muted-foreground">
-          Welcome back. Here's an overview of your account.
+          Welcome back. Here&apos;s an overview of your account.
         </p>
       </motion.div>
 

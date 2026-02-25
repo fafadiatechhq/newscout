@@ -1,7 +1,12 @@
+import AdminLayout from "@/components/admin/AdminLayout";
 import AdminTeam from "@/components/admin/team/Team";
 const AdminTeamPage = () => {
     return (
-        <><AdminTeam /></>
+        <>
+        <AdminLayout>
+            <AdminTeam />
+        </AdminLayout>
+        </>
     );
 };
 
