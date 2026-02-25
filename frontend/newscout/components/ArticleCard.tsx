@@ -6,19 +6,28 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { type Article, formatTimeAgo } from "@/utils/mock-data";
-import { toast } from "@/hooks/use-toast";
-import Link from "next/link";
-
+} from '@/components/ui/dropdown-menu'
+import { type Article, formatTimeAgo } from '@/utils/mock-data'
+import { toast } from '@/hooks/use-toast'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 interface ArticleCardProps {
   article: Article;
   variant?: "default" | "compact" | "featured";
 }
 
 const ShareButton = ({ article }: { article: Article }) => {
-  const url = `${window.location.origin}/articles/${article.id}`;
-  const text = article.title;
+  const pathname = usePathname()
+  const [origin, setOrigin] = useState('')
+
+  useEffect(() => {
+    setOrigin(window.location.origin)
+  }, [])
+
+  const articlePath = `/articles/${article.id}`
+  const url = `${origin}${articlePath}`
+  const text = article.title
 
   const handleCopy = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -133,11 +142,11 @@ const ArticleCard = ({ article, variant = "default" }: ArticleCardProps) => {
         <div className="absolute right-4 top-4">
           <ShareButton article={article} />
         </div>
-        <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-          <Badge className="mb-3 bg-accent text-accent-foreground hover:bg-accent/90">
+        <div className="absolute inset-x-0 bottom-0 p-4 md:p-8">
+          <Badge className="mb-3 text-[8px] md:text-sm bg-accent text-accent-foreground hover:bg-accent/90">
             {article.category.name}
           </Badge>
-          <h2 className="mb-2 font-serif text-2xl font-bold leading-tight text-background md:text-3xl lg:text-4xl">
+          <h2 className="mb-2 font-serif text-sm md:text-2xl font-bold leading-tight text-background lg:text-4xl">
             {article.title}
           </h2>
           <p className="mb-4 hidden text-sm text-background/80 md:block md:text-base">

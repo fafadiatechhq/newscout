@@ -1,43 +1,43 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import Layout from "./Layout";
-import BreakingNewsTicker from "./BreakingNewsTicker";
-import ArticleCardSkeleton from "./ArticleCardSkeleton";
-import ArticleCard from "./ArticleCard";
-import { articles, getTrendingArticles, formatTimeAgo } from "@/utils/mock-data";
-import { motion } from "framer-motion";
-import { ArrowRight, BadgeCheck, Shield, TrendingUp, Zap } from "lucide-react";
-import Link from "next/link";
-import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
-import TrendingBadge from "./TrendingBadge";
-import { Button } from "./ui/button";
-import InfiniteScrollSentinel from "./InfiniteScrollSentinel";
-import CategoryShowcase from "./CategoryShowcase";
-import EditorsPicks from "./EditorsPicks";
-import ForYouSection from "./ForYouSection";
+'use client'
+import React, { useEffect, useState } from 'react'
+import Layout from './Layout'
+import BreakingNewsTicker from './BreakingNewsTicker'
+import ArticleCardSkeleton from './ArticleCardSkeleton'
+import ArticleCard from './ArticleCard'
+import { articles, getTrendingArticles, formatTimeAgo } from '@/utils/mock-data'
+import { motion } from 'framer-motion'
+import { ArrowRight, BadgeCheck, Shield, TrendingUp, Zap } from 'lucide-react'
+import Link from 'next/link'
+import { useInfiniteScroll } from '@/hooks/use-infinite-scroll'
+import TrendingBadge from './TrendingBadge'
+import { Button } from './ui/button'
+import InfiniteScrollSentinel from './InfiniteScrollSentinel'
+import CategoryShowcase from './CategoryShowcase'
+import EditorsPicks from './EditorsPicks'
+import ForYouSection from './ForYouSection'
 
-const LATEST_PAGE_SIZE = 4;
+const LATEST_PAGE_SIZE = 4
 
 const HomePageContainer = () => {
-  const [initialLoading, setInitialLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true)
 
   useEffect(() => {
     // Simulate initial data fetch
-    const timer = setTimeout(() => setInitialLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
+    const timer = setTimeout(() => setInitialLoading(false), 800)
+    return () => clearTimeout(timer)
+  }, [])
 
-  const heroArticle = articles[0];
-  const trending = getTrendingArticles();
-  const allLatest = articles.slice(1);
-  const sidebarArticles = articles.slice(7);
+  const heroArticle = articles[0]
+  const trending = getTrendingArticles()
+  const allLatest = articles.slice(1)
+  const sidebarArticles = articles.slice(7)
 
   const { visibleCount, isLoading, hasMore, sentinelRef } = useInfiniteScroll({
     totalItems: allLatest.length,
     pageSize: LATEST_PAGE_SIZE,
-  });
+  })
 
-  const visibleLatest = allLatest.slice(0, visibleCount);
+  const visibleLatest = allLatest.slice(0, visibleCount)
 
   return (
     <Layout>
@@ -69,7 +69,7 @@ const HomePageContainer = () => {
             >
               <div className="mb-4 flex items-center gap-2">
                 <TrendingUp className="h-5 w-5 text-accent" />
-                <h3 className="font-serif text-lg font-bold text-foreground">
+                <h3 className="font-serif text-base md:text-lg font-bold text-foreground">
                   Trending Now
                 </h3>
               </div>
@@ -81,15 +81,15 @@ const HomePageContainer = () => {
                     className="group flex items-start gap-3 rounded-lg p-2 transition-colors hover:bg-secondary"
                   >
                     <TrendingBadge rank={i + 1} />
-                    <div className="min-w-0 flex-1">
-                      <h4 className="text-sm font-semibold leading-tight text-foreground transition-colors group-hover:text-primary line-clamp-2">
+                    <div className="min-w-0 flex-1 ">
+                      <div className="text-sm font-extrabold leading-tight text-foreground transition-colors group-hover:text-primary line-clamp-2">
                         {article.title}
-                      </h4>
+                      </div>
                       <span className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
                         {article.source.is_verified && (
                           <BadgeCheck className="h-3 w-3 text-primary" />
                         )}
-                        {article.source.name} ·{" "}
+                        {article.source.name} ·{' '}
                         {formatTimeAgo(article.published_at)}
                       </span>
                     </div>
@@ -122,11 +122,11 @@ const HomePageContainer = () => {
       {/* Latest News Grid */}
       <section className="bg-background py-12">
         <div className="container">
-          <div className="grid gap-8 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 ">
             {/* Main content */}
             <div className="lg:col-span-2">
               <div className="mb-6 flex items-center justify-between">
-                <h2 className="font-serif text-2xl font-bold text-foreground">
+                <h2 className="font-serif text-xl md:text-2xl font-bold text-foreground">
                   Latest News
                 </h2>
                 <Link href="/feed">
@@ -186,7 +186,7 @@ const HomePageContainer = () => {
 
               {/* CTA */}
               <div className="rounded-xl bg-primary p-6 text-primary-foreground">
-                <h3 className="mb-2 font-serif text-xl font-bold">
+                <h3 className="mb-2 font-serif text-lg md:text-xl font-bold">
                   Stay Informed
                 </h3>
                 <p className="mb-4 text-sm text-primary-foreground/70">
@@ -197,9 +197,9 @@ const HomePageContainer = () => {
                   <input
                     type="email"
                     placeholder="Enter your email"
-                    className="h-10 flex-1 rounded-md bg-primary-foreground/10 px-3 text-sm text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent"
+                    className="h-8 md:h-10 flex-1 rounded-md bg-primary-foreground/10 w-full px-1 md:px-3 py-4  text-xs md:text-sm text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent"
                   />
-                  <Button className="h-10 bg-accent text-accent-foreground hover:bg-accent/90 cursor-pointer">
+                  <Button className="h-8 md:h-10 bg-accent text-accent-foreground  text-xs md:text-sm hover:bg-accent/90 cursor-pointer">
                     Subscribe
                   </Button>
                 </div>
@@ -209,7 +209,7 @@ const HomePageContainer = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="rounded-xl border border-border p-4 text-center">
                   <Zap className="mx-auto mb-2 h-5 w-5 text-accent" />
-                  <p className="font-serif text-2xl font-bold text-foreground">
+                  <p className="font-serif text-xl md:text-2xl font-bold text-foreground">
                     50+
                   </p>
                   <p className="text-xs text-muted-foreground">
@@ -218,7 +218,7 @@ const HomePageContainer = () => {
                 </div>
                 <div className="rounded-xl border border-border p-4 text-center">
                   <Shield className="mx-auto mb-2 h-5 w-5 text-primary" />
-                  <p className="font-serif text-2xl font-bold text-foreground">
+                  <p className="font-serif text-xl md:text-2xl font-bold text-foreground">
                     24/7
                   </p>
                   <p className="text-xs text-muted-foreground">Live Updates</p>
@@ -229,7 +229,7 @@ const HomePageContainer = () => {
         </div>
       </section>
     </Layout>
-  );
-};
+  )
+}
 
-export default HomePageContainer;
+export default HomePageContainer

@@ -45,7 +45,9 @@ const ForYouSection = () => {
         <div className="container">
           <div className="mb-6 flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-accent" />
-            <h2 className="font-serif text-2xl font-bold text-foreground">For You</h2>
+            <h2 className="font-serif text-xl md:text-2xl font-bold text-foreground">
+              For You
+            </h2>
           </div>
           <div className="rounded-xl border border-dashed border-border bg-card p-8 text-center">
             <Sparkles className="mx-auto mb-3 h-8 w-8 text-muted-foreground" />
@@ -53,31 +55,32 @@ const ForYouSection = () => {
               Personalized picks coming soon
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Start reading articles to get recommendations tailored to your interests.
+              Start reading articles to get recommendations tailored to your
+              interests.
             </p>
           </div>
         </div>
       </section>
-    );
+    )
   }
 
   // Recommend articles from preferred categories that haven't been read
   const recommended = articles
     .filter((a) => !viewedIds.has(a.id))
     .sort((a, b) => {
-      const aIdx = preferredCategories.indexOf(a.category.slug);
-      const bIdx = preferredCategories.indexOf(b.category.slug);
+      const aIdx = preferredCategories.indexOf(a.category.slug)
+      const bIdx = preferredCategories.indexOf(b.category.slug)
       // Preferred categories first, then by views
-      const aScore = aIdx >= 0 ? aIdx : 999;
-      const bScore = bIdx >= 0 ? bIdx : 999;
-      if (aScore !== bScore) return aScore - bScore;
-      return b.views - a.views;
+      const aScore = aIdx >= 0 ? aIdx : 999
+      const bScore = bIdx >= 0 ? bIdx : 999
+      if (aScore !== bScore) return aScore - bScore
+      return b.views - a.views
     })
-    .slice(0, 4);
+    .slice(0, 4)
 
   // If all articles have been read, show top unread or fallback
   if (recommended.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -85,7 +88,9 @@ const ForYouSection = () => {
       <div className="container">
         <div className="mb-6 flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-accent" />
-          <h2 className="font-serif text-2xl font-bold text-foreground">For You</h2>
+          <h2 className="font-serif text-2xl font-bold text-foreground">
+            For You
+          </h2>
           <span className="ml-2 rounded-full bg-accent/10 px-3 py-0.5 text-xs font-medium text-accent">
             Based on your reading
           </span>
@@ -137,7 +142,7 @@ const ForYouSection = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ForYouSection;
+export default ForYouSection

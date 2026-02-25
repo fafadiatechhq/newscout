@@ -34,11 +34,11 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 p-0 m-0 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 w-full">
       {/* Top bar */}
       <div className="bg-primary">
-        <div className="container flex h-10 items-center justify-end">
-          <div className="flex items-center gap-3">
+        <div className="container flex h-10 justify-center md:items-center md:justify-end">
+          <div className="flex items-center text-xs gap-2 md:gap-4">
             <Link
               href="/trending"
               className="flex items-center gap-1 text-xs font-medium text-primary-foreground/70 transition-colors hover:text-primary-foreground"
@@ -78,11 +78,11 @@ const Header = () => {
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-              <span className="font-serif text-lg font-bold text-primary-foreground">
+              <span className="font-serif text-sm md:text-lg font-bold text-primary-foreground">
                 N
               </span>
             </div>
-            <span className="font-serif text-2xl font-bold text-foreground">
+            <span className="font-serif text-xl md:text-2xl font-bold text-foreground">
               New<span className="text-accent">Scout</span>
             </span>
           </Link>

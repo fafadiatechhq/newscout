@@ -1,21 +1,21 @@
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { forwardRef } from "react";
-import { cn } from "@/utils/utils";
+'use client'
 
-interface NavLinkCompatProps {
-  href: string;
-  className?: string;
-  activeClassName?: string;
-  pendingClassName?: string;
-  children: React.ReactNode;
-  [key: string]: any; // For other props like onClick, etc.
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { forwardRef } from 'react'
+import { cn } from '@/utils/utils'
+
+interface NavLinkProps {
+  href: string
+  className?: string
+  activeClassName?: string
+  children: React.ReactNode
 }
 
-const NavLink = forwardRef<HTMLAnchorElement, NavLinkCompatProps>(
-  ({ className, activeClassName, pendingClassName, href, children, ...props }, ref) => {
-    const pathname = usePathname();
-    const isActive = pathname === href;
+const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
+  ({ href, className, activeClassName, children, ...props }, ref) => {
+    const pathname = usePathname()
+    const isActive = pathname === href
 
     return (
       <Link

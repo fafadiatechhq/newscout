@@ -9,7 +9,7 @@ const BreakingNewsTicker = () => {
   return (
     <div className="overflow-hidden border-b border-border bg-card">
       <div className="container flex items-center gap-4 py-2">
-        <span className="flex shrink-0 items-center gap-1.5 rounded bg-accent px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-accent-foreground">
+        <span className="flex shrink-0 items-center gap-1.5 rounded bg-accent px-2.5 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider text-accent-foreground">
           <AlertTriangle className="h-3 w-3" />
           Breaking News
         </span>
