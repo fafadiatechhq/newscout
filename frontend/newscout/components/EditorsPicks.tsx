@@ -12,7 +12,7 @@ const EditorsPicks = () => {
       <div className="container">
         <div className="mb-6 flex items-center gap-2">
           <Award className="h-5 w-5 text-accent" />
-          <h2 className="font-serif text-2xl font-bold text-foreground">
+          <h2 className="font-serif text-xl md:text-2xl font-bold text-foreground">
             Editor's Picks
           </h2>
         </div>
