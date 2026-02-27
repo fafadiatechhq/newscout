@@ -43,7 +43,7 @@ const stagger = {
   show: { transition: { staggerChildren: 0.07 } },
 };
 
-const Billing = () => {
+const BillingContainer = () => {
   const { plan } = organization;
 
   return (
@@ -189,7 +189,7 @@ const Billing = () => {
             <CardTitle className="text-lg">Invoice History</CardTitle>
           </CardHeader>
           <CardContent className="overflow-x-auto p-0">
-            <Table className="min-w-[520px]">
+            <Table className="min-w-130">
               <TableHeader>
                 <TableRow>
                   <TableHead>Date</TableHead>
@@ -244,4 +244,4 @@ const Billing = () => {
   );
 };
 
-export default Billing;
+export default BillingContainer;
