@@ -1,6 +1,24 @@
+import { li } from "framer-motion/client";
 import Link from "next/link";
 
 const Footer = () => {
+const discoverItems = [
+  { label: "Browse Feed", href: "/feed" },
+  { label: "Trending", href: "/trending" },
+  { label: "Technology", href: "/feed?category=technology" },
+  { label: "Business", href: "/feed?category=business" },
+];
+ const companyItems = [
+   { label: "About", href: "/about" },
+   { label: "Pricing", href: "/pricing" },
+   { label: "Contact", href: "/contact" },
+   { label: "API Docs", href: "/api-docs" },
+ ];
+const legalItems = [
+  { label: "Terms of Service", href: "/terms" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Cookie Policy", href: "/cookies" },
+];
   return (
     <footer className="border-t border-border bg-primary text-primary-foreground">
       <div className="container py-12">
@@ -20,101 +38,58 @@ const Footer = () => {
               Your centralized, searchable, and customizable news experience.
             </p>
           </div>
-
           <div>
             <h4 className="mb-3 text-sm font-semibold text-primary-foreground">
               Discover
             </h4>
             <ul className="space-y-2 text-sm text-primary-foreground/70">
-              <li>
-                <Link
-                  href="/feed"
-                  className="transition-colors hover:text-primary-foreground"
-                >
-                  Browse Feed
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/trending"
-                  className="transition-colors hover:text-primary-foreground"
-                >
-                  Trending
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/feed?category=technology"
-                  className="transition-colors hover:text-primary-foreground"
-                >
-                  Technology
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/feed?category=business"
-                  className="transition-colors hover:text-primary-foreground"
-                >
-                  Business
-                </Link>
-              </li>
+              {discoverItems.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className="transition-colors hover:text-primary-foreground"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
-
           <div>
             <h4 className="mb-3 text-sm font-semibold text-primary-foreground">
               Company
             </h4>
             <ul className="space-y-2 text-sm text-primary-foreground/70">
-              <li>
-                <span className="cursor-pointer transition-colors hover:text-primary-foreground">
-                  About
-                </span>
-              </li>
-              <li>
-                <span className="cursor-pointer transition-colors hover:text-primary-foreground">
-                  Pricing
-                </span>
-              </li>
-              <li>
-                <span className="cursor-pointer transition-colors hover:text-primary-foreground">
-                  Contact
-                </span>
-              </li>
-              <li>
-                <span className="cursor-pointer transition-colors hover:text-primary-foreground">
-                  API Docs
-                </span>
-              </li>
+              {companyItems.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className="transition-colors hover:text-primary-foreground"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
-
           <div>
             <h4 className="mb-3 text-sm font-semibold text-primary-foreground">
               Legal
             </h4>
             <ul className="space-y-2 text-sm text-primary-foreground/70">
-              <li>
-                <Link href="/terms">
-                  <span className="cursor-pointer transition-colors hover:text-primary-foreground">
-                    Terms of Service
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <span className="cursor-pointer transition-colors hover:text-primary-foreground">
-                  Privacy Policy
-                </span>
-              </li>
-              <li>
-                <span className="cursor-pointer transition-colors hover:text-primary-foreground">
-                  Cookie Policy
-                </span>
-              </li>
+              {legalItems.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className="transition-colors hover:text-primary-foreground"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
-
         <div className="mt-8 border-t border-primary-foreground/20 pt-6 text-center text-xs text-primary-foreground/50">
           © {new Date().getFullYear()} NewScout. All rights reserved.
           Aggregating 50+ verified publishers.

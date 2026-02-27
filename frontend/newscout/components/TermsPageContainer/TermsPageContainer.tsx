@@ -1,13 +1,13 @@
 import Layout from "@/components/Layout";
 import Link from "next/link";
 
-const Terms = () => {
+const TermsPageContainer = () => {
   const sections = [
     {
       title: "Log Files",
       content: (
         <p>
-          FafadiaTech.com follows a standard procedure of using log files. These
+          NewScout.com follows a standard procedure of using log files. These
           files log visitorswhen they visit websites. All hosting companies do
           this and a part of hosting services analytics. The information
           collected by log files include internet protocol (IP) addresses,
@@ -24,12 +24,12 @@ const Terms = () => {
       title: "Cookies and Web Beacons",
       content: (
         <p>
-          Like any other website, FafadiaTech.com uses &apos;cookies. These
-          cookies are used to store information including visitors&apos;
-          preferences, and the pages on the website that the visitor accessed or
-          visited. The information is used to optimize the user&apos;s
-          experience by customizing our web page content based on visitor&apos;s
-          browser type and/or other information.
+          Like any other website, NewScout.com uses &apos;cookies. These cookies
+          are used to store information including visitors&apos; preferences,
+          and the pages on the website that the visitor accessed or visited. The
+          information is used to optimize the user&apos;s experience by
+          customizing our web page content based on visitor&apos;s browser type
+          and/or other information.
         </p>
       ),
     },
@@ -39,14 +39,16 @@ const Terms = () => {
         <>
           <p>
             You may consult this list to find the Privacy Policy for each of the
-            advertising partners of FafadiaTech.com. Our Privacy Policy was
-            created with the help of the{" "}
-            <span className="text-[#fdc00f]">Privacy Policy Generator.</span>
+            advertising partners of NewScout.com. Our Privacy Policy was created
+            with the help of the{" "}
+            <span className="text-muted-foreground">
+              Privacy Policy Generator.
+            </span>
           </p>
           <p>
             Third-party ad servers or ad networks uses technologies like
             cookies, JavaScript, or Web Beacons that are used in their
-            respective advertisements and links that appear on FafadiaTech.com,
+            respective advertisements and links that appear on NewScout.com,
             which are sent directly to user&apos;s browser. They automatically
             receive your IP address when this occurs. These technologies are
             used to measure the effectiveness of their advertising campaigns
@@ -54,7 +56,7 @@ const Terms = () => {
             websites that you visit.
           </p>
           <p>
-            Note that FafadiaTech.com has no access to or control over these
+            Note that NewScout.com has no access to or control over these
             cookies that are used by third-party advertisers.
           </p>
         </>
@@ -65,7 +67,7 @@ const Terms = () => {
       content: (
         <>
           <p>
-            FafadiaTech.com&apos;s Privacy Policy does not apply to other
+            NewScout.com&apos;s Privacy Policy does not apply to other
             advertisers or websites. Thus, we are advising you to consult the
             respective Privacy Policies of these third-party ad servers for more
             detailed information. It may include their practices and
@@ -92,7 +94,7 @@ const Terms = () => {
             participate in, and/or monitor and guide their online activity.
           </p>
           <p>
-            FafadiaTech.com does not knowingly collect any Personal Identifiable
+            NewScout.com does not knowingly collect any Personal Identifiable
             Information from children under the age of 13. If you think that
             your child provided this kind of information on our website, we
             strongly encourage you to contact us immediately and we will do our
@@ -107,9 +109,9 @@ const Terms = () => {
         <p>
           This Privacy Policy applies only to our online activities and is valid
           for visitors to our website with regards to the information that they
-          shared and/or collect in FafadiaTech.com. This policy is not
-          applicable to any information collected offline or via channels other
-          than this website.
+          shared and/or collect in NewScout.com. This policy is not applicable
+          to any information collected offline or via channels other than this
+          website.
         </p>
       ),
     },
@@ -126,17 +128,16 @@ const Terms = () => {
   return (
     <Layout>
       <div className="max-w-[90%] md:max-w-6xl mx-auto my-12 md:px-8">
-        <p className="mt-8 text-[#777777] text-base mg:text-lg font-medium leading-8">
-          At FafadiaTech.com, accessible from{" "}
-          <span>http://fafadiatech.com</span>, one of our main priorities is the
-          privacy of our visitors. This Privacy Policy document contains types
-          of information that is collected and recorded by FafadiaTech.com and
-          how we use it.
+        <p className="mt-8 text-muted-foreground text-base mg:text-lg font-medium leading-8">
+          At NewScout.com, accessible from <span>http://newscout.com</span>, one
+          of our main priorities is the privacy of our visitors. This Privacy
+          Policy document contains types of information that is collected and
+          recorded by NewScout.com and how we use it.
         </p>
-        <p className="mt-8 text-[#777777] text-base md:text-lg font-medium leading-8">
+        <p className="mt-8 text-muted-foreground text-base md:text-lg font-medium leading-8">
           If you have additional questions or require more information about our
           Privacy Policy, do not hesitate to contact us through email at
-          customercare@fafadiatech.com
+          customercare@NewScout.com
         </p>
         {sections.map((section, index) => (
           <div
@@ -146,7 +147,7 @@ const Terms = () => {
             <h2 className="text-primary text-2xl md:text-4xl lg:text-4xl font-bold py-2">
               {section.title}
             </h2>
-            <div className="mt-2 h-1 w-20 bg-[#fdc00f]"></div>
+            <div className="mt-2 h-1 w-20 bg-accent"></div>
             {section.content}
           </div>
         ))}
@@ -155,4 +156,4 @@ const Terms = () => {
   );
 };
 
-export default Terms;
+export default TermsPageContainer;

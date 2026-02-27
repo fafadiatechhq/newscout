@@ -1,9 +1,9 @@
-import Terms from "@/components/terms/Terms";
+import TermsPageContainer from "@/components/TermsPageContainer/TermsPageContainer";
 
 const termsPage = () => {
   return (
     <>
-      <Terms />
+      <TermsPageContainer/>
     </>
   );
 };
