@@ -1,5 +1,4 @@
-import { li } from "framer-motion/client";
-import Link from "next/link";
+import Link from 'next/link'
 
 const Footer = () => {
 const discoverItems = [
@@ -16,7 +15,7 @@ const discoverItems = [
  ];
 const legalItems = [
   { label: "Terms of Service", href: "/terms" },
-  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Cookie Policy", href: "/cookies" },
 ];
   return (
@@ -96,7 +95,7 @@ const legalItems = [
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
