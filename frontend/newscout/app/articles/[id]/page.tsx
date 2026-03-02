@@ -1,10 +1,22 @@
 import ArticleDetail from "@/components/articles/ArticleDetail";
+import { getArticleById } from "@/utils/mock-data";
+import type { Metadata } from "next";
 
-import { generateMetadata } from "@/utils/title";
+type Props = {
+  params: Promise<{ id: string }>;
+};
 
-export const metadata = generateMetadata(
-  "NewScout — article",
-);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+
+  const article = getArticleById(id);
+
+  return {
+    title: article
+      ? `${article.title} | NewScout`
+      : "Article Not Found | NewScout",
+  };
+}
 
 const ArticleDetailPage = () => {
   return (

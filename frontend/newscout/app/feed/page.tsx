@@ -4,7 +4,7 @@ import Feed from '@/components/Feed'
 import { generateMetadata } from "@/utils/title";
 
 export const metadata = generateMetadata(
-  "NewScout — feed",
+  "NewScout — Feed",
 );
 
 const page = () => {
