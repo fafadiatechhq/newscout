@@ -121,7 +121,7 @@ const SearchResults = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => setShowFilters(!showFilters)}
-                  className="gap-2"
+                  className="gap-2 cursor-pointer"
                 >
                   <Filter className="h-4 w-4" />
                   Filters
@@ -130,10 +130,10 @@ const SearchResults = () => {
                   value={sortOrder}
                   onValueChange={(v) => setSortOrder(v as typeof sortOrder)}
                 >
-                  <SelectTrigger className="w-36">
+                  <SelectTrigger className="w-36 cursor-pointer">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-card">
+                  <SelectContent className="bg-card cursor-pointer">
                     <SelectItem value="newest">Newest first</SelectItem>
                     <SelectItem value="oldest">Oldest first</SelectItem>
                     <SelectItem value="popular">Most popular</SelectItem>
@@ -145,14 +145,15 @@ const SearchResults = () => {
             {/* Filter Dropdown */}
             {showFilters && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
+                initial={{ opacity: 0, scaleY: 0 }}
+                animate={{ opacity: 1, scaleY: 1 }}
+                exit={{ opacity: 0, scaleY: 0 }}
+                style={{ transformOrigin: "top" }}
                 className="mb-6 rounded-xl border border-border bg-surface p-4"
               >
                 <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
                   <div>
-                    <label className="mb-1 text-sm font-medium text-foreground">
+                    <label className="text-md font-medium text-foreground leading-10">
                       Source
                     </label>
                     <Select
