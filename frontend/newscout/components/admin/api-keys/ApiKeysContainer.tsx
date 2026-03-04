@@ -139,7 +139,7 @@ const ApiKeys = () => {
             <CardTitle className="text-lg">Your Keys</CardTitle>
           </CardHeader>
           <CardContent className="overflow-x-auto p-0">
-            <Table className="w-full table-fixed ">
+            <Table className="w-full table-fixed">
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
