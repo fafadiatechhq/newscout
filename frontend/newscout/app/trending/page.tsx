@@ -1,7 +1,9 @@
 import Trending from '@/components/trending/Trending'
-import React from 'react'
+import { generateMetadata } from "@/utils/title";
 
-const page = () => {
+export const metadata = generateMetadata("NewScout — Trending");
+
+const TrendingPage = () => {
   return (
     <div>
         <Trending/>
@@ -9,4 +11,4 @@ const page = () => {
   )
 }
 
-export default page
+export default TrendingPage;
