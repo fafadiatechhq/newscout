@@ -189,7 +189,7 @@ const Billing = () => {
             <CardTitle className="text-lg">Invoice History</CardTitle>
           </CardHeader>
           <CardContent className="overflow-x-auto p-0">
-            <Table className="min-w-[520px]">
+            <Table className="min-w-130">
               <TableHeader>
                 <TableRow>
                   <TableHead>Date</TableHead>

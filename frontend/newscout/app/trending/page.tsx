@@ -1,12 +1,11 @@
-import Trending from '@/components/trending/Trending'
-import React from 'react'
+import TrendingContainer from "@/components/trending/Trending";
 
-const page = () => {
+const TrendingPage = () => {
   return (
-    <div>
-        <Trending/>
-    </div>
-  )
-}
+    <>
+      <TrendingContainer />
+    </>
+  );
+};
 
-export default page
+export default TrendingPage;

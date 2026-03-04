@@ -22,7 +22,7 @@ import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 const PAGE_SIZE = 6;
 
-const Trending = () => {
+const TrendingContainer = () => {
   const [period, setPeriod] = useState<TrendingPeriod>("now");
 
   const allTrending = getTrendingByPeriod(period);
@@ -121,7 +121,7 @@ const Trending = () => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="flex-shrink-0"
+                  className="shrink-0"
                 >
                   <RisingCard article={article} />
                 </motion.div>
@@ -165,4 +165,4 @@ const Trending = () => {
   );
 };
 
-export default Trending;
+export default TrendingContainer;

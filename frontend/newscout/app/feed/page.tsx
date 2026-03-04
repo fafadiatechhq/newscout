@@ -1,12 +1,11 @@
-import React from 'react'
-import Feed from '@/components/Feed'
+import FeedContainer from "@/components/Feed";
 
-const page = () => {
+const FeedPage = () => {
   return (
-    <div>
-      <Feed />
-    </div>
-  )
-}
+    <>
+      <FeedContainer />
+    </>
+  );
+};
 
-export default page
+export default FeedPage;

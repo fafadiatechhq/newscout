@@ -13,9 +13,9 @@ const RisingCard = ({ article }: RisingCardProps) => {
   return (
     <Link
       href={`/articles/${article.id}`}
-      className="group flex min-w-[280px] gap-3 rounded-xl border border-border bg-card p-4 transition-all hover:border-accent/40 hover:shadow-md"
+      className="group flex min-w-70 gap-3 rounded-xl border border-border bg-card p-4 transition-all hover:border-accent/40 hover:shadow-md"
     >
-      <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg">
+      <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg">
         <img
           src={article.image_url}
           alt={article.title}

@@ -23,14 +23,14 @@ const Header = () => {
   const router = useRouter()
   const { theme, toggleTheme } = useTheme()
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSearch = (e: React.SubmitEvent) => {
+    e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
-      setSearchOpen(false)
-      setSearchQuery('')
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+      setSearchQuery("");
     }
-  }
+  };
 
   return (
     <header className="sticky top-0 z-50 p-0 m-0 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 w-full">
