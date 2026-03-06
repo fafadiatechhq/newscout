@@ -1,4 +1,5 @@
 'use client'
+// this one
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Plus, Trash2, Shield } from 'lucide-react'
@@ -39,13 +40,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+
 import GenerateKeyDialog from '@/components/admin/api-keys/GenerateKeyDialog'
-import {
-  apiKeys as initialKeys,
-  keyUsageStats,
-  getRateLimit,
-  ApiKey,
-} from '@/utils/admin-mock-data'
+
 import { toast } from '@/hooks/use-toast'
 
 const fadeUp = {
@@ -57,14 +54,26 @@ const stagger = {
   hidden: {},
   show: { transition: { staggerChildren: 0.07 } },
 }
+interface ApiKey {
+  id: string
+  name: string
+  key_masked: string
+  full_key: string
+  created_at: string
+  last_used: string | null
+  status: 'active' | 'revoked'
+  created_by: string
+}
 
 const ApiKeys = () => {
-  const [keys, setKeys] = useState<ApiKey[]>(initialKeys)
+  const [keys, setKeys] = useState<ApiKey[]>([])
   const [generateOpen, setGenerateOpen] = useState(false)
   const [revokeTarget, setRevokeTarget] = useState<ApiKey | null>(null)
-  const [selectedKey, setSelectedKey] = useState<string>('k1')
-
-  const rateLimit = getRateLimit()
+  const [selectedKey, setSelectedKey] = useState<string | null>(null)
+  const rateLimit = {
+    used: 1250,
+    limit: 10000,
+  }
   const usagePercent = Math.round((rateLimit.used / rateLimit.limit) * 100)
 
   const handleRevoke = () => {
@@ -81,8 +90,13 @@ const ApiKeys = () => {
     setRevokeTarget(null)
   }
 
-  const chartData = keyUsageStats[selectedKey] ?? []
-
+  const chartData = [
+    { date: 'Mar 1', calls: 120 },
+    { date: 'Mar 2', calls: 300 },
+    { date: 'Mar 3', calls: 220 },
+    { date: 'Mar 4', calls: 450 },
+    { date: 'Mar 5', calls: 380 },
+  ]
   return (
     <motion.div
       className="mx-auto md:max-w-5xl space-y-8"
@@ -103,7 +117,10 @@ const ApiKeys = () => {
             Generate, manage, and monitor your API keys.
           </p>
         </div>
-        <Button onClick={() => setGenerateOpen(true)} className="gap-2 ">
+        <Button
+          onClick={() => setGenerateOpen(true)}
+          className="gap-2 cursor-pointer"
+        >
           <Plus className="h-4 w-4" />
           Generate New Key
         </Button>
@@ -138,8 +155,8 @@ const ApiKeys = () => {
           <CardHeader>
             <CardTitle className="text-lg">Your Keys</CardTitle>
           </CardHeader>
-          <CardContent className="overflow-x-auto p-0">
-            <Table className="w-full table-fixed">
+          <CardContent className="overflow-x-auto p-1">
+            <Table className="w-full table-fixed ">
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
@@ -151,71 +168,92 @@ const ApiKeys = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {keys.map((apiKey) => (
-                  <TableRow
-                    key={apiKey.id}
-                    className={
-                      selectedKey === apiKey.id
-                        ? 'bg-muted/50'
-                        : 'cursor-pointer'
-                    }
-                    onClick={() =>
-                      apiKey.status === 'active' && setSelectedKey(apiKey.id)
-                    }
-                  >
-                    <TableCell className="font-medium">{apiKey.name}</TableCell>
-                    <TableCell>
-                      <code className="rounded bg-muted px-2 py-0.5 text-xs font-mono">
-                        {apiKey.key_masked}
-                      </code>
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {new Date(apiKey.created_at).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                      })}
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {apiKey.last_used
-                        ? new Date(apiKey.last_used).toLocaleDateString(
-                            'en-US',
-                            {
-                              month: 'short',
-                              day: 'numeric',
-                            },
-                          )
-                        : 'Never'}
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        variant="outline"
-                        className={
-                          apiKey.status === 'active'
-                            ? 'bg-emerald-500/10 text-emerald-700 border-emerald-200'
-                            : 'bg-muted text-muted-foreground border-border'
-                        }
-                      >
-                        {apiKey.status === 'active' ? 'Active' : 'Revoked'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      {apiKey.status === 'active' && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            setRevokeTarget(apiKey)
-                          }}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      )}
+                {keys.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={6}
+                      className="text-center text-muted-foreground"
+                    >
+                      No API keys generated yet
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : (
+                  keys.map((apiKey) => (
+                    <TableRow
+                      key={apiKey.id}
+                      className={
+                        selectedKey === apiKey.id
+                          ? 'bg-muted/50'
+                          : 'cursor-pointer'
+                      }
+                      onClick={() =>
+                        apiKey.status === 'active' && setSelectedKey(apiKey.id)
+                      }
+                    >
+                      <TableCell className="font-medium">
+                        {apiKey.name}
+                      </TableCell>
+
+                      <TableCell>
+                        <code className="rounded bg-muted py-0.5 text-xs font-mono">
+                          {apiKey.key_masked}
+                        </code>
+                      </TableCell>
+
+                      <TableCell className="text-sm text-muted-foreground">
+                        {new Date(apiKey.created_at).toLocaleDateString(
+                          'en-US',
+                          {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric',
+                          },
+                        )}
+                      </TableCell>
+
+                      <TableCell className="text-sm text-muted-foreground">
+                        {apiKey.last_used
+                          ? new Date(apiKey.last_used).toLocaleDateString(
+                              'en-US',
+                              {
+                                month: 'short',
+                                day: 'numeric',
+                              },
+                            )
+                          : 'Never'}
+                      </TableCell>
+
+                      <TableCell>
+                        <Badge
+                          variant="outline"
+                          className={
+                            apiKey.status === 'active'
+                              ? 'bg-emerald-500/10 text-emerald-700 border-emerald-200'
+                              : 'bg-muted text-muted-foreground border-border'
+                          }
+                        >
+                          {apiKey.status === 'active' ? 'Active' : 'Revoked'}
+                        </Badge>
+                      </TableCell>
+
+                      <TableCell>
+                        {apiKey.status === 'active' && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="w-8 h-8 text-muted-foreground hover:text-secondary cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setRevokeTarget(apiKey)
+                            }}
+                          >
+                            <Trash2 className="h-4 w-4 " />
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </CardContent>
@@ -272,7 +310,14 @@ const ApiKeys = () => {
         </motion.div>
       )}
 
-      <GenerateKeyDialog open={generateOpen} onOpenChange={setGenerateOpen} />
+      <GenerateKeyDialog
+        open={generateOpen}
+        onOpenChange={setGenerateOpen}
+        onKeyCreated={(newKey) => {
+          setKeys((prev) => [newKey, ...prev])
+          setSelectedKey(newKey.id)
+        }}
+      />
 
       <AlertDialog
         open={!!revokeTarget}
