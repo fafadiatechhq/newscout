@@ -1,11 +1,15 @@
 import TermsPageContainer from "@/components/TermsPageContainer/TermsPageContainer";
+import { generateMetadata } from "@/utils/title";
+import React from "react";
 
-const termsPage = () => {
+export const metadata = generateMetadata("NewScout — Terms of Service");
+
+const TermsPage = () => {
   return (
-    <>
-      <TermsPageContainer/>
-    </>
+    <React.Fragment>
+      <TermsPageContainer />
+    </React.Fragment>
   );
 };
 
-export default termsPage;
+export default TermsPage;
