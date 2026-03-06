@@ -1,5 +1,4 @@
 'use client'
-
 import { useState } from 'react'
 import {
   Dialog,
@@ -41,7 +40,7 @@ const GenerateKeyDialog = ({
   const [generatedKey, setGeneratedKey] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
 
-  /* ---------------- Helpers ---------------- */
+
 
   const generatePreviewKey = () => {
     const chars =
@@ -72,7 +71,7 @@ const GenerateKeyDialog = ({
     setCopied(false)
   }
 
-  /* ---------------- Handlers ---------------- */
+  
 
   const handleGenerate = () => {
     if (!keyName.trim()) return
@@ -111,8 +110,6 @@ const GenerateKeyDialog = ({
   const descriptionText = generatedKey
     ? "Copy your key now — it won't be shown again."
     : 'Give your key a descriptive name.'
-
-  /* ---------------- Render ---------------- */
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => onOpenChange(isOpen)}>

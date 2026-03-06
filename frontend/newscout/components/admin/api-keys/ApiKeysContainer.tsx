@@ -1,5 +1,4 @@
 'use client'
-// this one
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Plus, Trash2, Shield } from 'lucide-react'
@@ -65,7 +64,7 @@ interface ApiKey {
   created_by: string
 }
 
-const ApiKeys = () => {
+const ApiKeysContainer = () => {
   const [keys, setKeys] = useState<ApiKey[]>([])
   const [generateOpen, setGenerateOpen] = useState(false)
   const [revokeTarget, setRevokeTarget] = useState<ApiKey | null>(null)
@@ -346,4 +345,4 @@ const ApiKeys = () => {
   )
 }
 
-export default ApiKeys
+export default ApiKeysContainer
