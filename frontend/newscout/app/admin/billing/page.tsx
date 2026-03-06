@@ -1,4 +1,4 @@
-import Billing from "@/components/admin/Billing";
+import BillingContainer from "@/components/admin/BillingContainer";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { generateMetadata } from "@/utils/title";
 
@@ -8,7 +8,7 @@ const AdminBillingPage = () => {
   return (
     <>
       <AdminLayout>
-        <Billing />
+        <BillingContainer />
       </AdminLayout>
     </>
   );

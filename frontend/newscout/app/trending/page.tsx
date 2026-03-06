@@ -1,13 +1,14 @@
 import Trending from '@/components/trending/Trending'
 import { generateMetadata } from "@/utils/title";
+import React from 'react';
 
 export const metadata = generateMetadata("NewScout — Trending");
 
 const TrendingPage = () => {
   return (
-    <div>
+    <React.Fragment>
         <Trending/>
-    </div>
+    </React.Fragment>
   )
 }
 

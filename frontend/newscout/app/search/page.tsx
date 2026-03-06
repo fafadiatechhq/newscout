@@ -1,5 +1,6 @@
 import SearchResults from "@/components/SearchResults";
 import type { Metadata } from "next";
+import React from "react";
 
 type Props = {
   searchParams: Promise<{
@@ -17,12 +18,12 @@ export async function generateMetadata({
   };
 }
 
-const SearchPage = () => {
+const SearchResultsPage = () => {
   return (
-    <div>
+    <React.Fragment>
       <SearchResults />
-    </div>
+    </React.Fragment>
   );
 };
 
-export default SearchPage;
+export default SearchResultsPage;

@@ -5,7 +5,7 @@ import { generateMetadata } from "@/utils/title";
 
 export const metadata = generateMetadata("NewScout — Admin");
 
-const Adminpage = () => {
+const AdminPage = () => {
   return (
     <React.Fragment>
       <AdminLayout>
@@ -15,4 +15,4 @@ const Adminpage = () => {
   )
 }
 
-export default Adminpage
+export default AdminPage

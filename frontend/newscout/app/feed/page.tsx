@@ -1,13 +1,14 @@
-import Feed from "@/components/Feed";
+import Feed from "@/components/FeedContainer";
 import { generateMetadata } from "@/utils/title";
+import React from "react";
 
 export const metadata = generateMetadata("NewScout — Feed");
 
 const FeedPage = () => {
   return (
-    <div>
+    <React.Fragment>
       <Feed />
-    </div>
+    </React.Fragment>
   );
 };
 
