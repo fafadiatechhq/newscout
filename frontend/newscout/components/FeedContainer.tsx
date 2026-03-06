@@ -20,13 +20,13 @@ import {
 const PAGE_SIZE = 6;
 
 const FeedContainer = () => {
-  const searchParams = useSearchParams();
-  const categoryParam = searchParams.get("category");
-  const [selectedSource, setSelectedSource] = useState<string>("all");
-  const [sortOrder, setSortOrder] = useState<"newest" | "oldest" | "popular">(
-    "newest",
-  );
-  const [showFilters, setShowFilters] = useState(false);
+  const searchParams = useSearchParams()
+  const categoryParam = searchParams.get('category')
+  const [selectedSource, setSelectedSource] = useState<string>('all')
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest' | 'popular'>(
+    'newest',
+  )
+  const [showFilters, setShowFilters] = useState(false)
 
   const filteredArticles = useMemo(() => {
     let result = [...articles];

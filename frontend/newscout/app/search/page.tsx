@@ -1,12 +1,29 @@
-import React from 'react'
-import SearchResults from '@/components/SearchResults'
+import SearchResultsContainer from "@/components/SearchResultsContainer";
+import type { Metadata } from "next";
+import React from "react";
 
-const page = () => {
-  return (
-    <div>
-      <SearchResults />
-    </div>
-  )
+type Props = {
+  searchParams: Promise<{
+    q?: string;
+  }>;
+};
+
+export async function generateMetadata({
+  searchParams,
+}: Props): Promise<Metadata> {
+  const { q } = await searchParams;
+
+  return {
+    title: q ? `NewScout — ${q}` : "NewScout — Search",
+  };
 }
 
-export default page
+const SearchResultsPage = () => {
+  return (
+    <React.Fragment>
+      <SearchResultsContainer />
+    </React.Fragment>
+  );
+};
+
+export default SearchResultsPage;

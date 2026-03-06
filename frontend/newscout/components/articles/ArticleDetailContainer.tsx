@@ -35,11 +35,10 @@ import {
   getArticleById,
   formatTimeAgo,
   getSourceCountForArticle,
-  getSourcesForArticle
+  getSourcesForArticle,
 } from "@/utils/mock-data";
 
-
-const ArticleDetail = () => {
+const ArticleDetailContainer = () => {
   const { id } = useParams<{ id: string }>();
   const article = getArticleById(id || "");
   const { toast } = useToast();
@@ -75,7 +74,10 @@ const ArticleDetail = () => {
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
-    toast({ title: "Link copied!", description: "Article link copied to clipboard." });
+    toast({
+      title: "Link copied!",
+      description: "Article link copied to clipboard.",
+    });
   };
 
   return (
@@ -274,5 +276,6 @@ const ArticleDetail = () => {
       </div>
     </Layout>
   );
-}
-export default ArticleDetail
+};
+
+export default ArticleDetailContainer;
