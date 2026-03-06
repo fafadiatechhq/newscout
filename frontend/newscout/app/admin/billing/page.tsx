@@ -14,4 +14,4 @@ const AdminBillingPage = () => {
   );
 };
 
-export default AdminBillingPage;
+export default AdminBillingPage

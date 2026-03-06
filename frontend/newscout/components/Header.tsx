@@ -66,7 +66,7 @@ const Header = () => {
             <span className="text-primary-foreground/30">|</span>
             <button className="flex items-center gap-1 text-xs font-medium text-primary-foreground/70 transition-colors hover:text-primary-foreground">
               <User className="h-3 w-3" />
-              Sign In
+              Login
             </button>
           </div>
         </div>
