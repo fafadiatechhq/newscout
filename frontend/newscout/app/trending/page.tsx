@@ -1,12 +1,15 @@
-import Trending from '@/components/trending/Trending'
-import React from 'react'
+import TrendingContainer from "@/components/trending/TrendingContainer";
+import { generateMetadata } from "@/utils/title";
+import React from "react";
 
-const page = () => {
+export const metadata = generateMetadata("NewScout — Trending");
+
+const TrendingPage = () => {
   return (
-    <div>
-        <Trending/>
-    </div>
-  )
-}
+    <React.Fragment>
+      <TrendingContainer />
+    </React.Fragment>
+  );
+};
 
-export default page
+export default TrendingPage;

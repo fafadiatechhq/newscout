@@ -20,9 +20,9 @@ import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 const PAGE_SIZE = 6;
 
-const SearchResults = () => {
-  const searchParams = useSearchParams();
-  const query = searchParams.get("q") || "";
+const SearchResultsContainer = () => {
+  const searchParams = useSearchParams()
+  const query = searchParams.get('q') || ''
 
   const [selectedSource, setSelectedSource] = useState<string>("all");
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest" | "popular">(
@@ -217,4 +217,4 @@ const SearchResults = () => {
   );
 };
 
-export default SearchResults;
+export default SearchResultsContainer
