@@ -13,7 +13,7 @@ import { useInfiniteScroll } from '@/hooks/use-infinite-scroll'
 
 const PAGE_SIZE = 6
 
-const SearchResults = () => {
+const SearchResultsContainer = () => {
   const searchParams = useSearchParams()
   const query = searchParams.get('q') || ''
 
@@ -91,4 +91,4 @@ const SearchResults = () => {
   )
 }
 
-export default SearchResults
+export default SearchResultsContainer

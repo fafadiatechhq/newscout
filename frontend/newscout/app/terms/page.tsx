@@ -7,7 +7,7 @@ export const metadata = generateMetadata("NewScout — Terms of Service");
 const TermsPage = () => {
   return (
     <React.Fragment>
-      <TermsPageContainer/>
+      <TermsPageContainer />
     </React.Fragment>
   );
 };

@@ -1,4 +1,4 @@
-import ArticleDetail from "@/components/articles/ArticleDetail";
+import ArticleDetailContainer from "@/components/articles/ArticleDetailContainer";
 import { getArticleById } from "@/utils/mock-data";
 import type { Metadata } from "next";
 import React from "react";
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const ArticleDetailPage = () => {
   return (
     <React.Fragment>
-      <ArticleDetail />
+      <ArticleDetailContainer />
     </React.Fragment>
   );
 };

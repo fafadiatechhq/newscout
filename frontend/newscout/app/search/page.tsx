@@ -1,4 +1,4 @@
-import SearchResults from "@/components/SearchResults";
+import SearchResultsContainer from "@/components/SearchResultsContainer";
 import type { Metadata } from "next";
 import React from "react";
 
@@ -21,7 +21,7 @@ export async function generateMetadata({
 const SearchResultsPage = () => {
   return (
     <React.Fragment>
-      <SearchResults />
+      <SearchResultsContainer />
     </React.Fragment>
   );
 };

@@ -22,7 +22,7 @@ import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 const PAGE_SIZE = 6;
 
-const Trending = () => {
+const TrendingContainer = () => {
   const [period, setPeriod] = useState<TrendingPeriod>("now");
 
   const allTrending = getTrendingByPeriod(period);
@@ -165,4 +165,4 @@ const Trending = () => {
   );
 };
 
-export default Trending;
+export default TrendingContainer;

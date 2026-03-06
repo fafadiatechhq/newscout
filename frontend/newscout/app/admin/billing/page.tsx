@@ -6,12 +6,10 @@ export const metadata = generateMetadata("NewScout — Admin Billing");
 
 const AdminBillingPage = () => {
   return (
-    <>
-      <AdminLayout>
-        <BillingContainer />
-      </AdminLayout>
-    </>
+    <AdminLayout>
+      <BillingContainer />
+    </AdminLayout>
   );
 };
 
-export default AdminBillingPage
+export default AdminBillingPage;
