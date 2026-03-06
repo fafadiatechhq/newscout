@@ -43,7 +43,7 @@ const stagger = {
   show: { transition: { staggerChildren: 0.07 } },
 };
 
-const Billing = () => {
+const BillingContainer = () => {
   const { plan } = organization;
 
   return (
@@ -244,4 +244,4 @@ const Billing = () => {
   );
 };
 
-export default Billing;
+export default BillingContainer;

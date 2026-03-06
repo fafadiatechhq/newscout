@@ -1,9 +1,10 @@
 import HomePageContainer from "@/components/HomePageContainer";
+import React from "react";
 
 export default function Home() {
   return (
-    <div>
+    <React.Fragment>
       <HomePageContainer />
-    </div>
+    </React.Fragment>
   );
 }
