@@ -1,15 +1,15 @@
-import AdminLayout from '@/components/admin/AdminLayout'
-import Billing from '@/components/admin/Billing'
-import React from 'react'
+import BillingContainer from "@/components/admin/BillingContainer";
+import AdminLayout from "@/components/admin/AdminLayout";
+import { generateMetadata } from "@/utils/title";
+
+export const metadata = generateMetadata("NewScout — Admin Billing");
 
 const AdminBillingPage = () => {
   return (
-    <React.Fragment>
-      <AdminLayout>
-        <Billing />
-      </AdminLayout>
-    </React.Fragment>
-  )
-}
+    <AdminLayout>
+      <BillingContainer />
+    </AdminLayout>
+  );
+};
 
-export default AdminBillingPage
+export default AdminBillingPage;

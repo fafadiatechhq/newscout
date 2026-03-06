@@ -19,7 +19,7 @@ import {
 
 const PAGE_SIZE = 6
 
-const Feed = () => {
+const FeedContainer = () => {
   const searchParams = useSearchParams()
   const categoryParam = searchParams.get('category')
   const [selectedSource, setSelectedSource] = useState<string>('all')
@@ -187,4 +187,4 @@ const Feed = () => {
   )
 }
 
-export default Feed
+export default FeedContainer;

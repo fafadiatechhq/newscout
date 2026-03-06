@@ -1,14 +1,12 @@
-import AdminLayout from '@/components/admin/AdminLayout'
-import ApiKeysContainer from '@/components/admin/api-keys/ApiKeysContainer'
-import React from 'react'
-const ApiKeysPage = () => {
-  return (
-    <React.Fragment>
-      <AdminLayout>
-        <ApiKeysContainer />
-      </AdminLayout>
-    </React.Fragment>
-  )
-}
+import AdminLayout from "@/components/admin/AdminLayout";
+import ApiKeysContainer from "@/components/admin/api-keys/ApiKeysContainer";
 
-export default ApiKeysPage
+const AdminAPIKeysPage = () => {
+  return (
+    <AdminLayout>
+      <ApiKeysContainer />
+    </AdminLayout>
+  );
+};
+
+export default AdminAPIKeysPage;
