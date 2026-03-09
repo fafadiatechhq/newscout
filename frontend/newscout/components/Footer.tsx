@@ -1,23 +1,23 @@
-import Link from 'next/link'
+import Link from "next/link";
 
 const Footer = () => {
-const discoverItems = [
-  { label: "Browse Feed", href: "/feed" },
-  { label: "Trending", href: "/trending" },
-  { label: "Technology", href: "/feed?category=technology" },
-  { label: "Business", href: "/feed?category=business" },
-];
- const companyItems = [
-   { label: "About", href: "/about" },
-   { label: "Pricing", href: "/pricing" },
-   { label: "Contact", href: "/contact" },
-   { label: "API Docs", href: "/api-docs" },
- ];
-const legalItems = [
-  { label: "Terms of Service", href: "/terms" },
-  { label: "Privacy Policy", href: "/privacy-policy" },
-  { label: "Cookie Policy", href: "/cookies" },
-];
+  const discoverItems = [
+    { label: "Browse Feed", href: "/feed" },
+    { label: "Trending", href: "/trending" },
+    { label: "Technology", href: "/feed?category=technology" },
+    { label: "Business", href: "/feed?category=business" },
+  ];
+  const companyItems = [
+    { label: "About", href: "/about" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "Contact", href: "/contact" },
+    { label: "API Docs", href: "/api-docs" },
+  ];
+  const legalItems = [
+    { label: "Terms of Service", href: "/terms" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Cookie Policy", href: "/cookies" },
+  ];
   return (
     <footer className="border-t border-border bg-primary text-primary-foreground">
       <div className="container py-12">
@@ -95,7 +95,7 @@ const legalItems = [
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
