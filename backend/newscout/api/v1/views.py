@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from drf_spectacular.utils import extend_schema, extend_schema_view
+from django.db.models import Exists, OuterRef
 from core.models import Category, Source, ArticleTag, Article, Bookmark
 from billing.models import Plan, Subscription
 from accounts.models import Tenant
@@ -58,8 +59,13 @@ class CategoryAPI(viewsets.ModelViewSet):
     Categories can be marked as popular for featured display.
     """
 
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    def get_queryset(self):
+        tenant = self.request.user.tenant_set.first()
+        return Category.objects.filter(tenant=tenant)
+
+    def perform_create(self, serializer):
+        tenant = self.request.user.tenant_set.first()
+        serializer.save(tenant=tenant)
 
 
 @extend_schema_view(
@@ -199,8 +205,17 @@ class ArticleAPI(viewsets.ModelViewSet):
     - Read operations return nested objects for category, sources, and tags
     """
 
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
+    def get_queryset(self):
+        user = self.request.user
+
+        bookmarked = Bookmark.objects.filter(
+            user=user,
+            article=OuterRef("pk")
+        )
+
+        return Article.objects.annotate(
+            is_bookmarked=Exists(bookmarked)
+        )
 
 
 @extend_schema_view(
@@ -371,12 +386,15 @@ class SubscriptionAPI(viewsets.ModelViewSet):
     serializer_class = SubscriptionSerializer
     permission_classes = [IsAuthenticated]
 
+    def get_tenant(self):
+        return self.request.user.tenant_set.first()
+
     def get_queryset(self):
         """Return only subscriptions for the authenticated user's tenant."""
         if not hasattr(self.request.user, "tenant"):
             return Subscription.objects.none()
 
-        tenant = self.request.user.tenant_set.first()
+        tenant = self.get_tenant()
         if not tenant:
             return Subscription.objects.none()
 
@@ -388,7 +406,7 @@ class SubscriptionAPI(viewsets.ModelViewSet):
         if "tenant" not in serializer.validated_data:
             raise AttributeError("Tenant not found")
 
-        tenant = self.request.user.tenant_set.first()
+        tenant = self.get_tenant()
         serializer.save(tenant=tenant)
 
 

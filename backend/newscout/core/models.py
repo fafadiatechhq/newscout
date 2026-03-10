@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from accounts.models import Tenant
 
 class Category(models.Model):
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     parent = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
