@@ -3,9 +3,9 @@ import CookiePageContainer from "@/components/cookies/CookiePolicyPageContainer"
 import { generateMetadata } from "@/utils/title";
 import React from "react";
 
-export const metadata = generateMetadata("NewScout — cookie-policy");
+export const metadata = generateMetadata("NewScout — cookies");
 
-const CookiePolicyPage = () => {
+const CookiesPage = () => {
   return (
     <React.Fragment>
       <CookiePageContainer />
@@ -13,4 +13,4 @@ const CookiePolicyPage = () => {
   );
 };
 
-export default CookiePolicyPage;
+export default CookiesPage;

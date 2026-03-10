@@ -43,7 +43,7 @@ const sections = [
   },
 ];
 
-const Cookies = () => {
+const CookiesPageContainer = () => {
   return (
     <Layout>
       {/* Hero */}
@@ -76,4 +76,4 @@ const Cookies = () => {
   );
 };
 
-export default Cookies;
+export default CookiesPageContainer;
