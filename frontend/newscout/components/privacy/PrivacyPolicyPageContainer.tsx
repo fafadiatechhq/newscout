@@ -3,126 +3,178 @@ import Layout from '../Layout'
 const PrivacyPolicyPageContainer = () => {
   const sections = [
     {
-      title: 'Log Files',
+      title: 'Introduction',
       content: (
         <p className="mt-2 text-neutral-500 md:text-lg  md:font-medium  md:leading-8 leading-7">
-          NewScout.com follows a standard procedure of using log files. These
-          files log visitorswhen they visit websites. All hosting companies do
-          this and a part of hosting services analytics. The information
-          collected by log files include internet protocol (IP) addresses,
-          browser type, Internet Service Provider (ISP), date and time stamp,
-          referring/exit pages, and possibly the number of clicks. These are not
-          linked to any information that is personally identifiable. The purpose
-          of the information is for analyzing trends, administering the site,
-          tracking user&apos;s movement on the website, and gathering
-          demographic information.
+          NewScout ("we," "us," "our") respects your privacy and is committed to
+          protecting your personal data. This Privacy Policy explains how we
+          collect, use, store, and share information when you use our news
+          aggregation platform and related services.
         </p>
       ),
     },
     {
-      title: 'Cookies and Web Beacons',
-      content: (
-        <p className="mt-2 text-neutral-500 md:text-lg  md:font-medium  md:leading-8 leading-7">
-          Like any other website, NewScout.com uses &apos;cookies. These cookies
-          are used to store information including visitors&apos; preferences,
-          and the pages on the website that the visitor accessed or visited. The
-          information is used to optimize the user&apos;s experience by
-          customizing our web page content based on visitor&apos;s browser type
-          and/or other information.
-        </p>
-      ),
-    },
-    {
-      title: 'Privacy Policies',
+      title: 'Information We Collect',
       content: (
         <>
           <p className="mt-2 text-neutral-500 md:text-lg  md:font-medium  md:leading-8 leading-7">
-            You may consult this list to find the Privacy Policy for each of the
-            advertising partners of NewScout.com. Our Privacy Policy was
-            created with the help of the <span>Privacy Policy Generator.</span>
+            <strong className="text-foreground">Account Information:</strong>{' '}
+            When you create an account, we collect your name, email address, and
+            password. Social sign-in may provide your name and profile picture.
           </p>
           <p className="mt-2 text-neutral-500 md:text-lg  md:font-medium  md:leading-8 leading-7">
-            Third-party ad servers or ad networks uses technologies like
-            cookies, JavaScript, or Web Beacons that are used in their
-            respective advertisements and links that appear on NewScout.com,
-            which are sent directly to user&apos;s browser. They automatically
-            receive your IP address when this occurs. These technologies are
-            used to measure the effectiveness of their advertising campaigns
-            and/or to personalize the advertising content that you see on
-            websites that you visit.
+            <strong className="text-foreground">Usage Data:</strong> We
+            automatically collect information about how you interact with the
+            Service, including articles viewed, search queries, bookmarks,
+            categories browsed, time spent, and device information (browser
+            type, operating system, screen resolution).
           </p>
-          <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
-            Note that NewScout.com has no access to or control over these
-            cookies that are used by third-party advertisers.
-          </p>
-        </>
-      ),
-    },
-    {
-      title: 'Third Party Privacy Policies',
-      content: (
-        <>
-          <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
-            NewScout.com&apos;s Privacy Policy does not apply to other
-            advertisers or websites. Thus, we are advising you to consult the
-            respective Privacy Policies of these third-party ad servers for more
-            detailed information. It may include their practices and
-            instructions about how to opt-out of certain options. You may find a
-            complete list of these Privacy Policies and their links here:
-            Privacy Policy Links.
-          </p>
-          <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
-            You can choose to disable cookies through your individual browser
-            options. To know more detailed information about cookie management
-            with specific web browsers, it can be found at the browser&apos;s
-            respective websites. What Are Cookies?
+          <p className="mt-2 text-neutral-500 md:text-lg  md:font-medium  md:leading-8 leading-7">
+            <strong className="mt-2 text-neutral-500 md:text-lg  md:font-medium  md:leading-8 leading-7">
+              Cookies & Local Storage:
+            </strong>{' '}
+            We use cookies and browser local storage for authentication, theme
+            preferences, reading history, and analytics. See our{' '}
+            <a
+              href="/cookies"
+              className="text-primary underline underline-offset-2 hover:text-primary/80"
+            >
+              Cookie Policy
+            </a>{' '}
+            for details.
           </p>
         </>
       ),
     },
     {
-      title: "Children's Information",
-      content: (
-        <>
-          <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
-            Another part of our priority is adding protection for children while
-            using the internet. We encourage parents and guardians to observe,
-            participate in, and/or monitor and guide their online activity.
-          </p>
-          <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
-            NewScout.in does not knowingly collect any Personal Identifiable
-            Information from children under the age of 13. If you think that
-            your child provided this kind of information on our website, we
-            strongly encourage you to contact us immediately and we will do our
-            best efforts to promptly remove such information from our records.
-          </p>
-        </>
-      ),
-    },
-    {
-      title: 'Online Privacy Policy Only',
+      title: 'How We Use Your Information',
       content: (
         <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
-          This Privacy Policy applies only to our online activities and is valid
-          for visitors to our website with regards to the information that they
-          shared and/or collect in NewScout.com. This policy is not
-          applicable to any information collected offline or via channels other
-          than this website.
+          We use collected information to: (a) provide and maintain the Service;
+          (b) personalize your news feed and recommendations; (c) remember your
+          preferences and reading history; (d) send transactional emails
+          (account verification, password resets); (e) analyze usage patterns to
+          improve the platform; and (f) detect and prevent fraud or abuse.
         </p>
       ),
     },
     {
-      title: 'Consent',
+      title: 'Information Sharing',
       content: (
         <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
-          By using our website, you hereby consent to our Privacy Policy and
-          agree to its Terms and Conditions.
+          We do not sell your personal data. We may share information with: (a)
+          service providers who assist in operating the platform (hosting,
+          analytics, email delivery) under strict data processing agreements;
+          (b) law enforcement when required by law or to protect our rights; and
+          (c) in connection with a merger, acquisition, or sale of assets, with
+          notice to users.
+        </p>
+      ),
+    },
+    {
+      title: 'Data Retention',
+      content: (
+        <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
+          We retain account data for as long as your account is active. Reading
+          history and usage data are retained for up to 24 months. You can
+          delete your reading history at any time from your account settings.
+          Upon account deletion, we remove your personal data within 30 days,
+          except where retention is required by law.
+        </p>
+      ),
+    },
+    {
+      title: ' Data Security',
+      content: (
+        <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
+          We implement industry-standard security measures including encryption
+          in transit (TLS), secure password hashing, and regular security
+          audits. However, no method of transmission or storage is 100% secure.
+          We cannot guarantee absolute security but are committed to protecting
+          your data using commercially reasonable measures.
+        </p>
+      ),
+    },
+    {
+      title: 'Your Rights',
+      content: (
+        <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
+          Depending on your jurisdiction, you may have the right to: (a) access
+          your personal data; (b) correct inaccurate data; (c) request deletion
+          of your data; (d) object to or restrict processing; (e) data
+          portability; and (f) withdraw consent. To exercise these rights,
+          contact us at{' '}
+          <span className="text-primary font-medium">privacy@newscout.app</span>
+          .
+        </p>
+      ),
+    },
+    {
+      title: "Children's Privacy",
+      content: (
+        <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
+          NewScout is not directed at children under 16. We do not knowingly
+          collect personal data from children under 16. If we learn that we have
+          collected data from a child under 16, we will take steps to delete it
+          promptly.
+        </p>
+      ),
+    },
+
+    {
+      title: 'International Transfers',
+      content: (
+        <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
+          Your data may be processed in the United States or other countries
+          where our service providers operate. We ensure appropriate safeguards
+          are in place, including standard contractual clauses, to protect your
+          data in accordance with this policy.
+        </p>
+      ),
+    },
+
+    {
+      title: 'Changes to This Policy',
+      content: (
+        <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
+          We may update this Privacy Policy periodically. Material changes will
+          be communicated via email or a prominent notice on the platform at
+          least 14 days before taking effect. Your continued use after changes
+          constitutes acceptance of the updated policy.
+        </p>
+      ),
+    },
+
+    {
+      title: 'Contact Us',
+      content: (
+        <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
+          For privacy-related questions or requests, contact us at{' '}
+          <span className="text-primary font-medium">privacy@newscout.app</span>{' '}
+          or visit our{' '}
+          <a
+            href="/contact"
+            className="text-primary underline underline-offset-2 hover:text-primary/80"
+          >
+            Contact page
+          </a>
+          .
         </p>
       ),
     },
   ]
   return (
     <Layout>
+      <section className="border-b border-border bg-primary py-16 text-primary-foreground">
+        <div className="container text-center">
+          <h1 className="mb-4 font-serif text-4xl font-bold md:text-5xl">
+            Privacy Policy
+          </h1>
+          <p className="mx-auto max-w-2xl text-lg text-primary-foreground/80">
+            Effective: March 1, 2026
+          </p>
+        </div>
+      </section>
       <div className=" max-w-[90%] md:px-8 md:max-w-7xl mx-auto my-12 box-border">
         <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
           At NewScout.in, accessible from <span>http://newscout.in</span>, one
