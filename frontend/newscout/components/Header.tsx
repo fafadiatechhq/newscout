@@ -46,10 +46,12 @@ const Header = () => {
               Trending
             </Link>
             <span className="text-primary-foreground/30">|</span>
-            <button className="flex items-center gap-1 text-xs font-medium text-primary-foreground/70 transition-colors hover:text-primary-foreground">
-              <Bookmark className="h-3 w-3" />
+            <Link
+              href="/bookmarks"
+              className="flex items-center gap-1 text-xs font-medium text-primary-foreground/70 transition-colors hover:text-primary-foreground"
+            >
               Bookmarks
-            </button>
+            </Link>
             <span className="text-primary-foreground/30">|</span>
             <button
               onClick={toggleTheme}
