@@ -24,13 +24,11 @@ export interface ApiKey {
   status: 'active' | 'revoked'
   created_by: string
 }
-
 interface GenerateKeyDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onKeyCreated?: (key: ApiKey) => void
 }
-
 const GenerateKeyDialog = ({
   open,
   onOpenChange,
@@ -39,8 +37,6 @@ const GenerateKeyDialog = ({
   const [keyName, setKeyName] = useState('')
   const [generatedKey, setGeneratedKey] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
-
-
 
   const generatePreviewKey = () => {
     const chars =
@@ -70,35 +66,24 @@ const GenerateKeyDialog = ({
     setKeyName('')
     setCopied(false)
   }
-
-  
-
   const handleGenerate = () => {
     if (!keyName.trim()) return
-
     const previewKey = generatePreviewKey()
     const newKey = createApiKeyObject(keyName, previewKey)
-
     setGeneratedKey(previewKey)
     onKeyCreated?.(newKey)
-
     toast({
       title: 'API Key Generated',
       description: `${keyName} created successfully`,
     })
   }
-
   const handleCopy = async () => {
     if (!generatedKey) return
-
     await navigator.clipboard.writeText(generatedKey)
-
     setCopied(true)
-
     toast({
       title: 'Copied to clipboard',
     })
-
     setTimeout(() => setCopied(false), 2000)
   }
 
@@ -106,11 +91,9 @@ const GenerateKeyDialog = ({
     resetState()
     onOpenChange(false)
   }
-
   const descriptionText = generatedKey
     ? "Copy your key now — it won't be shown again."
     : 'Give your key a descriptive name.'
-
   return (
     <Dialog open={open} onOpenChange={(isOpen) => onOpenChange(isOpen)}>
       <DialogContent className="sm:max-w-lg">
@@ -140,7 +123,6 @@ const GenerateKeyDialog = ({
               >
                 Cancel
               </Button>
-
               <Button
                 onClick={handleGenerate}
                 disabled={!keyName.trim()}
@@ -168,7 +150,6 @@ const GenerateKeyDialog = ({
                   )}
                 </Button>
               </div>
-
               <p className="text-xs text-muted-foreground">
                 Store this key securely. You won't be able to see it again.
               </p>
