@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, MapPin, Clock } from "lucide-react";
 
-const Contact = () => {
+const ContactContainer = () => {
   const { toast } = useToast();
   const [sending, setSending] = useState(false);
 
@@ -94,4 +94,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default ContactContainer;
