@@ -37,7 +37,8 @@ import {
   formatTimeAgo,
   getSourceCountForArticle,
   getSourcesForArticle,
-} from '@/utils/mock-data'
+} from "@/utils/mock-data";
+import CommentSection from "./CommentSection";
 
 const ArticleDetailContainer = () => {
   const { id } = useParams<{ id: string }>()
@@ -246,6 +247,7 @@ const ArticleDetailContainer = () => {
               accordingly.
             </p>
           </div>
+          <CommentSection/>
 
           {/* Source attribution */}
           <div className="mt-8 rounded-lg bg-surface p-4">
