@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@/hooks/use-theme";
+import { ThemeProvider } from "next-themes";
 import React from "react";
 
 interface AppLayoutProps {

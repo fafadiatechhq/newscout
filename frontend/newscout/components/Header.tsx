@@ -1,7 +1,7 @@
-'use client'
-import { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Search,
   Menu,
@@ -11,26 +11,26 @@ import {
   User,
   Sun,
   Moon,
-} from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { useTheme } from '@/hooks/use-theme'
-import { categories } from '@/utils/mock-data'
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
+import { categories } from "@/utils/mock-data";
 
 const Header = () => {
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const router = useRouter()
-  const { theme, toggleTheme } = useTheme()
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+  const { theme, setTheme } = useTheme();
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSearch = (e: React.SubmitEvent) => {
+    e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
-      setSearchOpen(false)
-      setSearchQuery('')
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+      setSearchQuery("");
     }
-  }
+  };
 
   return (
     <header className="sticky top-0 z-50 p-0 m-0 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 w-full">
@@ -54,16 +54,16 @@ const Header = () => {
             </Link>
             <span className="text-primary-foreground/30">|</span>
             <button
-              onClick={toggleTheme}
+              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
               className="flex items-center gap-1 text-xs font-medium text-primary-foreground/70 transition-colors hover:text-primary-foreground"
               aria-label="Toggle theme"
             >
-              {theme === 'light' ? (
+              {theme === "light" ? (
                 <Moon className="h-3 w-3" />
               ) : (
                 <Sun className="h-3 w-3" />
               )}
-              {theme === 'light' ? 'Dark' : 'Light'}
+              {theme === "light" ? "Dark" : "Light"}
             </button>
             <span className="text-primary-foreground/30">|</span>
             <button className="flex items-center gap-1 text-xs font-medium text-primary-foreground/70 transition-colors hover:text-primary-foreground">
@@ -172,7 +172,7 @@ const Header = () => {
         </div>
       )}
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
