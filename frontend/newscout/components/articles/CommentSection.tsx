@@ -1,19 +1,16 @@
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
-import {
-  ThumbsUp,
-  ThumbsDown,
-  MessageCircle,
-  ChevronDown,
-  ChevronUp,
-  Send,
-} from "lucide-react";
+import { ThumbsUp, ThumbsDown, MessageCircle, ChevronDown, ChevronUp, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
-import { DUMMY_COMMENTS } from "@/utils/comment-mock-data";
 import { Comment } from "@/types/comment-types";
+import { DUMMY_COMMENTS } from "@/utils/comment-mock-data";
+
+const TEXT_COLLAPSE_LENGTH = 200;
+const INITIAL_VISIBLE = 3;
+
 
 const CommentItem = ({
   comment,
@@ -33,6 +30,8 @@ const CommentItem = ({
   isReply?: boolean;
 }) => {
   const [replyText, setReplyText] = useState("");
+  const [isTextExpanded, setIsTextExpanded] = useState(false);
+  const isLongText = comment.text.length > TEXT_COLLAPSE_LENGTH;
 
   const handleSubmitReply = () => {
     if (!replyText.trim()) return;
@@ -55,15 +54,23 @@ const CommentItem = ({
           <span className="text-xs text-muted-foreground">{comment.time}</span>
         </div>
         <p className="text-sm leading-relaxed text-foreground/90">
-          {comment.text}
+          {isLongText && !isTextExpanded
+            ? comment.text.slice(0, TEXT_COLLAPSE_LENGTH) + "…"
+            : comment.text}
+          {isLongText && (
+            <button
+              onClick={() => setIsTextExpanded(!isTextExpanded)}
+              className="ml-1 inline text-xs font-medium text-primary hover:underline"
+            >
+              {isTextExpanded ? "Show less" : "Read more"}
+            </button>
+          )}
         </p>
         <div className="flex items-center gap-1">
           <Button
             variant="ghost"
             size="sm"
-            className={`h-7 gap-1 px-2 text-xs ${
-              comment.liked ? " text-primary" : "text-muted-foreground"
-            }`}
+            className={`h-7 gap-1 px-2 text-xs ${comment.liked ? "text-primary" : "text-muted-foreground"}`}
             onClick={() => onLike(comment.id)}
           >
             <ThumbsUp className="h-3.5 w-3.5" />
@@ -72,9 +79,7 @@ const CommentItem = ({
           <Button
             variant="ghost"
             size="sm"
-            className={`h-7 gap-1 px-2 text-xs ${
-              comment.disliked ? "text-accent" : "text-muted-foreground"
-            }`}
+            className={`h-7 gap-1 px-2 text-xs ${comment.disliked ? "text-destructive" : "text-muted-foreground"}`}
             onClick={() => onDislike(comment.id)}
           >
             <ThumbsDown className="h-3.5 w-3.5" />
@@ -119,7 +124,7 @@ const CommentItem = ({
             />
             <Button
               size="sm"
-              className="h-10 w-12 shrink-0 "
+              className="h-10 w-11 shrink-0"
               onClick={handleSubmitReply}
               disabled={!replyText.trim()}
             >
@@ -150,20 +155,11 @@ const CommentSection = () => {
   const [comments, setComments] = useState<Comment[]>(DUMMY_COMMENTS);
   const [newComment, setNewComment] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   const { toast } = useToast();
-  const [showAllComments, setShowAllComments] = useState(false);
 
-
-  const updateComment = (
-    list: Comment[],
-    id: string,
-    updater: (c: Comment) => Comment,
-  ): Comment[] =>
-    list.map((c) =>
-      c.id === id
-        ? updater(c)
-        : { ...c, replies: updateComment(c.replies, id, updater) },
-    );
+  const updateComment = (list: Comment[], id: string, updater: (c: Comment) => Comment): Comment[] =>
+    list.map((c) => (c.id === id ? updater(c) : { ...c, replies: updateComment(c.replies, id, updater) }));
 
   const handleLike = (id: string) => {
     setComments((prev) =>
@@ -173,7 +169,7 @@ const CommentSection = () => {
         likes: c.liked ? c.likes - 1 : c.likes + 1,
         disliked: false,
         dislikes: c.disliked ? c.dislikes - 1 : c.dislikes,
-      })),
+      }))
     );
   };
 
@@ -185,23 +181,16 @@ const CommentSection = () => {
         dislikes: c.disliked ? c.dislikes - 1 : c.dislikes + 1,
         liked: false,
         likes: c.liked ? c.likes - 1 : c.likes,
-      })),
+      }))
     );
   };
 
   const toggleReplies = (id: string) => {
-    setComments((prev) =>
-      updateComment(prev, id, (c) => ({ ...c, showReplies: !c.showReplies })),
-    );
+    setComments((prev) => updateComment(prev, id, (c) => ({ ...c, showReplies: !c.showReplies })));
   };
 
   const toggleReplyInput = (id: string) => {
-    setComments((prev) =>
-      updateComment(prev, id, (c) => ({
-        ...c,
-        showReplyInput: !c.showReplyInput,
-      })),
-    );
+    setComments((prev) => updateComment(prev, id, (c) => ({ ...c, showReplyInput: !c.showReplyInput })));
   };
 
   const addReply = (parentId: string, text: string) => {
@@ -227,13 +216,10 @@ const CommentSection = () => {
             showReplyInput: false,
           },
         ],
-      })),
+      }))
     );
     toast({ title: "Reply posted!" });
   };
-
-    const visibleComments = showAllComments ? comments : comments.slice(0, 2);
-
 
   const addComment = () => {
     if (!newComment.trim()) return;
@@ -259,6 +245,8 @@ const CommentSection = () => {
   };
 
   const totalCount = comments.reduce((acc, c) => acc + 1 + c.replies.length, 0);
+  const visibleComments = showAll ? comments : comments.slice(0, INITIAL_VISIBLE);
+  const hiddenCount = comments.length - INITIAL_VISIBLE;
 
   return (
     <section className="mt-10 border-t border-border pt-8">
@@ -268,69 +256,74 @@ const CommentSection = () => {
       >
         <MessageCircle className="h-5 w-5" />
         Comments ({totalCount})
-        <ChevronRight
-          className={`ml-auto h-5 w-5 transition-transform ${isOpen ? "rotate-90" : ""}`}
-        />
+        <ChevronRight className={`ml-auto h-5 w-5 transition-transform ${isOpen ? "rotate-90" : ""}`} />
       </button>
 
-      {!isOpen ? null : (
-        <>
-          <h2 className="sr-only">Comments ({totalCount})</h2>
+      {!isOpen ? null : <>
+      <h2 className="sr-only">
+        Comments ({totalCount})
+      </h2>
 
-          {/* New comment input */}
-          <div className="mb-8 flex gap-3">
-            <Avatar className="h-8 w-8 shrink-0">
-              <AvatarFallback className="bg-primary/10 text-xs font-medium text-primary">
-                YO
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex flex-1 flex-col gap-2">
-              <Textarea
-                placeholder="Add a comment…"
-                className="min-h-[80px] text-sm"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-              />
-              <div className="flex justify-end">
-                <Button
-                  size="sm"
-                  className="gap-2"
-                  onClick={addComment}
-                  disabled={!newComment.trim()}
-                >
-                  <Send className="h-4 w-4" />
-                  Comment
-                </Button>
-              </div>
-            </div>
+      {/* New comment input */}
+      <div className="mb-8 flex gap-3">
+        <Avatar className="h-8 w-8 shrink-0">
+          <AvatarFallback className="bg-primary/10 text-xs font-medium text-primary">YO</AvatarFallback>
+        </Avatar>
+        <div className="flex flex-1 flex-col gap-2">
+          <Textarea
+            placeholder="Add a comment…"
+            className="min-h-[80px] text-sm"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+          />
+          <div className="flex justify-end">
+            <Button size="sm" className="gap-2" onClick={addComment} disabled={!newComment.trim()}>
+              <Send className="h-4 w-4" />
+              Comment
+            </Button>
           </div>
+        </div>
+      </div>
 
-          {/* Comments list */}
-          <div className="space-y-6">
-            {visibleComments.map((comment) => (
-              <CommentItem
-                key={comment.id}
-                comment={comment}
-                onLike={handleLike}
-                onDislike={handleDislike}
-                onToggleReplies={toggleReplies}
-                onToggleReplyInput={toggleReplyInput}
-                onAddReply={addReply}
-              />
-            ))}
-          </div>
-          {comments.length > 2 && (
-            <div className="mt-4 flex justify-center">
-              <Button
-                variant="ghost"
-                onClick={() => setShowAllComments(!showAllComments)}
-              >
-                {showAllComments ? "Load Less Comments" : "Load More Comments"}
-              </Button>
-            </div>
-          )}
-        </>
+      {/* Comments list */}
+      <div className="space-y-6">
+        {visibleComments.map((comment) => (
+          <CommentItem
+            key={comment.id}
+            comment={comment}
+            onLike={handleLike}
+            onDislike={handleDislike}
+            onToggleReplies={toggleReplies}
+            onToggleReplyInput={toggleReplyInput}
+            onAddReply={addReply}
+          />
+        ))}
+      </div>
+
+      {/* Show more / Show less button */}
+      {comments.length > INITIAL_VISIBLE && (
+        <div className="mt-6 flex justify-center">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={() => setShowAll(!showAll)}
+          >
+            {showAll ? (
+              <>
+                <ChevronUp className="h-4 w-4" />
+                Show less comments
+              </>
+            ) : (
+              <>
+                <ChevronDown className="h-4 w-4" />
+                Show {hiddenCount} more {hiddenCount === 1 ? "comment" : "comments"}
+              </>
+            )}
+          </Button>
+        </div>
       )}
+      </>}
     </section>
   );
 };
