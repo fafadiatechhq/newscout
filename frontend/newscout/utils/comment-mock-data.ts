@@ -1,5 +1,5 @@
- 
-export const DUMMY_COMMENTS: Comment[] = [
+ import { Comment } from "@/types/comment-types";
+ export const dummyComments: Comment[] = [
   {
     id: "c1",
     author: "Sarah Mitchell",

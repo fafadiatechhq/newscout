@@ -6,12 +6,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
 import { Comment } from "@/types/comment-types";
-import { DUMMY_COMMENTS } from "@/utils/comment-mock-data";
+import { dummyComments } from "@/utils/comment-mock-data";
 
 const TEXT_COLLAPSE_LENGTH = 200;
 const INITIAL_VISIBLE = 3;
-
-
 const CommentItem = ({
   comment,
   onLike,
@@ -152,7 +150,7 @@ const CommentItem = ({
 };
 
 const CommentSection = () => {
-  const [comments, setComments] = useState<Comment[]>(DUMMY_COMMENTS);
+  const [comments, setComments] = useState<Comment[]>(dummyComments);
   const [newComment, setNewComment] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
@@ -173,7 +171,7 @@ const CommentSection = () => {
     );
   };
 
-  const handleDislike = (id: string) => {
+const handleDislike = (id: string) => {
     setComments((prev) =>
       updateComment(prev, id, (c) => ({
         ...c,
@@ -185,15 +183,15 @@ const CommentSection = () => {
     );
   };
 
-  const toggleReplies = (id: string) => {
+const toggleReplies = (id: string) => {
     setComments((prev) => updateComment(prev, id, (c) => ({ ...c, showReplies: !c.showReplies })));
   };
 
-  const toggleReplyInput = (id: string) => {
+const toggleReplyInput = (id: string) => {
     setComments((prev) => updateComment(prev, id, (c) => ({ ...c, showReplyInput: !c.showReplyInput })));
   };
 
-  const addReply = (parentId: string, text: string) => {
+const addReply = (parentId: string, text: string) => {
     setComments((prev) =>
       updateComment(prev, parentId, (c) => ({
         ...c,
@@ -220,7 +218,6 @@ const CommentSection = () => {
     );
     toast({ title: "Reply posted!" });
   };
-
   const addComment = () => {
     if (!newComment.trim()) return;
     setComments((prev) => [
