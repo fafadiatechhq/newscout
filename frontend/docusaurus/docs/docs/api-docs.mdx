@@ -1,0 +1,84 @@
+---
+title: API Documentation
+description: Integrate NewScout's aggregated news into your applications.
+hide_table_of_contents: true
+---
+
+<div class="api-hero">
+
+# API Documentation
+
+Integrate **NewScout's aggregated news** into your applications.
+
+</div>
+
+## Authentication
+
+Use API keys from your dashboard to authenticate requests.
+
+Example header:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+---
+
+## Rate Limits
+
+| Plan | Requests              |
+| ---- | --------------------- |
+| Free | 100 requests/day      |
+| Pro  | 10,000 requests/month |
+| Team | Custom                |
+
+---
+
+## Response Format
+
+All endpoints return **JSON responses** with pagination metadata.
+
+Example:
+
+```json
+{
+  "data": [],
+  "page": 1,
+  "limit": 10,
+  "total": 120
+}
+```
+
+---
+
+## Base URL
+
+```
+https://api.newscout.app
+```
+
+---
+
+# Endpoints
+
+| Method | Path               | Description                         |
+| ------ | ------------------ | ----------------------------------- |
+| GET    | `/v1/articles`     | List & search articles with filters |
+| GET    | `/v1/articles/:id` | Retrieve a single article by ID     |
+| GET    | `/v1/trending`     | Get currently trending articles     |
+| GET    | `/v1/categories`   | List all available categories       |
+| GET    | `/v1/sources`      | List all verified publishers        |
+| POST   | `/v1/bookmarks`    | Save an article to bookmarks        |
+
+---
+
+# Example Request
+
+```bash
+curl -H "Authorization: Bearer YOUR_API_KEY" \
+"https://api.newscout.app/v1/articles?category=technology&limit=10"
+```
+
+---
+
+Full SDK & client libraries coming soon.
