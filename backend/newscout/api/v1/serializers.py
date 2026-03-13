@@ -9,7 +9,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
-        read_only_fields = ("id",)
+        read_only_fields = ("id", "tenant")
 
 
 class SourceSerializer(serializers.ModelSerializer):
@@ -47,6 +47,19 @@ class ArticleSerializer(serializers.ModelSerializer):
         required=False,
         source="tags",
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        request = self.context.get("request")
+
+        if request and request.user.is_authenticated:
+            tenant = request.user.tenant_set.first()
+
+            if tenant:
+                self.fields["category_id"].queryset = Category.objects.filter(
+                    tenant=tenant
+                )
 
     class Meta:
         model = Article
@@ -135,7 +148,7 @@ class TenantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tenant
-        fields = ["id", "name", "owner", "owner_id", "created_at", "updated_at"]
+        fields = ["id", "name", "owner", "created_at", "updated_at"]
         read_only_fields = ["id", "created_at", "updated_at"]
 
 
@@ -148,9 +161,6 @@ class PlanSerializer(serializers.ModelSerializer):
 
 class SubscriptionSerializer(serializers.ModelSerializer):
     tenant = TenantSerializer(read_only=True)
-    tenant_id = serializers.PrimaryKeyRelatedField(
-        queryset=Tenant.objects.all(), write_only=True, source="tenant"
-    )
     plan = PlanSerializer(read_only=True)
     plan_id = serializers.PrimaryKeyRelatedField(
         queryset=Plan.objects.all(), write_only=True, source="plan"
@@ -162,7 +172,6 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "tenant",
-            "tenant_id",
             "plan",
             "plan_id",
             "status",

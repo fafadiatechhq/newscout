@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from drf_spectacular.utils import extend_schema, extend_schema_view
-from django.db.models import Exists, OuterRef
+from django.db.models import Exists, OuterRef, Value, BooleanField
 from core.models import Category, Source, ArticleTag, Article, Bookmark
 from billing.models import Plan, Subscription
 from accounts.models import Tenant
@@ -58,6 +58,8 @@ class CategoryAPI(viewsets.ModelViewSet):
     Categories support hierarchical structures with parent-child relationships.
     Categories can be marked as popular for featured display.
     """
+
+    serializer_class = CategorySerializer
 
     def get_queryset(self):
         tenant = self.request.user.tenant_set.first()
@@ -204,9 +206,18 @@ class ArticleAPI(viewsets.ModelViewSet):
     - Use 'tag_ids' array to set tags (write)
     - Read operations return nested objects for category, sources, and tags
     """
+    serializer_class = ArticleSerializer
 
     def get_queryset(self):
         user = self.request.user
+        queryset = Article.objects.all()
+
+        # If user is not authenticated
+        if not user.is_authenticated:
+            return queryset.annotate(
+                is_bookmarked=Value(False, output_field=BooleanField())
+            )
+
 
         bookmarked = Bookmark.objects.filter(
             user=user,
