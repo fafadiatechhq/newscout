@@ -1,0 +1,128 @@
+"use client";
+
+import Layout from '@/components/Layout'
+import { Code, Key, Zap, BookOpen } from 'lucide-react'
+
+export default function ApiDocs() {
+
+const endpoints = [
+{ method: "GET", path: "/v1/articles", description: "List & search articles with filters" },
+{ method: "GET", path: "/v1/articles/:id", description: "Retrieve a single article by ID" },
+{ method: "GET", path: "/v1/trending", description: "Get currently trending articles" },
+{ method: "GET", path: "/v1/categories", description: "List all available categories" },
+{ method: "GET", path: "/v1/sources", description: "List all verified publishers" },
+{ method: "POST", path: "/v1/bookmarks", description: "Save an article to bookmarks" },
+];
+
+return (
+
+<Layout>
+
+      <section className="border-b border-border bg-primary py-16 text-primary-foreground">
+        <div className="container text-center">
+          <h1 className="mb-4 font-serif text-4xl font-bold md:text-5xl">
+            API Documentation
+          </h1>
+          <p className="mx-auto max-w-2xl text-lg text-primary-foreground/80">
+            Integrate NewScout's aggregated news into your own applications.
+          </p>
+        </div>
+      </section>
+
+      <section className="container py-10">
+        <div className="mx-auto max-w-4xl space-y-10">
+
+          <div className="grid gap-4 sm:grid-cols-3">
+            {[
+              { icon: Key, title: "Authentication", desc: "Use API keys from your dashboard." },
+              { icon: Zap, title: "Rate Limits", desc: "Free: 100/day, Pro: 10k/month." },
+              { icon: BookOpen, title: "Response", desc: "JSON with pagination." }
+            ].map((c) => (
+              <div key={c.title} className="rounded-xl border p-5">
+                <c.icon className="mb-3 h-6 w-6 text-primary" />
+                <h3 className="font-semibold">{c.title}</h3>
+                <p className="text-sm">{c.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div>
+            <h2 className="text-xl font-bold mb-3">Base URL</h2>
+            <div className="bg-muted p-3 rounded font-mono">
+              https://api.newscout.app
+            </div>
+          </div>
+
+<div className="space-y-10">
+
+{/* Endpoints */}
+
+  <div>
+    <h2 className="text-xl font-bold mb-4">Endpoints</h2>
+
+    <div className="w-full overflow-x-auto border rounded-lg">
+      <table className="w-full text-sm min-w-[600px]">
+         <thead>
+            <tr className="border-b border-border bg-surface text-left">
+                <th className="px-4 py-3 font-semibold text-foreground">Method</th>
+                <th className="px-4 py-3 font-semibold text-foreground">Path</th>
+                <th className="px-4 py-3 font-semibold text-foreground">Description</th>
+            </tr>
+        </thead>
+
+        <tbody>
+          {endpoints.map((ep, i) => (
+            <tr key={i} className="border-t ">
+              <td className="px-4 py-3">
+                 <span className="rounded bg-primary/10 px-2 py-1.5 font-mono text-xs font-semibold text-primary">
+                    {ep.method}
+                </span>
+             </td>
+
+              <td className="px-4 py-3 ">
+              <span className="rounded bg-primary/10 px-2 py-1.5 font-mono text-xs font-semibold">
+                {ep.path}
+                 </span>
+              </td>
+
+              <td className="px-4 py-2 text-gray-600">
+                {ep.description}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+{/* Example Request */}
+
+  <div>
+    <h2 className="text-xl font-bold mb-3">Example Request</h2>
+
+    <div className="overflow-x-auto">
+      <pre className="bg-muted p-4 rounded-lg text-sm font-mono min-w-[300px] whitespace-pre-wrap break-words">
+
+{`curl -H "Authorization: Bearer YOUR_API_KEY" \\
+"https://api.newscout.app/v1/articles?category=technology&limit=10"`}
+
+</pre>
+</div>
+
+  </div>
+
+</div>
+
+          <div className="flex justify-center text-sm">
+            <Code className="mr-2 h-4 w-4" />
+            Full SDK & client libraries coming soon.
+          </div>
+
+        </div>
+      </section>
+
+    </Layout>
+
+);
+}
