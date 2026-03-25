@@ -1,8 +1,8 @@
-"use client";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useEffect } from "react";
-import { motion } from "framer-motion";
+'use client'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+import { useEffect } from 'react'
+import { motion } from 'framer-motion'
 import {
   ArrowLeft,
   Clock,
@@ -16,41 +16,41 @@ import {
   MessageCircle,
   Copy,
   Layers,
-} from "lucide-react";
-import SourcesModal from "./SourcesModal";
-import Layout from "@/components/Layout";
-import ReadingProgressBar from "@/components/ReadingProgressBar";
-import RelatedArticles from "@/components/articles/RelatedArticles";
-import MoreFromSource from "@/components/articles/MoreFromSource";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+} from 'lucide-react'
+import SourcesModal from './SourcesModal'
+import Layout from '@/components/Layout'
+import ReadingProgressBar from '@/components/ReadingProgressBar'
+import RelatedArticles from '@/components/articles/RelatedArticles'
+import MoreFromSource from '@/components/articles/MoreFromSource'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useReadingHistory } from "@/hooks/use-reading-history";
-import { useToast } from "@/hooks/use-toast";
+} from '@/components/ui/dropdown-menu'
+import { useReadingHistory } from '@/hooks/use-reading-history'
+import { useToast } from '@/hooks/use-toast'
 import {
   getArticleById,
   formatTimeAgo,
   getSourceCountForArticle,
-  getSourcesForArticle
+  getSourcesForArticle,
 } from "@/utils/mock-data";
+import CommentSection from "./CommentSection";
 
-
-const ArticleDetail = () => {
-  const { id } = useParams<{ id: string }>();
-  const article = getArticleById(id || "");
-  const { toast } = useToast();
-  const { trackView } = useReadingHistory();
+const ArticleDetailContainer = () => {
+  const { id } = useParams<{ id: string }>()
+  const article = getArticleById(id || '')
+  const { toast } = useToast()
+  const { trackView } = useReadingHistory()
 
   useEffect(() => {
     if (article) {
-      trackView(article.id, article.category.slug);
+      trackView(article.id, article.category.slug)
     }
-  }, [article, trackView]);
+  }, [article, trackView])
 
   if (!article) {
     return (
@@ -68,16 +68,19 @@ const ArticleDetail = () => {
           </Link>
         </div>
       </Layout>
-    );
+    )
   }
 
-  const sourceCount = getSourceCountForArticle(article.id);
-  const articleSources = getSourcesForArticle(article.id);
+  const sourceCount = getSourceCountForArticle(article.id)
+  const articleSources = getSourcesForArticle(article.id)
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    toast({ title: "Link copied!", description: "Article link copied to clipboard." });
-  };
+    navigator.clipboard.writeText(window.location.href)
+    toast({
+      title: 'Link copied!',
+      description: 'Article link copied to clipboard.',
+    })
+  }
 
   return (
     <Layout>
@@ -144,15 +147,22 @@ const ArticleDetail = () => {
 
           {/* Article Actions */}
           <div className="mb-8 flex flex-wrap items-center gap-2 border-b border-t border-border py-3">
-            <Button variant="outline" size="sm" className="cursor-pointer gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="cursor-pointer gap-2"
+            >
               <Bookmark className="h-4 w-4" />
               Bookmark
             </Button>
-
             {/* Share Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="cursor-pointer gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer gap-2"
+                >
                   <Share2 className="h-4 w-4" />
                   Share
                 </Button>
@@ -183,15 +193,27 @@ const ArticleDetail = () => {
               sources={articleSources}
               articleTitle={article.title}
               trigger={
-                <Button variant="outline" size="sm" className="cursor-pointer gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer gap-2"
+                >
                   <Layers className="h-4 w-4" />
-                  {sourceCount} {sourceCount === 1 ? "Source" : "Sources"}
+                  {sourceCount} {sourceCount === 1 ? 'Source' : 'Sources'}
                 </Button>
               }
             />
 
-            <a href={article.content_url} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="sm" className="cursor-pointer gap-2">
+            <a
+              href={article.content_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                variant="outline"
+                size="sm"
+                className="cursor-pointer gap-2"
+              >
                 <ExternalLink className="h-4 w-4" />
                 Original
               </Button>
@@ -204,15 +226,28 @@ const ArticleDetail = () => {
               {article.summary}
             </p>
             <p className="mt-4 leading-relaxed text-muted-foreground">
-              This article was originally published by {article.source.name}. NewScout aggregates content from verified publishers to provide you with a centralized news experience. Click &quot;Original&quot; above to read the full article on the publisher&apos;s website.
+              This article was originally published by {article.source.name}.
+              NewScout aggregates content from verified publishers to provide
+              you with a centralized news experience. Click &quot;Original&quot;
+              above to read the full article on the publisher&apos;s website.
             </p>
             <p className="mt-4 leading-relaxed text-muted-foreground">
-              The global landscape continues to evolve rapidly, with developments in this area having far-reaching implications for industries, governments, and individuals worldwide. Experts suggest that the trends highlighted in this piece will shape policy discussions and investment decisions throughout 2026 and beyond.
+              The global landscape continues to evolve rapidly, with
+              developments in this area having far-reaching implications for
+              industries, governments, and individuals worldwide. Experts
+              suggest that the trends highlighted in this piece will shape
+              policy discussions and investment decisions throughout 2026 and
+              beyond.
             </p>
             <p className="mt-4 leading-relaxed text-muted-foreground">
-              Stakeholders across sectors are closely monitoring these developments, as the outcomes could redefine competitive dynamics and create new opportunities for innovation and growth. Industry analysts recommend staying informed and adapting strategies accordingly.
+              Stakeholders across sectors are closely monitoring these
+              developments, as the outcomes could redefine competitive dynamics
+              and create new opportunities for innovation and growth. Industry
+              analysts recommend staying informed and adapting strategies
+              accordingly.
             </p>
           </div>
+          <CommentSection/>
 
           {/* Source attribution */}
           <div className="mt-8 rounded-lg bg-surface p-4">
@@ -244,4 +279,5 @@ const ArticleDetail = () => {
     </Layout>
   )
 }
-export default ArticleDetail
+
+export default ArticleDetailContainer

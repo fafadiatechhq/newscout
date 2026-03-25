@@ -1,10 +1,14 @@
-import Billing from "@/components/admin/Billing";
+import BillingContainer from "@/components/admin/BillingContainer";
+import AdminLayout from "@/components/admin/AdminLayout";
+import { generateMetadata } from "@/utils/title";
+
+export const metadata = generateMetadata("NewScout — Admin Billing");
 
 const AdminBillingPage = () => {
   return (
-    <>
-        <Billing />
-    </>
+    <AdminLayout>
+      <BillingContainer />
+    </AdminLayout>
   );
 };
 
