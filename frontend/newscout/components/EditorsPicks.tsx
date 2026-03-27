@@ -28,7 +28,7 @@ const EditorsPicks = () => {
                 href={`/articles/${article.id}`}
                 className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-lg"
               >
-                <div className="relative aspect-[16/10] overflow-hidden">
+                <div className="relative aspect-16/10 overflow-hidden">
                   <img
                     src={article.image_url}
                     alt={article.title}

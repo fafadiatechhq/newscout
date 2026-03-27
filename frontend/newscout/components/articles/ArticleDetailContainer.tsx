@@ -11,19 +11,18 @@ import {
   Share2,
   Bookmark,
   ExternalLink,
-  Twitter, // ! Deprecated
-  Facebook, // ! Deprecated
   MessageCircle,
   Copy,
   Layers,
-} from 'lucide-react'
-import SourcesModal from './SourcesModal'
-import Layout from '@/components/Layout'
-import ReadingProgressBar from '@/components/ReadingProgressBar'
-import RelatedArticles from '@/components/articles/RelatedArticles'
-import MoreFromSource from '@/components/articles/MoreFromSource'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+} from "lucide-react";
+import { FaFacebook, FaTwitter } from "react-icons/fa";
+import SourcesModal from "./SourcesModal";
+import Layout from "@/components/Layout";
+import ReadingProgressBar from "@/components/ReadingProgressBar";
+import RelatedArticles from "@/components/articles/RelatedArticles";
+import MoreFromSource from "@/components/articles/MoreFromSource";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -175,11 +174,11 @@ const ArticleDetailContainer = () => {
                   Copy Link
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Twitter className="mr-2 h-4 w-4" />
+                  <FaTwitter className="mr-2 h-4 w-4" />
                   Share on X
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Facebook className="mr-2 h-4 w-4" />
+                  <FaFacebook className="mr-2 h-4 w-4" />
                   Share on Facebook
                 </DropdownMenuItem>
                 <DropdownMenuItem>

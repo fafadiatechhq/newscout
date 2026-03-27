@@ -130,7 +130,7 @@ const ArticleCard = ({ article, variant = 'default' }: ArticleCardProps) => {
         href={`/articles/${article.id}`}
         className="group relative block overflow-hidden rounded-xl"
       >
-        <div className="aspect-[16/9] overflow-hidden">
+        <div className="aspect-video overflow-hidden">
           <img
             src={article.image_url}
             alt={article.title}
@@ -138,7 +138,7 @@ const ArticleCard = ({ article, variant = 'default' }: ArticleCardProps) => {
             loading="lazy"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/30 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-foreground/90 via-foreground/30 to-transparent" />
         <div className="absolute right-4 top-4">
           <ShareButton article={article} />
         </div>
@@ -177,7 +177,7 @@ const ArticleCard = ({ article, variant = 'default' }: ArticleCardProps) => {
         href={`/articles/${article.id}`}
         className="group flex gap-4 rounded-lg p-3 transition-colors hover:bg-secondary"
       >
-        <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md">
+        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md">
           <img
             src={article.image_url}
             alt={article.title}
@@ -207,7 +207,7 @@ const ArticleCard = ({ article, variant = 'default' }: ArticleCardProps) => {
       href={`/articles/${article.id}`}
       className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-lg"
     >
-      <div className="relative aspect-[16/10] overflow-hidden">
+      <div className="relative aspect-16/10 overflow-hidden">
         <img
           src={article.image_url}
           alt={article.title}
