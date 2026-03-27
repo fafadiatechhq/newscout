@@ -150,7 +150,7 @@ const TeamContainer = () => {
                           <SelectTrigger className="h-7 w-24 text-xs">
                             <SelectValue />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className="backdrop-blur-md">
                             <SelectItem value="admin">Admin</SelectItem>
                             <SelectItem value="viewer">Viewer</SelectItem>
                           </SelectContent>
