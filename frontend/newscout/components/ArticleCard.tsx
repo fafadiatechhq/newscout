@@ -1,49 +1,52 @@
-'use client'
-import { Clock, Eye, BadgeCheck, Share2, Link2, Twitter } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
+"use client";
+import Link from "next/link";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { type Article, formatTimeAgo } from '@/utils/mock-data'
-import { toast } from '@/hooks/use-toast'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+} from "@/components/ui/dropdown-menu";
+import { toast } from "@/hooks/use-toast";
+import { Clock, Eye, BadgeCheck, Share2, Link2 } from "lucide-react";
+import { type Article, formatTimeAgo } from "@/utils/mock-data";
+
+// Article Card Component Interface.
 interface ArticleCardProps {
-  article: Article
-  variant?: 'default' | 'compact' | 'featured'
+  article: Article;
+  variant?: "default" | "compact" | "featured";
 }
 
 const ShareButton = ({ article }: { article: Article }) => {
-  const pathname = usePathname()
-  const [origin, setOrigin] = useState('')
+  const pathname = usePathname();
+  const [origin, setOrigin] = useState("");
 
   useEffect(() => {
-    setOrigin(window.location.origin)
-  }, [])
+    setOrigin(window.location.origin);
+  }, []);
 
-  const articlePath = `/articles/${article.id}`
-  const url = `${origin}${articlePath}`
-  const text = article.title
+  const articlePath = `/articles/${article.id}`;
+  const url = `${origin}${articlePath}`;
+  const text = article.title;
 
   const handleCopy = async (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    await navigator.clipboard.writeText(url)
+    e.preventDefault();
+    e.stopPropagation();
+    await navigator.clipboard.writeText(url);
     toast({
-      title: 'Link copied!',
-      description: 'Article link copied to clipboard.',
-    })
-  }
+      title: "Link copied!",
+      description: "Article link copied to clipboard.",
+    });
+  };
 
   const openShare = (e: React.MouseEvent, shareUrl: string) => {
-    e.preventDefault()
-    e.stopPropagation()
-    window.open(shareUrl, '_blank', 'noopener,noreferrer,width=600,height=400')
-  }
+    e.preventDefault();
+    e.stopPropagation();
+    window.open(shareUrl, "_blank", "noopener,noreferrer,width=600,height=400");
+  };
 
   return (
     <DropdownMenu>
@@ -55,6 +58,8 @@ const ShareButton = ({ article }: { article: Article }) => {
           <Share2 className="h-4 w-4" />
         </button>
       </DropdownMenuTrigger>
+
+      {/* Share Dropdown Option */}
       <DropdownMenuContent align="end" className="w-48 bg-card">
         <DropdownMenuItem onClick={handleCopy}>
           <Link2 className="mr-2 h-4 w-4" />
@@ -70,8 +75,22 @@ const ShareButton = ({ article }: { article: Article }) => {
             )
           }
         >
-          <Twitter className="mr-2 h-4 w-4" />
-          Twitter / X
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="mr-2"
+          >
+            <path
+              d="M1 2H3.5L18.5 22H16L1 2ZM5.5 2H8L23 22H20.5L5.5 2Z"
+              fill="currentColor"
+            />
+            <path d="M3 2H8V4H3V2ZM16 22H21V20H16V22Z" fill="currentColor" />
+            <path d="M18.5 2H22L5 22H1.5L18.5 2Z" fill="currentColor" />
+          </svg>
+          X / Twitter
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={(e) =>
@@ -93,7 +112,7 @@ const ShareButton = ({ article }: { article: Article }) => {
             openShare(
               e,
               `https://api.whatsapp.com/send?text=${encodeURIComponent(
-                text + ' ' + url,
+                text + " " + url,
               )}`,
             )
           }
@@ -120,11 +139,11 @@ const ShareButton = ({ article }: { article: Article }) => {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
-}
+  );
+};
 
-const ArticleCard = ({ article, variant = 'default' }: ArticleCardProps) => {
-  if (variant === 'featured') {
+const ArticleCard = ({ article, variant = "default" }: ArticleCardProps) => {
+  if (variant === "featured") {
     return (
       <Link
         href={`/articles/${article.id}`}
@@ -168,10 +187,10 @@ const ArticleCard = ({ article, variant = 'default' }: ArticleCardProps) => {
           </div>
         </div>
       </Link>
-    )
+    );
   }
 
-  if (variant === 'compact') {
+  if (variant === "compact") {
     return (
       <Link
         href={`/articles/${article.id}`}
@@ -199,7 +218,7 @@ const ArticleCard = ({ article, variant = 'default' }: ArticleCardProps) => {
           </div>
         </div>
       </Link>
-    )
+    );
   }
 
   return (
@@ -256,8 +275,8 @@ const ArticleCard = ({ article, variant = 'default' }: ArticleCardProps) => {
         </div>
       </div>
     </Link>
-  )
-}
+  );
+};
 
 const TrendingIcon = ({ className }: { className?: string }) => (
   <svg
@@ -273,6 +292,6 @@ const TrendingIcon = ({ className }: { className?: string }) => (
     <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
     <polyline points="16 7 22 7 22 13" />
   </svg>
-)
+);
 
-export default ArticleCard
+export default ArticleCard;
