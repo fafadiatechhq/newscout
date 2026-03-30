@@ -1,11 +1,11 @@
-import { motion } from 'framer-motion'
-import { Award, BadgeCheck } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
-import { getEditorsPicks, formatTimeAgo } from '@/utils/mock-data'
-import Link from 'next/link'
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Award, BadgeCheck } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { getEditorsPicks, formatTimeAgo } from "@/utils/mock-data";
 
 const EditorsPicks = () => {
-  const picks = getEditorsPicks()
+  const picks = getEditorsPicks();
 
   return (
     <section className="border-b border-border bg-background py-10">
@@ -28,7 +28,7 @@ const EditorsPicks = () => {
                 href={`/articles/${article.id}`}
                 className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-lg"
               >
-                <div className="relative aspect-[16/10] overflow-hidden">
+                <div className="relative aspect-16/10 overflow-hidden">
                   <img
                     src={article.image_url}
                     alt={article.title}
@@ -62,7 +62,7 @@ const EditorsPicks = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default EditorsPicks
+export default EditorsPicks;

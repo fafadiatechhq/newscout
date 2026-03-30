@@ -1,8 +1,8 @@
-'use client'
-import Link from 'next/link'
-import { useParams } from 'next/navigation'
-import { useEffect } from 'react'
-import { motion } from 'framer-motion'
+"use client";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect } from "react";
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   Clock,
@@ -16,22 +16,22 @@ import {
   MessageCircle,
   Copy,
   Layers,
-} from 'lucide-react'
-import SourcesModal from './SourcesModal'
-import Layout from '@/components/Layout'
-import ReadingProgressBar from '@/components/ReadingProgressBar'
-import RelatedArticles from '@/components/articles/RelatedArticles'
-import MoreFromSource from '@/components/articles/MoreFromSource'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+} from "lucide-react";
+import SourcesModal from "./SourcesModal";
+import Layout from "@/components/Layout";
+import ReadingProgressBar from "@/components/ReadingProgressBar";
+import RelatedArticles from "@/components/articles/RelatedArticles";
+import MoreFromSource from "@/components/articles/MoreFromSource";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { useReadingHistory } from '@/hooks/use-reading-history'
-import { useToast } from '@/hooks/use-toast'
+} from "@/components/ui/dropdown-menu";
+import { useReadingHistory } from "@/hooks/use-reading-history";
+import { useToast } from "@/hooks/use-toast";
 import {
   getArticleById,
   formatTimeAgo,
@@ -41,16 +41,16 @@ import {
 import CommentSection from "./CommentSection";
 
 const ArticleDetailContainer = () => {
-  const { id } = useParams<{ id: string }>()
-  const article = getArticleById(id || '')
-  const { toast } = useToast()
-  const { trackView } = useReadingHistory()
+  const { id } = useParams<{ id: string }>();
+  const article = getArticleById(id || "");
+  const { toast } = useToast();
+  const { trackView } = useReadingHistory();
 
   useEffect(() => {
     if (article) {
-      trackView(article.id, article.category.slug)
+      trackView(article.id, article.category.slug);
     }
-  }, [article, trackView])
+  }, [article, trackView]);
 
   if (!article) {
     return (
@@ -68,19 +68,19 @@ const ArticleDetailContainer = () => {
           </Link>
         </div>
       </Layout>
-    )
+    );
   }
 
-  const sourceCount = getSourceCountForArticle(article.id)
-  const articleSources = getSourcesForArticle(article.id)
+  const sourceCount = getSourceCountForArticle(article.id);
+  const articleSources = getSourcesForArticle(article.id);
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href)
+    navigator.clipboard.writeText(window.location.href);
     toast({
-      title: 'Link copied!',
-      description: 'Article link copied to clipboard.',
-    })
-  }
+      title: "Link copied!",
+      description: "Article link copied to clipboard.",
+    });
+  };
 
   return (
     <Layout>
@@ -199,7 +199,7 @@ const ArticleDetailContainer = () => {
                   className="cursor-pointer gap-2"
                 >
                   <Layers className="h-4 w-4" />
-                  {sourceCount} {sourceCount === 1 ? 'Source' : 'Sources'}
+                  {sourceCount} {sourceCount === 1 ? "Source" : "Sources"}
                 </Button>
               }
             />
@@ -247,7 +247,7 @@ const ArticleDetailContainer = () => {
               accordingly.
             </p>
           </div>
-          <CommentSection/>
+          <CommentSection />
 
           {/* Source attribution */}
           <div className="mt-8 rounded-lg bg-surface p-4">
@@ -277,7 +277,7 @@ const ArticleDetailContainer = () => {
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default ArticleDetailContainer
+export default ArticleDetailContainer;
