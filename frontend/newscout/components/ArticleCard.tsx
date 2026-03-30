@@ -1,5 +1,5 @@
 "use client";
-import { Clock, Eye, BadgeCheck, Share2, Link2, Twitter } from "lucide-react";
+import { Clock, Eye, BadgeCheck, Share2, Link2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -12,6 +12,7 @@ import { toast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+
 interface ArticleCardProps {
   article: Article;
   variant?: "default" | "compact" | "featured";
@@ -70,7 +71,21 @@ const ShareButton = ({ article }: { article: Article }) => {
             )
           }
         >
-          <Twitter className="mr-2 h-4 w-4" />
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="mr-2 h-4 w-4"
+          >
+            <path
+              d="M1 2H3.5L18.5 22H16L1 2ZM5.5 2H8L23 22H20.5L5.5 2Z"
+              fill="currentColor"
+            />
+            <path d="M3 2H8V4H3V2ZM16 22H21V20H16V22Z" fill="currentColor" />
+            <path d="M18.5 2H22L5 22H1.5L18.5 2Z" fill="currentColor" />
+          </svg>
           Twitter / X
         </DropdownMenuItem>
         <DropdownMenuItem

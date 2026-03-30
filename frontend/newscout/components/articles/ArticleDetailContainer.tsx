@@ -11,8 +11,6 @@ import {
   Share2,
   Bookmark,
   ExternalLink,
-  Twitter, // ! Deprecated
-  Facebook, // ! Deprecated
   MessageCircle,
   Copy,
   Layers,
@@ -175,16 +173,45 @@ const ArticleDetailContainer = () => {
                   Copy Link
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Twitter className="mr-2 h-4 w-4" />
-                  Share on X
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="mr-2 h-4 w-4"
+                  >
+                    <path
+                      d="M1 2H3.5L18.5 22H16L1 2ZM5.5 2H8L23 22H20.5L5.5 2Z"
+                      fill="currentColor"
+                    />
+                    <path
+                      d="M3 2H8V4H3V2ZM16 22H21V20H16V22Z"
+                      fill="currentColor"
+                    />
+                    <path d="M18.5 2H22L5 22H1.5L18.5 2Z" fill="currentColor" />
+                  </svg>
+                  X (Twitter)
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Facebook className="mr-2 h-4 w-4" />
-                  Share on Facebook
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="mr-2 h-4 w-4"
+                  >
+                    <path
+                      d="M22 12C22 6.48 17.52 2 12 2C6.48 2 2 6.48 2 12C2 16.84 5.44 20.87 10 21.8V15H8V12H10V9.5C10 7.57 11.57 6 13.5 6H16V9H14C13.45 9 13 9.45 13 10V12H16V15H13V21.95C18.05 21.45 22 17.19 22 12Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  Facebook
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <MessageCircle className="mr-2 h-4 w-4" />
-                  Share on WhatsApp
+                  WhatsApp
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
