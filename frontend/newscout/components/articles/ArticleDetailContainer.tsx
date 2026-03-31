@@ -1,8 +1,8 @@
-'use client'
-import Link from 'next/link'
-import { useParams } from 'next/navigation'
-import { useEffect } from 'react'
-import { motion } from 'framer-motion'
+"use client";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect } from "react";
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   Clock,
@@ -11,27 +11,25 @@ import {
   Share2,
   Bookmark,
   ExternalLink,
-  Twitter, // ! Deprecated
-  Facebook, // ! Deprecated
   MessageCircle,
   Copy,
   Layers,
-} from 'lucide-react'
-import SourcesModal from './SourcesModal'
-import Layout from '@/components/Layout'
-import ReadingProgressBar from '@/components/ReadingProgressBar'
-import RelatedArticles from '@/components/articles/RelatedArticles'
-import MoreFromSource from '@/components/articles/MoreFromSource'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+} from "lucide-react";
+import SourcesModal from "./SourcesModal";
+import Layout from "@/components/Layout";
+import ReadingProgressBar from "@/components/ReadingProgressBar";
+import RelatedArticles from "@/components/articles/RelatedArticles";
+import MoreFromSource from "@/components/articles/MoreFromSource";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { useReadingHistory } from '@/hooks/use-reading-history'
-import { useToast } from '@/hooks/use-toast'
+} from "@/components/ui/dropdown-menu";
+import { useReadingHistory } from "@/hooks/use-reading-history";
+import { useToast } from "@/hooks/use-toast";
 import {
   getArticleById,
   formatTimeAgo,
@@ -41,16 +39,16 @@ import {
 import CommentSection from "./CommentSection";
 
 const ArticleDetailContainer = () => {
-  const { id } = useParams<{ id: string }>()
-  const article = getArticleById(id || '')
-  const { toast } = useToast()
-  const { trackView } = useReadingHistory()
+  const { id } = useParams<{ id: string }>();
+  const article = getArticleById(id || "");
+  const { toast } = useToast();
+  const { trackView } = useReadingHistory();
 
   useEffect(() => {
     if (article) {
-      trackView(article.id, article.category.slug)
+      trackView(article.id, article.category.slug);
     }
-  }, [article, trackView])
+  }, [article, trackView]);
 
   if (!article) {
     return (
@@ -68,19 +66,19 @@ const ArticleDetailContainer = () => {
           </Link>
         </div>
       </Layout>
-    )
+    );
   }
 
-  const sourceCount = getSourceCountForArticle(article.id)
-  const articleSources = getSourcesForArticle(article.id)
+  const sourceCount = getSourceCountForArticle(article.id);
+  const articleSources = getSourcesForArticle(article.id);
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href)
+    navigator.clipboard.writeText(window.location.href);
     toast({
-      title: 'Link copied!',
-      description: 'Article link copied to clipboard.',
-    })
-  }
+      title: "Link copied!",
+      description: "Article link copied to clipboard.",
+    });
+  };
 
   return (
     <Layout>
@@ -175,16 +173,45 @@ const ArticleDetailContainer = () => {
                   Copy Link
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Twitter className="mr-2 h-4 w-4" />
-                  Share on X
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="mr-2 h-4 w-4"
+                  >
+                    <path
+                      d="M1 2H3.5L18.5 22H16L1 2ZM5.5 2H8L23 22H20.5L5.5 2Z"
+                      fill="currentColor"
+                    />
+                    <path
+                      d="M3 2H8V4H3V2ZM16 22H21V20H16V22Z"
+                      fill="currentColor"
+                    />
+                    <path d="M18.5 2H22L5 22H1.5L18.5 2Z" fill="currentColor" />
+                  </svg>
+                  X (Twitter)
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Facebook className="mr-2 h-4 w-4" />
-                  Share on Facebook
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="mr-2 h-4 w-4"
+                  >
+                    <path
+                      d="M22 12C22 6.48 17.52 2 12 2C6.48 2 2 6.48 2 12C2 16.84 5.44 20.87 10 21.8V15H8V12H10V9.5C10 7.57 11.57 6 13.5 6H16V9H14C13.45 9 13 9.45 13 10V12H16V15H13V21.95C18.05 21.45 22 17.19 22 12Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  Facebook
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <MessageCircle className="mr-2 h-4 w-4" />
-                  Share on WhatsApp
+                  WhatsApp
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -199,7 +226,7 @@ const ArticleDetailContainer = () => {
                   className="cursor-pointer gap-2"
                 >
                   <Layers className="h-4 w-4" />
-                  {sourceCount} {sourceCount === 1 ? 'Source' : 'Sources'}
+                  {sourceCount} {sourceCount === 1 ? "Source" : "Sources"}
                 </Button>
               }
             />
@@ -247,7 +274,7 @@ const ArticleDetailContainer = () => {
               accordingly.
             </p>
           </div>
-          <CommentSection/>
+          <CommentSection />
 
           {/* Source attribution */}
           <div className="mt-8 rounded-lg bg-surface p-4">
@@ -277,7 +304,7 @@ const ArticleDetailContainer = () => {
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default ArticleDetailContainer
+export default ArticleDetailContainer;

@@ -1,16 +1,16 @@
-'use client'
-import { motion } from 'framer-motion'
-import { Sparkles, BadgeCheck, Clock } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
-import { articles, formatTimeAgo } from '@/utils/mock-data'
-import { useReadingHistory } from '@/hooks/use-reading-history'
-import Link from 'next/link'
+"use client";
+import { motion } from "framer-motion";
+import { Sparkles, BadgeCheck, Clock } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { articles, formatTimeAgo } from "@/utils/mock-data";
+import { useReadingHistory } from "@/hooks/use-reading-history";
+import Link from "next/link";
 
 const ForYouSection = () => {
-  const { getPreferredCategories, getViewedArticleIds } = useReadingHistory()
+  const { getPreferredCategories, getViewedArticleIds } = useReadingHistory();
 
-  const preferredCategories = getPreferredCategories()
-  const viewedIds = getViewedArticleIds()
+  const preferredCategories = getPreferredCategories();
+  const viewedIds = getViewedArticleIds();
 
   // If no reading history, show nothing (or a prompt)
   if (preferredCategories.length === 0) {
@@ -35,26 +35,26 @@ const ForYouSection = () => {
           </div>
         </div>
       </section>
-    )
+    );
   }
 
   // Recommend articles from preferred categories that haven't been read
   const recommended = articles
     .filter((a) => !viewedIds.has(a.id))
     .sort((a, b) => {
-      const aIdx = preferredCategories.indexOf(a.category.slug)
-      const bIdx = preferredCategories.indexOf(b.category.slug)
+      const aIdx = preferredCategories.indexOf(a.category.slug);
+      const bIdx = preferredCategories.indexOf(b.category.slug);
       // Preferred categories first, then by views
-      const aScore = aIdx >= 0 ? aIdx : 999
-      const bScore = bIdx >= 0 ? bIdx : 999
-      if (aScore !== bScore) return aScore - bScore
-      return b.views - a.views
+      const aScore = aIdx >= 0 ? aIdx : 999;
+      const bScore = bIdx >= 0 ? bIdx : 999;
+      if (aScore !== bScore) return aScore - bScore;
+      return b.views - a.views;
     })
-    .slice(0, 4)
+    .slice(0, 4);
 
   // If all articles have been read, show top unread or fallback
   if (recommended.length === 0) {
-    return null
+    return null;
   }
 
   return (
@@ -81,7 +81,7 @@ const ForYouSection = () => {
                 href={`/articles/${article.id}`}
                 className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-lg"
               >
-                <div className="aspect-[16/10] overflow-hidden">
+                <div className="aspect-16/10 overflow-hidden">
                   <img
                     src={article.image_url}
                     alt={article.title}
@@ -116,7 +116,7 @@ const ForYouSection = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default ForYouSection
+export default ForYouSection;

@@ -25,7 +25,7 @@ import {
   planOptions,
   paymentMethod,
 } from "@/utils/admin-mock-data";
-import { cn } from "@/utils/utils"; 
+import { cn } from "@/utils/utils";
 
 const statusColors: Record<string, string> = {
   paid: "bg-emerald-500/10 text-emerald-700 border-emerald-200",
@@ -189,7 +189,7 @@ const BillingContainer = () => {
             <CardTitle className="text-lg">Invoice History</CardTitle>
           </CardHeader>
           <CardContent className="overflow-x-auto p-0">
-            <Table className="min-w-[520px]">
+            <Table className="min-w-130">
               <TableHeader>
                 <TableRow>
                   <TableHead>Date</TableHead>

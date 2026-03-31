@@ -1,74 +1,74 @@
-'use client'
-import { useState, useMemo } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { motion } from 'framer-motion'
-import { Filter } from 'lucide-react'
-import Layout from '@/components/Layout'
-import ArticleCard from '@/components/ArticleCard'
-import InfiniteScrollSentinel from '@/components/InfiniteScrollSentinel'
-import { articles, categories, sources } from '@/utils/mock-data'
-import { useInfiniteScroll } from '@/hooks/use-infinite-scroll'
-import { Button } from '@/components/ui/button'
+"use client";
+import { useState, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
+import { motion } from "framer-motion";
+import { Filter } from "lucide-react";
+import Layout from "@/components/Layout";
+import ArticleCard from "@/components/ArticleCard";
+import InfiniteScrollSentinel from "@/components/InfiniteScrollSentinel";
+import { articles, categories, sources } from "@/utils/mock-data";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from "@/components/ui/select";
 
-const PAGE_SIZE = 6
+const PAGE_SIZE = 6;
 
 const FeedContainer = () => {
-  const searchParams = useSearchParams()
-  const categoryParam = searchParams.get('category')
-  const [selectedSource, setSelectedSource] = useState<string>('all')
-  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest' | 'popular'>(
-    'newest',
-  )
-  const [showFilters, setShowFilters] = useState(false)
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
+  const [selectedSource, setSelectedSource] = useState<string>("all");
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest" | "popular">(
+    "newest",
+  );
+  const [showFilters, setShowFilters] = useState(false);
 
   const filteredArticles = useMemo(() => {
-    let result = [...articles]
+    let result = [...articles];
 
     if (categoryParam) {
-      result = result.filter((a) => a.category.slug === categoryParam)
+      result = result.filter((a) => a.category.slug === categoryParam);
     }
 
-    if (selectedSource !== 'all') {
-      result = result.filter((a) => a.source.id === selectedSource)
+    if (selectedSource !== "all") {
+      result = result.filter((a) => a.source.id === selectedSource);
     }
 
     switch (sortOrder) {
-      case 'newest':
+      case "newest":
         result.sort(
           (a, b) =>
             new Date(b.published_at).getTime() -
             new Date(a.published_at).getTime(),
-        )
-        break
-      case 'oldest':
+        );
+        break;
+      case "oldest":
         result.sort(
           (a, b) =>
             new Date(a.published_at).getTime() -
             new Date(b.published_at).getTime(),
-        )
-        break
-      case 'popular':
-        result.sort((a, b) => b.views - a.views)
-        break
+        );
+        break;
+      case "popular":
+        result.sort((a, b) => b.views - a.views);
+        break;
     }
 
-    return result
-  }, [categoryParam, selectedSource, sortOrder])
+    return result;
+  }, [categoryParam, selectedSource, sortOrder]);
 
   const { visibleCount, isLoading, hasMore, sentinelRef } = useInfiniteScroll({
     totalItems: filteredArticles.length,
     pageSize: PAGE_SIZE,
-  })
+  });
 
-  const visibleArticles = filteredArticles.slice(0, visibleCount)
-  const activeCategory = categories.find((c) => c.slug === categoryParam)
+  const visibleArticles = filteredArticles.slice(0, visibleCount);
+  const activeCategory = categories.find((c) => c.slug === categoryParam);
 
   return (
     <Layout>
@@ -76,12 +76,12 @@ const FeedContainer = () => {
       <div className="border-b border-border bg-surface">
         <div className="container py-8">
           <h1 className="font-serif text-3xl font-bold text-foreground md:text-4xl">
-            {activeCategory ? activeCategory.name : 'Browse Articles'}
+            {activeCategory ? activeCategory.name : "Browse Articles"}
           </h1>
           <p className="mt-2 text-muted-foreground">
             {activeCategory
               ? `${activeCategory.article_count} articles in ${activeCategory.name}`
-              : 'Discover the latest from 50+ verified publishers'}
+              : "Discover the latest from 50+ verified publishers"}
           </p>
         </div>
       </div>
@@ -91,7 +91,7 @@ const FeedContainer = () => {
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
             {filteredArticles.length} article
-            {filteredArticles.length !== 1 ? 's' : ''} found
+            {filteredArticles.length !== 1 ? "s" : ""} found
           </p>
           <div className="flex items-center gap-3">
             <Button
@@ -122,7 +122,7 @@ const FeedContainer = () => {
         {showFilters && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="mb-6 rounded-xl border border-border bg-surface p-4"
           >
@@ -184,7 +184,7 @@ const FeedContainer = () => {
         )}
       </div>
     </Layout>
-  )
-}
+  );
+};
 
 export default FeedContainer;
