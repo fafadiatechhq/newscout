@@ -20,9 +20,10 @@ const PrivacyPolicyPageContainer = () => {
       content: (
         <>
           <p className="mt-2 text-neutral-500 md:text-lg  md:font-medium  md:leading-8 leading-7">
-            <strong className="text-foreground">Account Information:</strong>{" "}
-            When you create an account, we collect your name, email address, and
-            password. Social sign-in may provide your name and profile picture.
+            <strong className="text-foreground">Account Information:</strong>
+            &nbsp; When you create an account, we collect your name, email
+            address, and password. Social sign-in may provide your name and
+            profile picture.
           </p>
           <p className="mt-2 text-neutral-500 md:text-lg  md:font-medium  md:leading-8 leading-7">
             <strong className="text-foreground">Usage Data:</strong> We
@@ -34,16 +35,16 @@ const PrivacyPolicyPageContainer = () => {
           <p className="mt-2 text-neutral-500 md:text-lg  md:font-medium  md:leading-8 leading-7">
             <strong className="mt-2 text-neutral-500 md:text-lg  md:font-medium  md:leading-8 leading-7">
               Cookies & Local Storage:
-            </strong>{" "}
-            We use cookies and browser local storage for authentication, theme
-            preferences, reading history, and analytics. See our{" "}
+            </strong>
+            &nbsp; We use cookies and browser local storage for authentication,
+            theme preferences, reading history, and analytics. See our&nbsp;
             <Link
               href="/cookies"
               className="text-primary underline underline-offset-2 hover:text-primary/80"
             >
               Cookie Policy
-            </Link>{" "}
-            for details.
+            </Link>
+            &nbsp; for details.
           </p>
         </>
       ),
@@ -105,8 +106,13 @@ const PrivacyPolicyPageContainer = () => {
           your personal data; (b) correct inaccurate data; (c) request deletion
           of your data; (d) object to or restrict processing; (e) data
           portability; and (f) withdraw consent. To exercise these rights,
-          contact us at{" "}
-          <span className="text-primary font-medium">privacy@newscout.app</span>
+          contact us at&nbsp;
+          <Link
+            href="mailto:privacy@newscout.app"
+            className="text-primary underline underline-offset-2 hover:text-primary/80"
+          >
+            privacy@newscout.app
+          </Link>
           .
         </p>
       ),
@@ -151,9 +157,14 @@ const PrivacyPolicyPageContainer = () => {
       title: "Contact Us",
       content: (
         <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
-          For privacy-related questions or requests, contact us at{" "}
-          <span className="text-primary font-medium">privacy@newscout.app</span>{" "}
-          or visit our{" "}
+          For privacy-related questions or requests, contact us at&nbsp;
+          <Link
+            href="mailto:privacy@newscout.app"
+            className="text-primary underline underline-offset-2 hover:text-primary/80"
+          >
+            privacy@newscout.app
+          </Link>
+          &nbsp; or visit our&nbsp;
           <Link
             href="/contact"
             className="text-primary underline underline-offset-2 hover:text-primary/80"
@@ -179,22 +190,38 @@ const PrivacyPolicyPageContainer = () => {
       </section>
       <div className=" max-w-[90%] md:px-8 md:max-w-7xl mx-auto my-12 box-border">
         <p className="mt-2 text-neutral-500 md:text-lg md:font-medium md:leading-8 leading-7">
-          At NewScout.in, accessible from{" "}
-          <Link href="http://newscout.in">http://newscout.in</Link>, one of our main
-          priorities is the privacy of our visitors. This Privacy Policy
-          document contains types of information that is collected and recorded
-          by NewScout.com and how we use it.
+          At NewScout.in, accessible from&nbsp;
+          <Link
+            href="https://newscout.in"
+            className="text-primary underline underline-offset-2 hover:text-primary/80"
+          >
+            https://newscout.in
+          </Link>
+          , one of our main priorities is the privacy of our visitors. This
+          Privacy Policy document contains types of information that is
+          collected and recorded by&nbsp;
+          <Link
+            href="https://newscout.com"
+            className="text-primary underline underline-offset-2 hover:text-primary/80"
+          >
+            NewScout.com
+          </Link>
+          &nbsp; and how we use it.
         </p>
         <p className="mt-2 text-neutral-500 md:text-lg md:font-medium leading-7">
           If you have additional questions or require more information about our
-          Privacy Policy, do not hesitate to contact us through email at{" "}
-          <Link href="mailto:customercare@newscout.com">
+          Privacy Policy, do not hesitate to contact us through email at&nbsp;
+          <Link
+            href="mailto:customercare@newscout.com"
+            className="text-primary underline underline-offset-2 hover:text-primary/80"
+          >
             customercare@newscout.com
           </Link>
+          .
         </p>
         {sections.map((section, index) => (
           <div
-            className="mt-8 bg-card rounded-xl shadow shadow-gray md:text-3xl font-semibold  p-5"
+            className="mt-8 bg-card rounded-xl shadow shadow-gray md:text-3xl font-semibold p-5"
             key={index}
           >
             <h2 className="text-2xl md:text-3xl lg:text-4xl text-primary">
