@@ -1,10 +1,10 @@
-"use client";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Plus, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+'use client'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Plus, Trash2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
   TableBody,
@@ -12,14 +12,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,56 +29,52 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import InviteMemberDialog from "@/components/admin/team/InviteMemberDialog";
+} from '@/components/ui/alert-dialog'
+import InviteMemberDialog from '@/components/admin/team/InviteMemberDialog'
 import {
   teamMembers as initialMembers,
   organization,
   TeamMember,
-} from "@/utils/admin-mock-data";
-import { toast } from "@/hooks/use-toast";
+} from '@/utils/admin-mock-data'
+import { toast } from '@/hooks/use-toast'
+import { fadeUp } from '@/utils/fade-up'
 
 const roleColors: Record<string, string> = {
-  owner: "bg-primary/10 text-primary border-primary/20",
-  admin: "bg-accent/10 text-accent border-accent/20",
-  viewer: "bg-muted text-muted-foreground border-border",
-};
+  owner: 'bg-primary/10 text-primary border-primary/20',
+  admin: 'bg-accent/10 text-accent border-accent/20',
+  viewer: 'bg-muted text-muted-foreground border-border',
+}
 
 const statusColors: Record<string, string> = {
-  active: "bg-emerald-500/10 text-emerald-700 border-emerald-200",
-  pending: "bg-amber-500/10 text-amber-700 border-amber-200",
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.35 } },
-};
+  active: 'bg-emerald-500/10 text-emerald-700 border-emerald-200',
+  pending: 'bg-amber-500/10 text-amber-700 border-amber-200',
+}
 
 const TeamContainer = () => {
-  const [members, setMembers] = useState<TeamMember[]>(initialMembers);
-  const [inviteOpen, setInviteOpen] = useState(false);
-  const [removeTarget, setRemoveTarget] = useState<TeamMember | null>(null);
+  const [members, setMembers] = useState<TeamMember[]>(initialMembers)
+  const [inviteOpen, setInviteOpen] = useState(false)
+  const [removeTarget, setRemoveTarget] = useState<TeamMember | null>(null)
 
-  const activeCount = members.filter((m) => m.status === "active").length;
+  const activeCount = members.filter((m) => m.status === 'active').length
 
   const handleRoleChange = (memberId: string, newRole: string) => {
     setMembers((prev) =>
       prev.map((m) =>
-        m.id === memberId ? { ...m, role: newRole as TeamMember["role"] } : m,
+        m.id === memberId ? { ...m, role: newRole as TeamMember['role'] } : m,
       ),
-    );
-    toast({ title: "Role updated" });
-  };
+    )
+    toast({ title: 'Role updated' })
+  }
 
   const handleRemove = () => {
-    if (!removeTarget) return;
-    setMembers((prev) => prev.filter((m) => m.id !== removeTarget.id));
+    if (!removeTarget) return
+    setMembers((prev) => prev.filter((m) => m.id !== removeTarget.id))
     toast({
-      title: "Member removed",
+      title: 'Member removed',
       description: `${removeTarget.name} has been removed.`,
-    });
-    setRemoveTarget(null);
-  };
+    })
+    setRemoveTarget(null)
+  }
 
   return (
     <motion.div
@@ -136,7 +132,7 @@ const TeamContainer = () => {
                       {member.email}
                     </TableCell>
                     <TableCell>
-                      {member.role === "owner" ? (
+                      {member.role === 'owner' ? (
                         <Badge variant="outline" className={roleColors.owner}>
                           Owner
                         </Badge>
@@ -162,18 +158,18 @@ const TeamContainer = () => {
                         variant="outline"
                         className={statusColors[member.status]}
                       >
-                        {member.status === "active" ? "Active" : "Pending"}
+                        {member.status === 'active' ? 'Active' : 'Pending'}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-muted-foreground text-sm">
-                      {new Date(member.joined_at).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
+                      {new Date(member.joined_at).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
                       })}
                     </TableCell>
                     <TableCell>
-                      {member.role !== "owner" && (
+                      {member.role !== 'owner' && (
                         <Button
                           variant="ghost"
                           size="icon"
@@ -218,7 +214,7 @@ const TeamContainer = () => {
         </AlertDialogContent>
       </AlertDialog>
     </motion.div>
-  );
-};
+  )
+}
 
-export default TeamContainer;
+export default TeamContainer

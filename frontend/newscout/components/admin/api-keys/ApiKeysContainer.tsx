@@ -41,15 +41,9 @@ import {
 } from '@/components/ui/alert-dialog'
 import GenerateKeyDialog from '@/components/admin/api-keys/GenerateKeyDialog'
 import { toast } from '@/hooks/use-toast'
+import { fadeUp } from '@/utils/fade-up'
+import { stagger } from '@/utils/stagger'
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.35 } },
-}
-const stagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.07 } },
-}
 interface ApiKey {
   id: string
   name: string
