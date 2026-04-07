@@ -1,0 +1,166 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import Layout from '@/components/Layout'
+import { Code, Key, Zap, BookOpen } from 'lucide-react'
+
+export default function ApiDocs() {
+  const [endpoints, setEndpoints] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('http://localhost:8000/api/schema/?format=json')
+      .then((res) => res.json())
+      .then((data) => {
+        const paths = data.paths || {}
+        const extracted: any[] = []
+
+        Object.entries(paths).forEach(([path, methods]: any) => {
+          Object.entries(methods).forEach(([method, details]: any) => {
+            extracted.push({
+              method: method.toUpperCase(),
+              path,
+              description:
+                details.summary ||
+                details.description ||
+                'No description available',
+            })
+          })
+        })
+
+        setEndpoints(extracted)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error('Schema fetch error:', err)
+        setLoading(false)
+      })
+  }, [])
+
+  return (
+    <Layout>
+      {/* Hero Section */}
+      <section className="border-b border-border bg-primary py-16 text-primary-foreground">
+        <div className="container text-center">
+          <h1 className="mb-4 font-serif text-4xl font-bold md:text-5xl">
+            API Documentation
+          </h1>
+          <p className="mx-auto max-w-2xl text-lg text-primary-foreground/80">
+            Integrate NewScout's aggregated news into your own applications.
+          </p>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section className="container py-10">
+        <div className="mx-auto max-w-4xl space-y-10">
+          {/* Info Cards */}
+          <div className="grid gap-4 sm:grid-cols-3">
+            {[
+              {
+                icon: Key,
+                title: 'Authentication',
+                desc: 'Use API keys from your dashboard.',
+              },
+              {
+                icon: Zap,
+                title: 'Rate Limits',
+                desc: 'Free: 100/day, Pro: 10k/month.',
+              },
+              {
+                icon: BookOpen,
+                title: 'Response',
+                desc: 'JSON with pagination.',
+              },
+            ].map((c) => (
+              <div key={c.title} className="rounded-xl border p-5">
+                <c.icon className="mb-3 h-6 w-6 text-primary" />
+                <h3 className="font-semibold">{c.title}</h3>
+                <p className="text-sm">{c.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Base URL */}
+          <div>
+            <h2 className="text-xl font-bold mb-3">Base URL</h2>
+            <div className="bg-muted p-3 rounded font-mono">
+              https://api.newscout.in
+            </div>
+          </div>
+
+          {/* Endpoints */}
+          <div>
+            <h2 className="text-xl font-bold mb-4">Endpoints</h2>
+
+            <div className="w-full overflow-x-auto border rounded-lg">
+              <table className="w-full text-sm min-w-[600px]">
+                <thead>
+                  <tr className="border-b border-border bg-surface text-left">
+                    <th className="px-4 py-3 font-semibold">Method</th>
+                    <th className="px-4 py-3 font-semibold">Path</th>
+                    <th className="px-4 py-3 font-semibold">Description</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {loading ? (
+                    <tr>
+                      <td colSpan={3} className="text-center py-4">
+                        Loading endpoints...
+                      </td>
+                    </tr>
+                  ) : endpoints.length === 0 ? (
+                    <tr>
+                      <td colSpan={3} className="text-center py-4">
+                        No endpoints found
+                      </td>
+                    </tr>
+                  ) : (
+                    endpoints.map((ep, i) => (
+                      <tr key={i} className="border-t">
+                        <td className="px-4 py-3">
+                          <span className="rounded bg-primary/10 px-2 py-1.5 font-mono text-xs font-semibold text-primary">
+                            {ep.method}
+                          </span>
+                        </td>
+
+                        <td className="px-4 py-3">
+                          <span className="rounded bg-primary/10 px-2 py-1.5 font-mono text-xs font-semibold">
+                            {ep.path}
+                          </span>
+                        </td>
+
+                        <td className="px-4 py-3 text-muted-foreground">
+                          {ep.description}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Example Request */}
+          <div>
+            <h2 className="text-xl font-bold mb-3">Example Request</h2>
+
+            <div className="overflow-x-auto">
+              <pre className="bg-muted p-4 rounded-lg text-sm font-mono whitespace-pre-wrap break-words">
+                {`curl -H "Authorization: Bearer YOUR_API_KEY" \\
+"https://api.newscout.app/v1/articles?category=technology&limit=10"`}
+              </pre>
+            </div>
+          </div>
+
+          {/* Footer Note */}
+          <div className="flex justify-center text-sm text-muted-foreground">
+            <Code className="mr-2 h-4 w-4" />
+            Auto-generated from OpenAPI schema
+          </div>
+        </div>
+      </section>
+    </Layout>
+  )
+}
