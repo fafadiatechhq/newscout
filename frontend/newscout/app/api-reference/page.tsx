@@ -1,6 +1,11 @@
-import ApiReferenceContainer from '@/components/api-docs-mdx/ApiReferenceContainer'
-const APIpage = () => {
-  return <ApiReferenceContainer />
-}
+// app/api-reference/page.tsx
 
-export default APIpage
+import RedocClient from '@/components/api-docs-mdx/RedocClientContainer'
+
+export default function ApiReferencePage() {
+  return (
+    <div className="min-h-screen">
+      <RedocClient specUrl="http://127.0.0.1:8000/api/schema/" />
+    </div>
+  )
+}
