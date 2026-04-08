@@ -6,5 +6,7 @@ export const metadata = {
 }
 
 export default function ApiDocsPage() {
-  return <MDXClientWrapper />
+  return (
+      <MDXClientWrapper />
+  )
 }

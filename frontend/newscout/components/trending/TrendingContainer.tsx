@@ -121,7 +121,7 @@ const TrendingContainer = () => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="flex-shrink-0"
+                  className="shrink-0"
                 >
                   <RisingCard article={article} />
                 </motion.div>

@@ -67,7 +67,7 @@ const InviteMemberDialog = ({ open, onOpenChange }: InviteMemberDialogProps) => 
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="backdrop-blur-lg">
                 <SelectItem value="admin">Admin</SelectItem>
                 <SelectItem value="viewer">Viewer</SelectItem>
               </SelectContent>
