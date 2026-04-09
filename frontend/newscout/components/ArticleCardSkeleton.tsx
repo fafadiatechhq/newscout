@@ -1,21 +1,21 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface ArticleCardSkeletonProps {
-  variant?: "default" | "compact" | "featured";
+  variant?: 'default' | 'compact' | 'featured'
 }
 
 const ArticleCardSkeleton = ({
-  variant = "default",
+  variant = 'default',
 }: ArticleCardSkeletonProps) => {
-  if (variant === "featured") {
+  if (variant === 'featured') {
     return (
       <div className="overflow-hidden rounded-xl">
         <Skeleton className="aspect-video w-full" />
       </div>
-    );
+    )
   }
 
-  if (variant === "compact") {
+  if (variant === 'compact') {
     return (
       <div className="flex gap-4 p-3">
         <Skeleton className="h-16 w-16 shrink-0 rounded-md" />
@@ -24,7 +24,7 @@ const ArticleCardSkeleton = ({
           <Skeleton className="h-3 w-2/3" />
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -44,7 +44,7 @@ const ArticleCardSkeleton = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ArticleCardSkeleton;
+export default ArticleCardSkeleton

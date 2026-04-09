@@ -1,16 +1,18 @@
-"use client";
-import { motion } from "framer-motion";
-import { Check, CreditCard, Download } from "lucide-react";
+'use client'
+import { motion } from 'framer-motion'
+import { Check, CreditCard, Download } from 'lucide-react'
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+} from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { fadeUp } from '@/utils/fade-up'
+import { stagger } from '@/utils/stagger'
 import {
   Table,
   TableBody,
@@ -18,33 +20,23 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table'
 import {
   organization,
   invoices,
   planOptions,
   paymentMethod,
-} from "@/utils/admin-mock-data";
-import { cn } from "@/utils/utils";
+} from '@/utils/admin-mock-data'
+import { cn } from '@/utils/utils'
 
 const statusColors: Record<string, string> = {
-  paid: "bg-emerald-500/10 text-emerald-700 border-emerald-200",
-  pending: "bg-amber-500/10 text-amber-700 border-amber-200",
-  failed: "bg-destructive/10 text-destructive border-destructive/20",
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.35 } },
-};
-
-const stagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.07 } },
-};
+  paid: 'bg-emerald-500/10 text-emerald-700 border-emerald-200',
+  pending: 'bg-amber-500/10 text-amber-700 border-amber-200',
+  failed: 'bg-destructive/10 text-destructive border-destructive/20',
+}
 
 const BillingContainer = () => {
-  const { plan } = organization;
+  const { plan } = organization
 
   return (
     <motion.div
@@ -79,15 +71,15 @@ const BillingContainer = () => {
                   variant="outline"
                   className="bg-emerald-500/10 text-emerald-700 border-emerald-200"
                 >
-                  {plan.status === "active" ? "Active" : plan.status}
+                  {plan.status === 'active' ? 'Active' : plan.status}
                 </Badge>
               </div>
               <p className="text-sm text-muted-foreground">
-                ${plan.price}/mo · Renews{" "}
-                {new Date(plan.renewal_date).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
+                ${plan.price}/mo · Renews{' '}
+                {new Date(plan.renewal_date).toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
                 })}
               </p>
             </div>
@@ -103,14 +95,14 @@ const BillingContainer = () => {
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {planOptions.map((option) => {
-            const isCurrent = option.id === plan.id;
+            const isCurrent = option.id === plan.id
             return (
               <Card
                 key={option.id}
                 className={cn(
-                  "relative transition-shadow",
-                  isCurrent && "border-primary shadow-md",
-                  option.is_popular && !isCurrent && "border-accent/40",
+                  'relative transition-shadow',
+                  isCurrent && 'border-primary shadow-md',
+                  option.is_popular && !isCurrent && 'border-accent/40',
                 )}
               >
                 {option.is_popular && (
@@ -142,17 +134,17 @@ const BillingContainer = () => {
                     </Button>
                   ) : (
                     <Button
-                      variant={option.is_popular ? "default" : "outline"}
+                      variant={option.is_popular ? 'default' : 'outline'}
                       className="w-full"
                     >
                       {option.price > plan.price || option.price === -1
-                        ? "Upgrade"
-                        : "Downgrade"}
+                        ? 'Upgrade'
+                        : 'Downgrade'}
                     </Button>
                   )}
                 </CardContent>
               </Card>
-            );
+            )
           })}
         </div>
       </motion.div>
@@ -203,10 +195,10 @@ const BillingContainer = () => {
                 {invoices.map((inv) => (
                   <TableRow key={inv.id}>
                     <TableCell className="text-sm">
-                      {new Date(inv.date).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
+                      {new Date(inv.date).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
                       })}
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">
@@ -241,7 +233,7 @@ const BillingContainer = () => {
         </Card>
       </motion.div>
     </motion.div>
-  );
-};
+  )
+}
 
-export default BillingContainer;
+export default BillingContainer
