@@ -1,10 +1,10 @@
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+import Layout from "@/components/Layout";
+import Link from "next/link";
 
 const TermsPageContainer = () => {
   const sections = [
     {
-      title: 'Acceptance of Terms',
+      title: "Acceptance of Terms",
       content: (
         <p>
           By accessing or using NewScout ("the Service"), you agree to be bound
@@ -15,7 +15,7 @@ const TermsPageContainer = () => {
       ),
     },
     {
-      title: 'Description of Service',
+      title: "Description of Service",
       content: (
         <p>
           NewScout is a news aggregation platform that curates and organizes
@@ -27,7 +27,7 @@ const TermsPageContainer = () => {
       ),
     },
     {
-      title: 'User Accounts',
+      title: "User Accounts",
       content: (
         <p>
           Some features require creating an account. You are responsible for
@@ -39,7 +39,7 @@ const TermsPageContainer = () => {
       ),
     },
     {
-      title: 'Acceptable Use',
+      title: "Acceptable Use",
       content: (
         <p>
           You agree not to: (a) use the Service for any unlawful purpose; (b)
@@ -52,7 +52,7 @@ const TermsPageContainer = () => {
       ),
     },
     {
-      title: 'API Usage',
+      title: "API Usage",
       content: (
         <p>
           Access to the NewScout API is subject to rate limits and usage quotas
@@ -64,7 +64,7 @@ const TermsPageContainer = () => {
       ),
     },
     {
-      title: 'Intellectual Property',
+      title: "Intellectual Property",
       content: (
         <p>
           The NewScout platform, including its design, branding, and code, is
@@ -76,7 +76,7 @@ const TermsPageContainer = () => {
       ),
     },
     {
-      title: 'Third-Party Content',
+      title: "Third-Party Content",
       content: (
         <p>
           NewScout aggregates content from third-party publishers. We do not
@@ -88,7 +88,7 @@ const TermsPageContainer = () => {
       ),
     },
     {
-      title: ' Subscriptions & Billing',
+      title: "Subscriptions & Billing",
       content: (
         <p>
           Paid plans are billed monthly or annually as selected. You may cancel
@@ -99,7 +99,7 @@ const TermsPageContainer = () => {
       ),
     },
     {
-      title: 'Limitation of Liability',
+      title: "Limitation of Liability",
       content: (
         <p>
           To the maximum extent permitted by law, NewScout shall not be liable
@@ -112,7 +112,7 @@ const TermsPageContainer = () => {
     },
 
     {
-      title: 'Termination',
+      title: "Termination",
       content: (
         <p>
           We may terminate or suspend your access immediately, without prior
@@ -125,7 +125,7 @@ const TermsPageContainer = () => {
     },
 
     {
-      title: 'Governing Law',
+      title: "Governing Law",
       content: (
         <p>
           These terms are governed by the laws of the State of California,
@@ -135,23 +135,28 @@ const TermsPageContainer = () => {
       ),
     },
     {
-      title: 'Contact',
+      title: "Contact",
       content: (
         <p>
-          Questions about these terms? Reach us at{' '}
-          <span className="text-primary font-medium">legal@newscout.app</span>{' '}
-          or through our{' '}
-          <a
+          Questions about these terms? Reach us at&nbsp;
+          <Link
+            href="mailto:legal@newscout.app"
+            className="text-primary underline underline-offset-2 hover:text-primary/80"
+          >
+            legal@newscout.app
+          </Link> &nbsp;
+          or through our&nbsp;
+          <Link
             href="/contact"
             className="text-primary underline underline-offset-2 hover:text-primary/80"
           >
             Contact page
-          </a>
+          </Link>
           .
         </p>
       ),
     },
-  ]
+  ];
   return (
     <Layout>
       <section className="border-b border-border bg-primary py-16 text-primary-foreground">
@@ -166,15 +171,27 @@ const TermsPageContainer = () => {
       </section>
       <div className="max-w-[90%] md:max-w-6xl mx-auto my-12 md:px-8">
         <p className="mt-8 text-muted-foreground text-base mg:text-lg font-medium leading-8">
-          At NewScout.com, accessible from <span>http://newscout.com</span>, one
-          of our main priorities is the privacy of our visitors. This Privacy
-          Policy document contains types of information that is collected and
-          recorded by NewScout.com and how we use it.
+          At NewScout.com, accessible from&nbsp;
+          <Link
+            href="https://newscout.com"
+            className="text-primary underline underline-offset-2 hover:text-primary/80"
+          >
+            newscout.com
+          </Link>
+          , one of our main priorities is the privacy of our visitors. This
+          Privacy Policy document contains types of information that is
+          collected and recorded by NewScout.com and how we use it.
         </p>
         <p className="mt-8 text-muted-foreground text-base md:text-lg font-medium leading-8">
           If you have additional questions or require more information about our
-          Privacy Policy, do not hesitate to contact us through email at
-          customercare@NewScout.com
+          Privacy Policy, do not hesitate to contact us through email at&nbsp;
+          <Link
+            href="mailto:customercare@NewScout.com"
+            className="text-primary underline underline-offset-2 hover:text-primary/80"
+          >
+            customercare@NewScout.com
+          </Link>
+          .
         </p>
         {sections.map((section, index) => (
           <div
@@ -190,7 +207,7 @@ const TermsPageContainer = () => {
         ))}
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default TermsPageContainer
+export default TermsPageContainer;
