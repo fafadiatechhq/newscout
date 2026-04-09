@@ -86,29 +86,29 @@ Represents a single comment with nested replies support.
 
 ```typescript
 export interface Comment {
-  id: string; // Unique comment identifier
-  author: string; // Name of comment author
-  avatar: string; // Avatar initials or identifier
-  text: string; // Comment text content
-  time: string; // Timestamp (e.g., "2 hours ago")
-  likes: number; // Count of likes
-  dislikes: number; // Count of dislikes
-  liked: boolean; // Whether current user liked this
-  disliked: boolean; // Whether current user disliked this
-  replies: Comment[]; // Nested replies (recursive)
-  showReplies: boolean; // UI state: show/hide replies
-  showReplyInput: boolean; // UI state: show/hide reply input
+  id: string // Unique comment identifier
+  author: string // Name of comment author
+  avatar: string // Avatar initials or identifier
+  text: string // Comment text content
+  time: string // Timestamp (e.g., "2 hours ago")
+  likes: number // Count of likes
+  dislikes: number // Count of dislikes
+  liked: boolean // Whether current user liked this
+  disliked: boolean // Whether current user disliked this
+  replies: Comment[] // Nested replies (recursive)
+  showReplies: boolean // UI state: show/hide replies
+  showReplyInput: boolean // UI state: show/hide reply input
 }
 ```
 
 **Usage Example**:
 
 ```typescript
-import type { Comment } from "@/types/comment-types";
+import type { Comment } from '@/types/comment-types'
 
 const handleComment = (comment: Comment) => {
-  console.log(`${comment.author} commented: ${comment.text}`);
-};
+  console.log(`${comment.author} commented: ${comment.text}`)
+}
 ```
 
 **Used By Following Components**:
@@ -134,13 +134,13 @@ const handleComment = (comment: Comment) => {
 **Correct Import**:
 
 ```typescript
-import type { Comment } from "@/types/comment-types";
+import type { Comment } from '@/types/comment-types'
 ```
 
 **Mock Data Import**:
 
 ```typescript
-import { dummyComments } from "@/utils/comment-mock-data";
+import { dummyComments } from '@/utils/comment-mock-data'
 ```
 
 ---
@@ -180,13 +180,13 @@ utils/comment-data.ts ← Mixed types & mock data
 
 ```typescript
 // ✅ Best - Explicit type-only import (preferred)
-import type { Comment } from "@/types/comment-types";
+import type { Comment } from '@/types/comment-types'
 
 // ✅ Acceptable - Mixed import with type keyword
-import { type Comment } from "@/types/comment-types";
+import { type Comment } from '@/types/comment-types'
 
 // ❌ Avoid - Runtime import when only types needed
-import { Comment } from "@/types/comment-types";
+import { Comment } from '@/types/comment-types'
 ```
 
 #### 3. Property Documentation
@@ -196,13 +196,13 @@ import { Comment } from "@/types/comment-types";
 /**
  * Unique comment identifier
  */
-id: string;
+id: string
 
 // ✅ Good - Inline comment with units/format
-time: string; // Human-readable format (e.g., "2 hours ago")
+time: string // Human-readable format (e.g., "2 hours ago")
 
 // ❌ Avoid - No explanation
-id: string;
+id: string
 ```
 
 #### 4. Recursive Types
@@ -219,10 +219,10 @@ replies: CommentReply[];  // Unnecessary duplication
 
 ```typescript
 // ✅ Consider if state is component-specific
-showReplies: boolean; // UI state managed by component
+showReplies: boolean // UI state managed by component
 
 // ❌ Avoid if state shouldn't be persisted
-isLoading: boolean; // Use component state, not type prop
+isLoading: boolean // Use component state, not type prop
 ```
 
 #### 6. Consistency Standards
@@ -250,49 +250,55 @@ frontend/newscout/
 
 ### Summary Table
 
-| Type      | File                     | Status        | Import                                                 |
-| --------- | ------------------------ | ------------- | ------------------------------------------------------ |
+| Type      | File                     | Status         | Import                                                 |
+| --------- | ------------------------ | -------------- | ------------------------------------------------------ |
 | `Comment` | `types/comment-types.ts` | ✅ Implemented | `import type { Comment } from "@/types/comment-types"` |
 
 ---
 
 ### API Documentation (MDX)
 
-API Documentation Setup using Next.js + MDX
+API Documentation Setup using Next.js + MDX + OpenAPI
 
 #### Overview
 
-This document explains how we implemented a **static API documentation page** using **Next.js (App Router)** and **MDX**.
+This document explains how we implemented a **dynamic API documentation page** using **Next.js (App Router), MDX,** and **OpenAPI schema** from Django backend.
 
 #### Objective
 
-- Create a **single static API documentation page**
+- Create a **single dynamic API documentation page**
 - Keep everything inside the existing Next.js project
 - Allow writing content in **Markdown + React (MDX)**
-- Ensure **fast performance and static generation**
+- Ensure **fast performance and hybrid rendering (SSG + CSR)**
+- Fetch **atest API endpoints dynamically from backend (OpenAPI schema)**
+- Avoid manual endpoint duplication
+- Keep full **custom UI control with reusable components**
 
 ---
 
 #### Why Next.js + MDX?
 
-| Feature            | Benefit                                       |
-| ------------------ | --------------------------------------------- |
-| MDX                | Write docs in Markdown + use React components |
-| Next.js App Router | Built-in static generation                    |
-| No extra project   | Keeps docs inside main codebase               |
-| Flexibility        | Full control over UI                          |
+| Feature            | Benefit                                         |
+| ------------------ | ----------------------------------------------- |
+| MDX                | Write docs in Markdown + use React components   |
+| Next.js App Router | Supports static + dynamic rendering             |
+| No extra project   | Keeps docs inside main codebase                 |
+| Flexibility        | Full control over UI and dynamic data rendering |
 
 ---
 
 #### Project Structure
 
-```text
-/app
+```
+components
   /api-docs
-    page.tsx        → Server component (metadata)
-    content.mdx     → MDX documentation content
-/components
-  MDXWrapper.tsx    → Client wrapper (optional)
+    ApiDocsContainer.tsx   (logic)
+    ApiDocsLayout.mdx      (layout)
+    MDXClientWrapper.tsx   (wrapper)
+
+app
+  /api-docs
+    page.tsx
 ```
 
 ---
@@ -328,46 +334,125 @@ export default withMDX(nextConfig)
 
 ---
 
-#### 3. Create MDX Page
+#### 3. Create MDX Layout Page
 
 ```markdown
-/app/api-docs/content.mdx
+/app/api-docs/ApiDocsLayout.mdx
 ```
 
-````mdx
-"use client";
+```mdx
+import ApiDocsContainer from '@/components/api-docs/ApiDocsContainer'
 
-# API Documentation
-
-This page is written using MDX.
-
-## Example
-
-```bash
-curl -H "Authorization: Bearer YOUR_API_KEY"
+<ApiDocsContainer />
 ```
-````
 
 ---
 
-#### 4. Create Page Wrapper
+#### 4. Create Page Wrapper & Rendering in app
 
 ```markdown
 /app/api-docs/page.tsx
 ```
 
 ```tsx
-import type { Metadata } from 'next'
-import Content from './content.mdx'
+import MDXClientWrapper from '@/components/api-docs/MDXClientWrapper'
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'API Documentation',
-  description: 'Integrate APIs easily',
+  description: "Integrate NewScout's aggregated news into your applications.",
 }
 
-export default function Page() {
+export default function ApiDocsPage() {
+  return (
+      <MDXClientWrapper />
+  )
+}
+}
+```
+
+```markdown
+/components/api-docs/MDXClientWrapper.tsx
+```
+
+```tsx
+'use client'
+import Content from '../../components/api-docs/ApiDocsLayout.mdx'
+
+export default function MDXClientWrapper() {
   return <Content />
 }
+```
+
+---
+
+#### 5. Dynamic API Docs Component
+
+```markdown
+/components/api-docs/ApiDocsContainer.tsx
+```
+
+```tsx
+'use client'
+
+import { useEffect, useState } from 'react'
+
+export default function ApiDocs() {
+  const [endpoints, setEndpoints] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('http://localhost:8000/api/schema/?format=json')
+      .then((res) => res.json())
+      .then((data) => {
+        const extracted = []
+
+        Object.entries(data.paths || {}).forEach(([path, methods]) => {
+          Object.entries(methods).forEach(([method, details]) => {
+            extracted.push({
+              method: method.toUpperCase(),
+              path,
+              description:
+                details.summary ||
+                details.description ||
+                'No description available',
+            })
+          })
+        })
+
+        setEndpoints(extracted)
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [])
+
+  return <div>{/* UI rendering */}</div>
+}
+```
+
+---
+
+### Backend Requirements (Django)
+
+#### OpenAPI Schema Endpoint
+
+```python
+path("api/schema/", SpectacularAPIView.as_view(), name="schema")
+```
+
+---
+
+#### IMPORTANT: JSON Format
+
+```ts
+/api/schema/?format=json
+```
+
+---
+
+#### Enable CORS
+
+```python
+CORS_ALLOW_ALL_ORIGINS = True
 ```
 
 ---
@@ -431,17 +516,3 @@ npm install @mdx-js/loader
 ```
 
 ---
-
-### Conclusion
-
-Using **Next.js + MDX** allowed us to:
-
-- Keep documentation inside our main app
-- Maintain flexibility with React components
-- Avoid complexity of external tools
-
-This approach is ideal for:
-
-- Small to medium documentation needs
-- Internal API docs
-- Static content pages
