@@ -2,11 +2,54 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Award, BadgeCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { getEditorsPicks, formatTimeAgo } from "@/utils/mock-data";
+import { getEditorsPicks, formatTimeAgo, Article } from "@/utils/mock-data";
+import { useEffect, useState } from "react";
 
 const EditorsPicks = () => {
-  const picks = getEditorsPicks();
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true)
 
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/v1/articles/");
+        const data = await res.json();
+        setArticles(data.results);
+      } catch (err) {
+        console.error("Error fetching articles:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchArticles();
+  }, []);
+
+  if (loading) return <p className="p-8">Loading...</p>;
+
+  if (!articles || articles.length === 0) {
+    return (
+      <section className="border-b border-border bg-background py-10">
+        <div className="container">
+          <div className="mb-6 flex items-center gap-2">
+            <Award className="h-5 w-5 text-accent" />
+            <h2 className="font-serif text-xl md:text-2xl font-bold text-foreground">
+              Editor's Picks
+            </h2>
+          </div>
+          <div className="rounded-xl border border-dashed border-border bg-card p-8 text-center">
+            <Award className="mx-auto mb-3 h-8 w-8 text-muted-foreground" />
+            <p className="font-serif text-lg font-bold text-foreground">
+              No editor's picks available
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Please check back later for our curated selections.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+  
   return (
     <section className="border-b border-border bg-background py-10">
       <div className="container">
@@ -17,7 +60,7 @@ const EditorsPicks = () => {
           </h2>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {picks.map((article, i) => (
+          {articles.map((article, i) => (
             <motion.div
               key={article.id}
               initial={{ opacity: 0, y: 16 }}

@@ -2,15 +2,59 @@
 import { motion } from "framer-motion";
 import { Sparkles, BadgeCheck, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { articles, formatTimeAgo } from "@/utils/mock-data";
+import { Article, articles, formatTimeAgo } from "@/utils/mock-data";
 import { useReadingHistory } from "@/hooks/use-reading-history";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const ForYouSection = () => {
   const { getPreferredCategories, getViewedArticleIds } = useReadingHistory();
 
   const preferredCategories = getPreferredCategories();
   const viewedIds = getViewedArticleIds();
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/v1/articles/");
+        const data = await res.json();
+        setArticles(data.results);
+      } catch (err) {
+        console.error("Error fetching articles:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchArticles();
+  }, []);
+
+  if (loading) return <p className="p-8">Loading...</p>;
+
+  if (!articles || articles.length === 0) {
+    return (
+      <section className="border-b border-border bg-surface py-10">
+        <div className="container">
+          <div className="mb-6 flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-accent" />
+            <h2 className="font-serif text-xl md:text-2xl font-bold text-foreground">
+              For You
+            </h2>
+          </div>
+          <div className="rounded-xl border border-dashed border-border bg-card p-8 text-center">
+            <Sparkles className="mx-auto mb-3 h-8 w-8 text-muted-foreground" />
+            <p className="font-serif text-lg font-bold text-foreground">
+              No articles available
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Please check back later for personalized recommendations.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   // If no reading history, show nothing (or a prompt)
   if (preferredCategories.length === 0) {
