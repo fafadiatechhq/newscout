@@ -518,11 +518,43 @@ npm install @mdx-js/loader
 ---
 
 
+## Docker Instructions
+
+These are general development instructions for setting up the project.
+
+1. Option 1: Docker Setup (Without Dev Container) 
+1. Option 2: VS Code Dev Container Setup
+
+**Note:** Devcontainers have a good IDE integration as opposed to running `docker compose up`
+
+### Option 1: Docker Setup (Without Dev Container)
+
+Prerequisites:
+
+1. Docker installed
+1. Docker Compose installed
+
+#### Steps
+
+1. Clone the repository
+   ```sh
+   git clone <repo-url>
+   cd <repo-name>
+   ```
+1. Create environment file `cp example.env .env`
+1. Build Docker images `docker compose build`
+1. Start the containers `docker compose up -d`
+1. Check running containers `docker compose ps`
+
+The application should now be running.
+
+To stop `docker compose down`
 
 
-#  Rosie Dev Container Setup Guide
 
-This guide will help you set up the Rosie project using **Docker + VS
+#  Newscout Dev Container Setup Guide
+
+This guide will help you set up the Newscout project using **Docker + VS
 Code Dev Containers**.
 
 
@@ -585,7 +617,7 @@ cd ~/Code
 
 ``` bash
 git clone <your-repo-url>
-cd rosie
+cd newscout
 ```
 
 
@@ -595,7 +627,7 @@ cd rosie
 Go to backend directory:
 
 ``` bash
-cd backend/rosie
+cd backend/newscout
 ```
 
 Copy example env file:
@@ -606,7 +638,7 @@ cp example.env .env
 
 
 
-##  Running the Project
+## 🐳 Running the Project
 
 ### 1. Open project in VS Code
 
@@ -624,12 +656,12 @@ code .
 -   Search: **Dev Containers: Reopen in Container**
 -   Click it
 
-⏳ It will take \~5--10 minutes to: - Build Docker images - Start
+ It will take \~5--10 minutes to: - Build Docker images - Start
 containers - Install dependencies
 
 
 
-##  Verify Containers
+## Verify Containers
 
 To check running containers:
 
@@ -642,7 +674,6 @@ You should see: - Backend (Django) - Frontend - PostgreSQL
 
 
 ##  Access the Application
-
   Service    URL
   ---------- -----------------------
   Backend    http://localhost:8000
@@ -688,3 +719,5 @@ docker logs <container-name>
 docker compose down -v
 docker compose up --build
 ```
+
+
