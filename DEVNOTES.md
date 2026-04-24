@@ -525,7 +525,7 @@ These are general development instructions for setting up the project.
 1. Option 1: Docker Setup (Without Dev Container) 
 1. Option 2: VS Code Dev Container Setup
 
-**Note:** Devcontainers have a good IDE integration as opposed to running `docker compose up`
+**Note:** Devcontainers have a good IDE integration as opposed to running `docker compose up.`
 
 ### Option 1: Docker Setup (Without Dev Container)
 
@@ -541,18 +541,18 @@ Prerequisites:
    git clone <repo-url>
    cd <repo-name>
    ```
-1. Create environment file `cp example.env .env`
-1. Build Docker images `docker compose build`
-1. Start the containers `docker compose up -d`
+1. Create environment file `cp example.env .env.`
+1. Build Docker images `docker compose build.`
+1. Start the containers `docker compose up -d.'
 1. Check running containers `docker compose ps`
 
 The application should now be running.
 
-To stop `docker compose down`
+To stop `docker compose down.`
 
 
 
-#  Newscout Dev Container Setup Guide
+### Option 2: Docker Setup (Using Dev Container)
 
 This guide will help you set up the Newscout project using **Docker + VS
 Code Dev Containers**.
