@@ -146,4 +146,6 @@ class NewsProvider extends ChangeNotifier {
     _searchResults = [];
     notifyListeners();
   }
+
+  Future<Article> getArticle(String id) => _service.getArticle(id);
 }

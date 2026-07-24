@@ -7,6 +7,7 @@ import '../../config/app_config.dart';
 
 /// Thin HTTP client for the NewScout Django API.
 /// Attaches JWT Bearer tokens when present and persists them in SharedPreferences.
+/// On 401, refreshes the access token once and retries the original request.
 class ApiClient {
   ApiClient(this._prefs, {http.Client? httpClient})
       : _http = httpClient ?? http.Client();
@@ -16,6 +17,9 @@ class ApiClient {
 
   final SharedPreferences _prefs;
   final http.Client _http;
+
+  /// Prevents concurrent refresh storms; only one refresh runs at a time.
+  Future<bool>? _refreshInFlight;
 
   String get _base => AppConfig.baseApiUrl.replaceAll(RegExp(r'/$'), '');
 
@@ -49,12 +53,74 @@ class ApiClient {
     return headers;
   }
 
+  /// Exchange refresh token for a new access token.
+  /// Returns true on success; clears tokens and returns false on failure.
+  Future<bool> refreshAccessToken() async {
+    if (_refreshInFlight != null) return _refreshInFlight!;
+
+    _refreshInFlight = _doRefresh();
+    try {
+      return await _refreshInFlight!;
+    } finally {
+      _refreshInFlight = null;
+    }
+  }
+
+  Future<bool> _doRefresh() async {
+    final refresh = refreshToken;
+    if (refresh == null || refresh.isEmpty) {
+      await clearTokens();
+      return false;
+    }
+
+    try {
+      final response = await _http.post(
+        _uri('/auth/token/refresh/'),
+        headers: _headers(auth: false),
+        body: jsonEncode({'refresh': refresh}),
+      );
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        await clearTokens();
+        return false;
+      }
+      final body = jsonDecode(response.body) as Map<String, dynamic>;
+      final access = body['access'] as String?;
+      if (access == null || access.isEmpty) {
+        await clearTokens();
+        return false;
+      }
+      final newRefresh = (body['refresh'] as String?) ?? refresh;
+      await saveTokens(access: access, refresh: newRefresh);
+      return true;
+    } catch (_) {
+      await clearTokens();
+      return false;
+    }
+  }
+
+  Future<http.Response> _withAuthRetry(
+    Future<http.Response> Function() send, {
+    required bool auth,
+  }) async {
+    var response = await send();
+    if (auth && response.statusCode == 401) {
+      final refreshed = await refreshAccessToken();
+      if (refreshed) {
+        response = await send();
+      }
+    }
+    return response;
+  }
+
   Future<http.Response> get(
     String path, {
     Map<String, String>? query,
     bool auth = true,
   }) {
-    return _http.get(_uri(path, query), headers: _headers(auth: auth));
+    return _withAuthRetry(
+      () => _http.get(_uri(path, query), headers: _headers(auth: auth)),
+      auth: auth,
+    );
   }
 
   Future<http.Response> post(
@@ -62,15 +128,21 @@ class ApiClient {
     Object? body,
     bool auth = true,
   }) {
-    return _http.post(
-      _uri(path),
-      headers: _headers(auth: auth),
-      body: body == null ? null : jsonEncode(body),
+    return _withAuthRetry(
+      () => _http.post(
+        _uri(path),
+        headers: _headers(auth: auth),
+        body: body == null ? null : jsonEncode(body),
+      ),
+      auth: auth,
     );
   }
 
   Future<http.Response> delete(String path, {bool auth = true}) {
-    return _http.delete(_uri(path), headers: _headers(auth: auth));
+    return _withAuthRetry(
+      () => _http.delete(_uri(path), headers: _headers(auth: auth)),
+      auth: auth,
+    );
   }
 
   /// Decode JSON body; throws [ApiException] on non-2xx.

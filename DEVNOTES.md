@@ -55,6 +55,28 @@ These are general develop instructions
 1. Once the environment is setup ensure you setup pre-commit correctly `pip3 install pre-commit`
 1. With virtualenv activiated do `pre-commit install` from project's root directory
 
+## Mobile (Flutter)
+
+App path: `app/newscout/`
+
+### API integration
+
+The app talks to Django at `AppConfig.baseApiUrl` (`https://api.newscout.in/api/v1`).
+
+Local overrides (set in `lib/config/app_config.dart`):
+
+- Android emulator: `http://10.0.2.2:8000/api/v1`
+- iOS simulator: `http://127.0.0.1:8000/api/v1`
+
+| Area | Service | Endpoints |
+|------|---------|-----------|
+| Auth | `ApiAuthService` | `/auth/login/`, `/auth/signup/`, `/auth/me/`, `/auth/logout/` |
+| JWT refresh | `ApiClient` | `/auth/token/refresh/` on 401, then one retry |
+| News | `ApiNewsService` | `/articles/`, `/articles/{id}/`, `/categories/` |
+| Bookmarks | `ApiBookmarkService` + `BookmarksProvider` | `/bookmarks/` (sync when logged in; SharedPreferences offline cache) |
+
+Deep links to `/article/:id` without route `extra` load via `ArticleDetailLoader` → `GET /articles/{id}/`.
+
 ## Frontend
 
 ### `Types` Documentation

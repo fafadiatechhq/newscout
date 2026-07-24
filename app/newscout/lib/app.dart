@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'config/app_config.dart';
 import 'config/app_theme.dart';
 import 'core/models/article.dart';
+import 'features/article/article_detail_loader.dart';
 import 'features/article/article_detail_screen.dart';
 import 'features/bookmarks/bookmarks_screen.dart';
 import 'features/categories/categories_screen.dart';
@@ -29,9 +30,15 @@ class NewScoutApp extends StatelessWidget {
       // Article detail is outside the shell so the bottom nav is hidden.
       GoRoute(
         path: '/article/:id',
-        builder: (context, state) => ArticleDetailScreen(
-          article: state.extra as Article,
-        ),
+        builder: (context, state) {
+          final extra = state.extra;
+          if (extra is Article) {
+            return ArticleDetailScreen(article: extra);
+          }
+          return ArticleDetailLoader(
+            articleId: state.pathParameters['id']!,
+          );
+        },
       ),
       ShellRoute(
         builder: (context, state, child) => AppShell(child: child),

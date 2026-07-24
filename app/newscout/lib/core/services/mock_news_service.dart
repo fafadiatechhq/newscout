@@ -657,6 +657,15 @@ class MockNewsService implements NewsService {
         .toList();
   }
 
+  @override
+  Future<Article> getArticle(String id) async {
+    await _fakeDelay(ms: 300);
+    return _articles.firstWhere(
+      (a) => a.id == id,
+      orElse: () => throw Exception('Article not found'),
+    );
+  }
+
   Future<void> _fakeDelay({int ms = 600}) =>
       Future.delayed(Duration(milliseconds: ms));
 }

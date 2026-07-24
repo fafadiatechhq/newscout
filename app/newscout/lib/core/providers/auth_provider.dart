@@ -3,10 +3,13 @@ import 'package:flutter/foundation.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
 
+typedef AuthChangedCallback = Future<void> Function({required bool isAuthenticated});
+
 class AuthProvider extends ChangeNotifier {
   final AuthService _service;
+  final AuthChangedCallback? onAuthChanged;
 
-  AuthProvider(this._service);
+  AuthProvider(this._service, {this.onAuthChanged});
 
   AppUser? _currentUser;
   bool _isLoading = false;
@@ -20,6 +23,7 @@ class AuthProvider extends ChangeNotifier {
   Future<void> checkAuthState() async {
     _currentUser = await _service.getCurrentUser();
     notifyListeners();
+    await _notifyAuthChanged();
   }
 
   Future<bool> login(String email, String password) async {
@@ -29,6 +33,7 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       _currentUser = await _service.login(email, password);
+      await _notifyAuthChanged();
       return true;
     } catch (e) {
       _error = e.toString().replaceFirst('Exception: ', '');
@@ -46,6 +51,7 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       _currentUser = await _service.signup(name, email, password);
+      await _notifyAuthChanged();
       return true;
     } catch (e) {
       _error = e.toString().replaceFirst('Exception: ', '');
@@ -60,10 +66,17 @@ class AuthProvider extends ChangeNotifier {
     await _service.logout();
     _currentUser = null;
     notifyListeners();
+    await _notifyAuthChanged();
   }
 
   void clearError() {
     _error = null;
     notifyListeners();
+  }
+
+  Future<void> _notifyAuthChanged() async {
+    final callback = onAuthChanged;
+    if (callback == null) return;
+    await callback(isAuthenticated: isLoggedIn);
   }
 }

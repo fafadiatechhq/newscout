@@ -22,7 +22,7 @@ class AppConfig {
   // ── API ────────────────────────────────────────────────────────────────────
   // Point at your Django host. Android emulator → http://10.0.2.2:8000/api/v1
   // iOS simulator → http://127.0.0.1:8000/api/v1
-  static const String baseApiUrl = 'https://api.newscout.in/v1';
+  static const String baseApiUrl = 'https://api.newscout.in/api/v1';
 
   // ── Feature flags ────────────────────────────────────────────────────────
   static const bool enablePushNotifications = true;

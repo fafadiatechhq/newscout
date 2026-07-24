@@ -78,6 +78,13 @@ class ApiNewsService implements NewsService {
     return _extractResults(data).map(Article.fromApiJson).toList();
   }
 
+  @override
+  Future<Article> getArticle(String id) async {
+    final response = await _client.get('/articles/$id/');
+    final data = _client.decode(response) as Map<String, dynamic>;
+    return Article.fromApiJson(data);
+  }
+
   List<Map<String, dynamic>> _extractResults(dynamic data) {
     if (data is List) {
       return data.cast<Map<String, dynamic>>();
