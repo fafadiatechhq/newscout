@@ -19,7 +19,9 @@ class AppConfig {
   static const String headlineFontFamily = 'DM Serif Display'; // titles, headlines
   static const String bodyFontFamily = 'Inter';                 // body, labels, UI
 
-  // ── API (swap this to point to a real backend) ───────────────────────────
+  // ── API ────────────────────────────────────────────────────────────────────
+  // Point at your Django host. Android emulator → http://10.0.2.2:8000/api/v1
+  // iOS simulator → http://127.0.0.1:8000/api/v1
   static const String baseApiUrl = 'https://api.newscout.in/v1';
 
   // ── Feature flags ────────────────────────────────────────────────────────

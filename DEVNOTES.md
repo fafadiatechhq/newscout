@@ -550,7 +550,22 @@ The application should now be running.
 
 To stop `docker compose down.`
 
+#### Management commands (e.g. `seed_test_data`)
 
+`POSTGRES_HOST=newscout-db` only resolves on the Compose network. Run management
+commands inside the Django container (or a Dev Container terminal):
+
+```sh
+docker compose -f docker-compose.dev.yml exec django python manage.py seed_test_data
+```
+
+If you run `manage.py` on the host instead, override the DB host (Postgres is
+published on `localhost:5432`):
+
+```sh
+cd backend/newscout
+POSTGRES_HOST=localhost python manage.py seed_test_data
+```
 
 ### Option 2: Docker Setup (Using Dev Container)
 

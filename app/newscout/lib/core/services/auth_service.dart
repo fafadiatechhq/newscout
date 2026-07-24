@@ -1,7 +1,6 @@
 import '../models/user.dart';
 
-/// Abstract auth contract. Swap MockAuthService for a real implementation
-/// that calls the Django backend's JWT endpoints.
+/// Abstract auth contract. Implemented by [ApiAuthService] (JWT) and MockAuthService.
 abstract class AuthService {
   Future<AppUser> login(String email, String password);
   Future<AppUser> signup(String name, String email, String password);

@@ -36,6 +36,21 @@ class AppUser {
     );
   }
 
+  /// Maps Django `/api/v1/auth/me/` (and auth response `user`) payloads.
+  factory AppUser.fromApiJson(Map<String, dynamic> json) {
+    return AppUser(
+      id: '${json['id']}',
+      name: (json['name'] as String?) ??
+          (json['username'] as String?) ??
+          '',
+      email: (json['email'] as String?) ?? '',
+      preferredCategoryIds: (json['preferredCategoryIds'] as List<dynamic>?)
+              ?.map((e) => '$e')
+              .toList() ??
+          const [],
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,

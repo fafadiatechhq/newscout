@@ -57,6 +57,51 @@ class Article {
     );
   }
 
+  /// Maps a Django `/api/v1/articles/` payload (snake_case + nested relations).
+  factory Article.fromApiJson(Map<String, dynamic> json) {
+    final sources = (json['source'] as List<dynamic>? ?? [])
+        .whereType<Map<String, dynamic>>()
+        .toList();
+    final primary = sources.isNotEmpty ? sources.first : null;
+    final category = json['category'];
+    final categoryId = category is Map
+        ? '${category['id']}'
+        : '${json['category_id'] ?? ''}';
+
+    final summary = (json['summary'] as String?) ?? '';
+    final wordCount = summary.split(RegExp(r'\s+')).where((w) => w.isNotEmpty).length;
+    final readMinutes = wordCount == 0 ? 3 : (wordCount / 200).ceil().clamp(1, 30);
+
+    DateTime publishedAt;
+    final rawPublished = json['published_at'];
+    if (rawPublished is String && rawPublished.isNotEmpty) {
+      publishedAt = DateTime.tryParse(rawPublished) ?? DateTime.now();
+    } else {
+      publishedAt = DateTime.now();
+    }
+
+    return Article(
+      id: '${json['id']}',
+      title: (json['title'] as String?) ?? '',
+      summary: summary,
+      imageUrl: (json['image_url'] as String?) ?? '',
+      source: (primary?['name'] as String?) ?? 'Unknown',
+      url: (json['content_url'] as String?) ?? (primary?['url'] as String?) ?? '',
+      categoryId: categoryId,
+      publishedAt: publishedAt,
+      isBreaking: json['is_breaking'] as bool? ?? false,
+      readTimeMinutes: readMinutes,
+      clusterSources: sources
+          .map(
+            (s) => ArticleSource(
+              name: (s['name'] as String?) ?? '',
+              url: (s['url'] as String?) ?? '',
+            ),
+          )
+          .toList(),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,

@@ -2,7 +2,7 @@ import '../models/article.dart';
 import '../models/category.dart';
 
 /// Abstract contract for news data.
-/// Swap MockNewsService for ApiNewsService when the Django backend is ready.
+/// Implemented by [ApiNewsService] (Django) and MockNewsService.
 abstract class NewsService {
   Future<List<NewsCategory>> getCategories();
 

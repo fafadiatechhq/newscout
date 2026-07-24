@@ -1,5 +1,13 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
+from api.v1.auth_views import (
+    AuthTokenRefreshView,
+    LoginView,
+    LogoutView,
+    MeView,
+    SignupView,
+)
 from api.v1.views import (
     CategoryAPI,
     SourceAPI,
@@ -24,5 +32,10 @@ router.register(r"subscriptions", SubscriptionAPI, basename="subscription")
 router.register(r"tenants", TenantAPI, basename="tenant")
 
 urlpatterns = [
+    path("auth/signup/", SignupView.as_view(), name="auth-signup"),
+    path("auth/login/", LoginView.as_view(), name="auth-login"),
+    path("auth/logout/", LogoutView.as_view(), name="auth-logout"),
+    path("auth/me/", MeView.as_view(), name="auth-me"),
+    path("auth/token/refresh/", AuthTokenRefreshView.as_view(), name="auth-token-refresh"),
     path("", include(router.urls)),
 ]

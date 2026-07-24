@@ -45,6 +45,7 @@ class Article(models.Model):
     trending = models.BooleanField(default=False)
     featured = models.BooleanField(default=False)
     editors_pick = models.BooleanField(default=False)
+    is_breaking = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

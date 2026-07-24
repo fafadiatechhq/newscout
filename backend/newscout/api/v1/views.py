@@ -1,11 +1,12 @@
-from rest_framework import viewsets
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework import filters, viewsets
 from rest_framework.permissions import IsAuthenticated
 from drf_spectacular.utils import extend_schema, extend_schema_view
+from django_filters.rest_framework import DjangoFilterBackend
+
 from core.models import Category, Source, ArticleTag, Article, Bookmark
 from billing.models import Plan, Subscription
 from accounts.models import Tenant
+from .filters import ArticleFilter
 from .serializers import (
     CategorySerializer,
     SourceSerializer,
@@ -153,7 +154,12 @@ class ArticleTagAPI(viewsets.ModelViewSet):
 @extend_schema_view(
     list=extend_schema(
         summary="List all articles",
-        description="Retrieve a paginated list of all news articles. Supports filtering and pagination.",
+        description=(
+            "Retrieve a paginated list of news articles. "
+            "Supports filtering by category_id, is_breaking, trending, featured, "
+            "and editors_pick; full-text search via ?search=; "
+            "and limit/offset pagination."
+        ),
         tags=["Articles"],
     ),
     create=extend_schema(
@@ -190,7 +196,13 @@ class ArticleAPI(viewsets.ModelViewSet):
     - Belongs to a category (required)
     - Can have multiple sources (many-to-many)
     - Can have multiple tags (many-to-many, optional)
-    - Can be marked as trending, featured, or editor's pick
+    - Can be marked as trending, featured, editor's pick, or breaking
+
+    List query params:
+    - category / category_id: filter by category PK
+    - is_breaking, trending, featured, editors_pick: boolean filters
+    - search: search title, summary, and author
+    - limit / offset: pagination (default limit 20)
 
     When creating/updating articles:
     - Use 'category_id' to set the category (write)
@@ -199,8 +211,19 @@ class ArticleAPI(viewsets.ModelViewSet):
     - Read operations return nested objects for category, sources, and tags
     """
 
-    queryset = Article.objects.all()
+    queryset = Article.objects.select_related("category").prefetch_related(
+        "source", "tags"
+    )
     serializer_class = ArticleSerializer
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_class = ArticleFilter
+    search_fields = ["title", "summary", "author"]
+    ordering_fields = ["published_at", "id"]
+    ordering = ["-published_at", "-id"]
 
 
 @extend_schema_view(

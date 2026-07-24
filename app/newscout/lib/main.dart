@@ -6,19 +6,21 @@ import 'app.dart';
 import 'core/providers/auth_provider.dart';
 import 'core/providers/bookmarks_provider.dart';
 import 'core/providers/news_provider.dart';
+import 'core/services/api_auth_service.dart';
+import 'core/services/api_client.dart';
+import 'core/services/api_news_service.dart';
 import 'core/services/auth_service.dart';
-import 'core/services/mock_news_service.dart';
 import 'core/services/news_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
+  final apiClient = ApiClient(prefs);
 
   // ── Service layer ──────────────────────────────────────────────────────────
-  // Swap MockNewsService → ApiNewsService when the backend is ready.
-  final NewsService newsService = MockNewsService();
-  final AuthService authService = MockAuthService();
+  final NewsService newsService = ApiNewsService(apiClient);
+  final AuthService authService = ApiAuthService(apiClient);
 
   runApp(
     MultiProvider(
@@ -27,7 +29,7 @@ void main() async {
           create: (_) => NewsProvider(newsService),
         ),
         ChangeNotifierProvider(
-          create: (_) => AuthProvider(authService),
+          create: (_) => AuthProvider(authService)..checkAuthState(),
         ),
         ChangeNotifierProvider(
           create: (_) => BookmarksProvider(prefs),
