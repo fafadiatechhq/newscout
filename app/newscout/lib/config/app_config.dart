@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Single source of truth for white-label configuration.
@@ -20,9 +23,19 @@ class AppConfig {
   static const String bodyFontFamily = 'Inter';                 // body, labels, UI
 
   // ── API ────────────────────────────────────────────────────────────────────
-  // Point at your Django host. Android emulator → http://10.0.2.2:8000/api/v1
-  // iOS simulator → http://127.0.0.1:8000/api/v1
-  static const String baseApiUrl = 'https://api.newscout.in/api/v1';
+  // Debug/profile → local Docker. Release → production.
+  // Override any build: flutter run --dart-define=API_BASE_URL=http://HOST:8000/api/v1
+  static const String _productionApiUrl = 'https://api.newscout.in/api/v1';
+  static const String _androidEmulatorApiUrl = 'http://10.0.2.2:8000/api/v1';
+  static const String _localApiUrl = 'http://127.0.0.1:8000/api/v1';
+
+  static String get baseApiUrl {
+    const fromEnv = String.fromEnvironment('API_BASE_URL');
+    if (fromEnv.isNotEmpty) return fromEnv;
+    if (kReleaseMode) return _productionApiUrl;
+    if (Platform.isAndroid) return _androidEmulatorApiUrl;
+    return _localApiUrl;
+  }
 
   // ── Feature flags ────────────────────────────────────────────────────────
   static const bool enablePushNotifications = true;

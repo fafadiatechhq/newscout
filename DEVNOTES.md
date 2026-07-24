@@ -59,14 +59,27 @@ These are general develop instructions
 
 App path: `app/newscout/`
 
-### API integration
+### Local Docker + `flutter run`
 
-The app talks to Django at `AppConfig.baseApiUrl` (`https://api.newscout.in/api/v1`).
+1. Start the API: `docker compose -f docker-compose.dev.yml up` (host port `8000`)
+2. From `app/newscout/`: `flutter run`
 
-Local overrides (set in `lib/config/app_config.dart`):
+Debug/profile builds resolve `AppConfig.baseApiUrl` automatically:
 
 - Android emulator: `http://10.0.2.2:8000/api/v1`
-- iOS simulator: `http://127.0.0.1:8000/api/v1`
+- iOS simulator / desktop: `http://127.0.0.1:8000/api/v1`
+
+Release builds use production: `https://api.newscout.in/api/v1`.
+
+Override any build (e.g. physical device on LAN):
+
+```bash
+flutter run --dart-define=API_BASE_URL=http://192.168.x.x:8000/api/v1
+```
+
+### API integration
+
+The app talks to Django at `AppConfig.baseApiUrl` (local Docker in debug; production in release).
 
 | Area | Service | Endpoints |
 |------|---------|-----------|
