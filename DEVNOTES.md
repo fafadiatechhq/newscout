@@ -62,7 +62,8 @@ App path: `app/newscout/`
 ### Local Docker + `flutter run`
 
 1. Start the API: `docker compose -f docker-compose.dev.yml up` (host port `8000`)
-2. From `app/newscout/`: `flutter run`
+2. Ensure nothing else is bound to port `8000` on the host. The Android emulator reaches the host via `10.0.2.2`, which resolves to `127.0.0.1` on macOS. A local `manage.py runserver 8000` on `127.0.0.1` will intercept emulator traffic before Docker and cause `Could not load news`. Check with `lsof -nP -iTCP:8000 -sTCP:LISTEN` and stop any host Django process if Docker is running.
+3. From `app/newscout/`: `flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000/api/v1`
 
 Debug/profile builds resolve `AppConfig.baseApiUrl` automatically:
 

@@ -156,6 +156,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(height: 12),
                       Text('Could not load news',
                           style: TextStyle(color: Colors.grey.shade600)),
+                      if (news.error != null) ...[
+                        const SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Text(
+                            news.error!,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
                       const SizedBox(height: 16),
                       FilledButton(
                           onPressed: _loadData, child: const Text('Retry')),

@@ -31,7 +31,7 @@ class ApiNewsService implements NewsService {
 
   @override
   Future<List<NewsCategory>> getCategories() async {
-    final response = await _client.get('/categories/');
+    final response = await _client.get('/categories/', auth: false);
     final data = _client.decode(response);
     final results = _extractResults(data);
     return results.map(_categoryFromJson).toList();
@@ -50,18 +50,26 @@ class ApiNewsService implements NewsService {
     if (categoryId != null && categoryId.isNotEmpty) {
       query['category_id'] = categoryId;
     }
-    final response = await _client.get('/articles/', query: query);
+    final response = await _client.get(
+      '/articles/',
+      query: query,
+      auth: false,
+    );
     final data = _client.decode(response);
     return _extractResults(data).map(Article.fromApiJson).toList();
   }
 
   @override
   Future<List<Article>> getBreakingNews() async {
-    final response = await _client.get('/articles/', query: {
-      'is_breaking': 'true',
-      'limit': '${AppConfig.articlesPerPage}',
-      'offset': '0',
-    });
+    final response = await _client.get(
+      '/articles/',
+      query: {
+        'is_breaking': 'true',
+        'limit': '${AppConfig.articlesPerPage}',
+        'offset': '0',
+      },
+      auth: false,
+    );
     final data = _client.decode(response);
     return _extractResults(data).map(Article.fromApiJson).toList();
   }
@@ -69,18 +77,22 @@ class ApiNewsService implements NewsService {
   @override
   Future<List<Article>> searchArticles(String query) async {
     if (query.trim().isEmpty) return [];
-    final response = await _client.get('/articles/', query: {
-      'search': query.trim(),
-      'limit': '${AppConfig.articlesPerPage}',
-      'offset': '0',
-    });
+    final response = await _client.get(
+      '/articles/',
+      query: {
+        'search': query.trim(),
+        'limit': '${AppConfig.articlesPerPage}',
+        'offset': '0',
+      },
+      auth: false,
+    );
     final data = _client.decode(response);
     return _extractResults(data).map(Article.fromApiJson).toList();
   }
 
   @override
   Future<Article> getArticle(String id) async {
-    final response = await _client.get('/articles/$id/');
+    final response = await _client.get('/articles/$id/', auth: false);
     final data = _client.decode(response) as Map<String, dynamic>;
     return Article.fromApiJson(data);
   }
