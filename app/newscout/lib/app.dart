@@ -14,6 +14,7 @@ import 'features/profile/login_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/search/search_screen.dart';
 import 'features/splash/splash_screen.dart';
+import 'features/trending/trending_screen.dart';
 import 'navigation/app_shell.dart';
 
 class NewScoutApp extends StatelessWidget {
@@ -40,6 +41,11 @@ class NewScoutApp extends StatelessWidget {
           );
         },
       ),
+      // Legacy bookmarks tab URL → Profile nested route
+      GoRoute(
+        path: '/bookmarks',
+        redirect: (context, state) => '/profile/bookmarks',
+      ),
       ShellRoute(
         builder: (context, state, child) => AppShell(child: child),
         routes: [
@@ -64,9 +70,9 @@ class NewScoutApp extends StatelessWidget {
             ],
           ),
           GoRoute(
-            path: '/bookmarks',
+            path: '/trending',
             pageBuilder: (context, state) => const NoTransitionPage(
-              child: BookmarksScreen(),
+              child: TrendingScreen(),
             ),
           ),
           GoRoute(
@@ -84,6 +90,10 @@ class NewScoutApp extends StatelessWidget {
               GoRoute(
                 path: 'login',
                 builder: (context, state) => const LoginScreen(),
+              ),
+              GoRoute(
+                path: 'bookmarks',
+                builder: (context, state) => const BookmarksScreen(),
               ),
             ],
           ),

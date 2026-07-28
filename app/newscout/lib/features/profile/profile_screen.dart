@@ -81,6 +81,11 @@ class _AnonymousProfile extends StatelessWidget {
             const Divider(),
             const SizedBox(height: 16),
             _SettingsTile(
+              icon: Icons.bookmark_outline,
+              title: 'Bookmarks',
+              onTap: () => context.push('/profile/bookmarks'),
+            ),
+            _SettingsTile(
               icon: Icons.notifications_outlined,
               title: 'Notifications',
               onTap: () {},
@@ -230,6 +235,12 @@ class _LoggedInProfile extends StatelessWidget {
               color: Colors.white,
               child: Column(
                 children: [
+                  _SettingsTile(
+                    icon: Icons.bookmark_outline,
+                    title: 'Bookmarks',
+                    onTap: () => context.push('/profile/bookmarks'),
+                  ),
+                  const Divider(indent: 56, height: 1),
                   _SettingsTile(
                     icon: Icons.notifications_outlined,
                     title: 'Notifications',
