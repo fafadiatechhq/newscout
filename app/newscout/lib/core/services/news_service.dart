@@ -14,6 +14,8 @@ abstract class NewsService {
 
   Future<List<Article>> getBreakingNews();
 
+  Future<List<Article>> getTrendingArticles({int limit = 20});
+
   Future<List<Article>> searchArticles(String query);
 
   Future<Article> getArticle(String id);

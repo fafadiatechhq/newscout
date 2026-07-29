@@ -8,7 +8,23 @@ import '../../config/app_config.dart';
 import '../../config/app_theme.dart';
 import '../../core/models/article.dart';
 import '../../core/providers/bookmarks_provider.dart';
-import 'trending_mock.dart';
+import '../../core/providers/trending_provider.dart';
+import '../../shared/widgets/shimmer_loading.dart' show ArticleCardShimmer;
+
+enum TrendingPeriod { now, today, week }
+
+extension _PeriodHours on TrendingPeriod {
+  int get hours {
+    switch (this) {
+      case TrendingPeriod.now:
+        return 6;
+      case TrendingPeriod.today:
+        return 24;
+      case TrendingPeriod.week:
+        return 168; // 7 days
+    }
+  }
+}
 
 class TrendingScreen extends StatefulWidget {
   const TrendingScreen({super.key});
@@ -21,10 +37,20 @@ class _TrendingScreenState extends State<TrendingScreen> {
   TrendingPeriod _period = TrendingPeriod.now;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<TrendingProvider>().load();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final items = TrendingMock.forPeriod(_period);
+    final provider = context.watch<TrendingProvider>();
+
+    final items = provider.articlesForPeriod(hours: _period.hours);
     final hero = items.isNotEmpty ? items.first : null;
-    final rest = items.length > 1 ? items.sublist(1) : <TrendingItem>[];
+    final rest = items.length > 1 ? items.sublist(1) : <Article>[];
 
     return Scaffold(
       backgroundColor: AppConfig.surfaceColor,
@@ -37,29 +63,52 @@ class _TrendingScreenState extends State<TrendingScreen> {
               onChanged: (period) => setState(() => _period = period),
             ),
           ),
-          if (hero != null)
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                child: _HeroCard(item: hero),
+          if (provider.isLoading)
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (_, _) => const ArticleCardShimmer(),
+                childCount: 4,
               ),
-            ),
-          if (rest.isNotEmpty)
+            )
+          else if (provider.error != null)
             SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                child: Text(
-                  'Trending stories',
-                  style: AppTheme.headline(18, FontWeight.w700),
+              child: _ErrorBanner(
+                message: provider.error!,
+                onRetry: () => provider.load(refresh: true),
+              ),
+            )
+          else if (items.isEmpty)
+            const SliverToBoxAdapter(
+              child: _EmptyState(),
+            )
+          else ...[
+            if (hero != null)
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                  child: _HeroCard(article: hero, rank: 1),
                 ),
               ),
+            if (rest.isNotEmpty)
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                  child: Text(
+                    'Trending stories',
+                    style: AppTheme.headline(18, FontWeight.w700),
+                  ),
+                ),
+              ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => _RankedTile(
+                  article: rest[index],
+                  rank: index + 2,
+                ),
+                childCount: rest.length,
+              ),
             ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => _RankedTile(item: rest[index]),
-              childCount: rest.length,
-            ),
-          ),
+          ],
           const SliverToBoxAdapter(child: SizedBox(height: 24)),
         ],
       ),
@@ -174,13 +223,13 @@ class _PeriodChips extends StatelessWidget {
 }
 
 class _HeroCard extends StatelessWidget {
-  final TrendingItem item;
+  final Article article;
+  final int rank;
 
-  const _HeroCard({required this.item});
+  const _HeroCard({required this.article, required this.rank});
 
   @override
   Widget build(BuildContext context) {
-    final article = item.article;
     final bookmarks = context.watch<BookmarksProvider>();
     final isBookmarked = bookmarks.isBookmarked(article.id);
 
@@ -198,7 +247,7 @@ class _HeroCard extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               Text(
-                '#1 Trending',
+                '#$rank Trending',
                 style: AppTheme.body(
                   13,
                   FontWeight.w700,
@@ -291,7 +340,7 @@ class _HeroCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      _StatsRibbon(article: article, views: item.views),
+                      _MetaRibbon(article: article),
                     ],
                   ),
                 ),
@@ -304,11 +353,10 @@ class _HeroCard extends StatelessWidget {
   }
 }
 
-class _StatsRibbon extends StatelessWidget {
+class _MetaRibbon extends StatelessWidget {
   final Article article;
-  final int views;
 
-  const _StatsRibbon({required this.article, required this.views});
+  const _MetaRibbon({required this.article});
 
   @override
   Widget build(BuildContext context) {
@@ -324,10 +372,6 @@ class _StatsRibbon extends StatelessWidget {
         runSpacing: 6,
         children: [
           _Stat(
-            icon: Icons.visibility_outlined,
-            label: '${TrendingMock.formatViews(views)} views',
-          ),
-          _Stat(
             icon: Icons.access_time,
             label: '${article.readTimeMinutes} min read',
           ),
@@ -335,6 +379,11 @@ class _StatsRibbon extends StatelessWidget {
             icon: Icons.schedule,
             label: timeago.format(article.publishedAt),
           ),
+          if (article.source.isNotEmpty)
+            _Stat(
+              icon: Icons.article_outlined,
+              label: article.source,
+            ),
         ],
       ),
     );
@@ -364,13 +413,13 @@ class _Stat extends StatelessWidget {
 }
 
 class _RankedTile extends StatelessWidget {
-  final TrendingItem item;
+  final Article article;
+  final int rank;
 
-  const _RankedTile({required this.item});
+  const _RankedTile({required this.article, required this.rank});
 
   @override
   Widget build(BuildContext context) {
-    final article = item.article;
     final bookmarks = context.watch<BookmarksProvider>();
     final isBookmarked = bookmarks.isBookmarked(article.id);
 
@@ -396,7 +445,7 @@ class _RankedTile extends StatelessWidget {
             SizedBox(
               width: 36,
               child: Text(
-                '#${item.rank}',
+                '#$rank',
                 style: AppTheme.headline(
                   18,
                   FontWeight.w800,
@@ -441,7 +490,7 @@ class _RankedTile extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          '${TrendingMock.formatViews(item.views)} views · ${article.source}',
+                          '${timeago.format(article.publishedAt)} · ${article.source}',
                           style: AppTheme.body(
                             12,
                             FontWeight.w400,
@@ -469,6 +518,56 @@ class _RankedTile extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _ErrorBanner extends StatelessWidget {
+  final String message;
+  final VoidCallback onRetry;
+
+  const _ErrorBanner({required this.message, required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        children: [
+          const Icon(Icons.wifi_off_outlined, size: 48, color: Colors.grey),
+          const SizedBox(height: 12),
+          Text(
+            'Could not load trending articles',
+            style: AppTheme.body(14, FontWeight.w500, color: Colors.grey.shade700),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          TextButton(onPressed: onRetry, child: const Text('Try again')),
+        ],
+      ),
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  const _EmptyState();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        children: [
+          const Icon(Icons.local_fire_department_outlined,
+              size: 48, color: Colors.grey),
+          const SizedBox(height: 12),
+          Text(
+            'No trending stories for this period',
+            style: AppTheme.body(14, FontWeight.w500, color: Colors.grey.shade600),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

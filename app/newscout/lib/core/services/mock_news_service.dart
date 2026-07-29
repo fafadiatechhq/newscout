@@ -645,6 +645,17 @@ class MockNewsService implements NewsService {
   }
 
   @override
+  Future<List<Article>> getTrendingArticles({int limit = 20}) async {
+    await _fakeDelay(ms: 400);
+    // Use articles whose category suggests high-traffic topics as mock trending.
+    const trendingCategories = {'trending', 'sector_update', 'finance'};
+    return _articles
+        .where((a) => trendingCategories.contains(a.categoryId))
+        .take(limit)
+        .toList();
+  }
+
+  @override
   Future<List<Article>> searchArticles(String query) async {
     await _fakeDelay(ms: 400);
     if (query.trim().isEmpty) return [];

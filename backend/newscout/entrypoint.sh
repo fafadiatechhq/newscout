@@ -34,5 +34,17 @@ python manage.py migrate
 echo "Creating superuser..."
 python manage.py createsuperuser --noinput || echo "Superuser already exists"
 
+echo "Seeding test data (skipped if articles already exist)..."
+python - <<'PYEOF'
+import django, os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "newscout.settings")
+django.setup()
+from core.models import Article
+if Article.objects.exists():
+    print("Articles found — skipping seed.")
+else:
+    from django.core.management import call_command
+    call_command("seed_test_data")
+PYEOF
 
 exec "$@"

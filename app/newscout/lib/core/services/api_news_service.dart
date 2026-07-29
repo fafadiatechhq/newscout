@@ -75,6 +75,21 @@ class ApiNewsService implements NewsService {
   }
 
   @override
+  Future<List<Article>> getTrendingArticles({int limit = 20}) async {
+    final response = await _client.get(
+      '/articles/',
+      query: {
+        'trending': 'true',
+        'limit': '$limit',
+        'offset': '0',
+      },
+      auth: false,
+    );
+    final data = _client.decode(response);
+    return _extractResults(data).map(Article.fromApiJson).toList();
+  }
+
+  @override
   Future<List<Article>> searchArticles(String query) async {
     if (query.trim().isEmpty) return [];
     final response = await _client.get(

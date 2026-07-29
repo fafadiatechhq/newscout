@@ -6,6 +6,7 @@ import 'app.dart';
 import 'core/providers/auth_provider.dart';
 import 'core/providers/bookmarks_provider.dart';
 import 'core/providers/news_provider.dart';
+import 'core/providers/trending_provider.dart';
 import 'core/services/api_auth_service.dart';
 import 'core/services/api_bookmark_service.dart';
 import 'core/services/api_client.dart';
@@ -35,6 +36,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (_) => NewsProvider(newsService),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => TrendingProvider(newsService),
         ),
         ChangeNotifierProvider(
           create: (_) => authProvider..checkAuthState(),
