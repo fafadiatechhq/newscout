@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'app.dart';
 import 'core/providers/auth_provider.dart';
 import 'core/providers/bookmarks_provider.dart';
+import 'core/providers/config_provider.dart';
 import 'core/providers/news_provider.dart';
 import 'core/providers/trending_provider.dart';
 import 'core/services/api_auth_service.dart';
@@ -18,7 +19,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
-  final apiClient = ApiClient(prefs);
+  final configProvider = ConfigProvider(prefs);
+  final apiClient = ApiClient(prefs, configProvider);
 
   // ── Service layer ──────────────────────────────────────────────────────────
   final NewsService newsService = ApiNewsService(apiClient);
@@ -34,6 +36,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider.value(value: configProvider),
         ChangeNotifierProvider(
           create: (_) => NewsProvider(newsService),
         ),

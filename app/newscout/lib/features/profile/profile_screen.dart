@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../config/app_config.dart';
 import '../../core/providers/auth_provider.dart';
+import '../../core/providers/config_provider.dart';
 import '../../core/providers/news_provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -89,6 +90,11 @@ class _AnonymousProfile extends StatelessWidget {
               icon: Icons.notifications_outlined,
               title: 'Notifications',
               onTap: () {},
+            ),
+            _SettingsTile(
+              icon: Icons.dns_outlined,
+              title: 'Server URL',
+              onTap: () => _showServerUrlDialog(context),
             ),
             _SettingsTile(
               icon: Icons.info_outline,
@@ -248,6 +254,12 @@ class _LoggedInProfile extends StatelessWidget {
                   ),
                   const Divider(indent: 56, height: 1),
                   _SettingsTile(
+                    icon: Icons.dns_outlined,
+                    title: 'Server URL',
+                    onTap: () => _showServerUrlDialog(context),
+                  ),
+                  const Divider(indent: 56, height: 1),
+                  _SettingsTile(
                     icon: Icons.info_outline,
                     title: 'About ${AppConfig.appName}',
                     onTap: () => _showAbout(context),
@@ -329,6 +341,61 @@ class _SettingsTile extends StatelessWidget {
           Icon(Icons.chevron_right, color: Colors.grey.shade400, size: 20),
     );
   }
+}
+
+void _showServerUrlDialog(BuildContext context) {
+  final config = context.read<ConfigProvider>();
+  final controller = TextEditingController(text: config.baseUrl);
+
+  showDialog<void>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: const Text('Server URL'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'API base URL used for all requests.\nChanges take effect immediately.',
+            style: TextStyle(fontSize: 13, color: Colors.black54),
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            controller: controller,
+            autocorrect: false,
+            keyboardType: TextInputType.url,
+            decoration: const InputDecoration(
+              labelText: 'Base URL',
+              hintText: 'http://192.168.1.46:8000/api/v1',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            controller.text = ConfigProvider.defaultBaseUrl;
+          },
+          child: const Text('Reset'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: const Text('Cancel'),
+        ),
+        FilledButton(
+          onPressed: () {
+            final url = controller.text.trim();
+            if (url.isNotEmpty) {
+              context.read<ConfigProvider>().setBaseUrl(url);
+            }
+            Navigator.pop(ctx);
+          },
+          child: const Text('Save'),
+        ),
+      ],
+    ),
+  );
 }
 
 void _showAbout(BuildContext context) {

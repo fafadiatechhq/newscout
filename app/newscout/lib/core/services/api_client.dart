@@ -3,25 +3,28 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../config/app_config.dart';
+import '../providers/config_provider.dart';
 
 /// Thin HTTP client for the NewScout Django API.
 /// Attaches JWT Bearer tokens when present and persists them in SharedPreferences.
 /// On 401, refreshes the access token once and retries the original request.
+/// The base URL is read from [ConfigProvider] on every request, so changing it
+/// at runtime takes effect immediately without restarting the app.
 class ApiClient {
-  ApiClient(this._prefs, {http.Client? httpClient})
+  ApiClient(this._prefs, this._config, {http.Client? httpClient})
       : _http = httpClient ?? http.Client();
 
   static const _accessKey = 'ns_access_token';
   static const _refreshKey = 'ns_refresh_token';
 
   final SharedPreferences _prefs;
+  final ConfigProvider _config;
   final http.Client _http;
 
   /// Prevents concurrent refresh storms; only one refresh runs at a time.
   Future<bool>? _refreshInFlight;
 
-  String get _base => AppConfig.baseApiUrl.replaceAll(RegExp(r'/$'), '');
+  String get _base => _config.baseUrl.replaceAll(RegExp(r'/$'), '');
 
   String? get accessToken => _prefs.getString(_accessKey);
   String? get refreshToken => _prefs.getString(_refreshKey);
