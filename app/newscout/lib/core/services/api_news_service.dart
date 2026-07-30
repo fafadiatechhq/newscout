@@ -93,9 +93,9 @@ class ApiNewsService implements NewsService {
   Future<List<Article>> searchArticles(String query) async {
     if (query.trim().isEmpty) return [];
     final response = await _client.get(
-      '/articles/',
+      '/search/',
       query: {
-        'search': query.trim(),
+        'q': query.trim(),
         'limit': '${AppConfig.articlesPerPage}',
         'offset': '0',
       },
