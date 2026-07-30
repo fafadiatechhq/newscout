@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "django_filters",
     "drf_spectacular",
+    "django_opensearch_dsl",
     "core",
     "accounts",
     "billing",
@@ -178,9 +179,25 @@ SPECTACULAR_SETTINGS = {
         {"name": "Sources", "description": "News sources and publishers"},
         {"name": "Article Tags", "description": "Tags for categorizing articles"},
         {"name": "Articles", "description": "News articles"},
+        {"name": "Search", "description": "OpenSearch-powered article discovery with facet aggregations"},
         {"name": "Bookmarks", "description": "User bookmarks for articles"},
         {"name": "Plans", "description": "Subscription plans and pricing tiers"},
         {"name": "Subscriptions", "description": "Tenant subscriptions and billing"},
         {"name": "Tenants", "description": "Tenant organizations and workspaces"},
     ],
 }
+
+# OpenSearch / django-opensearch-dsl
+OPENSEARCH_DSL = {
+    "default": {
+        "hosts": (
+            f"{os.getenv('OPENSEARCH_HOST', 'localhost')}:"
+            f"{os.getenv('OPENSEARCH_PORT', '9200')}"
+        ),
+    },
+}
+OPENSEARCH_DSL_AUTOSYNC = True
+OPENSEARCH_DSL_AUTO_REFRESH = True
+OPENSEARCH_DSL_SIGNAL_PROCESSOR = (
+    "django_opensearch_dsl.signals.RealTimeSignalProcessor"
+)

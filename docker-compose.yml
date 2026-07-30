@@ -11,6 +11,8 @@ services:
     depends_on:
       postgres:
         condition: service_started
+      opensearch:
+        condition: service_healthy
     networks:
       - app_net
 
@@ -26,6 +28,31 @@ services:
     networks:
       - app_net
 
+  opensearch:
+    image: opensearchproject/opensearch:2.19.0
+    container_name: newscout-opensearch
+    environment:
+      - discovery.type=single-node
+      - DISABLE_SECURITY_PLUGIN=true
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - bootstrap.memory_lock=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+    volumes:
+      - newscout_opensearch_data:/usr/share/opensearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200 >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    networks:
+      - app_net
+
   frontend:
     build:
       context: ./frontend/newscout
@@ -36,6 +63,9 @@ services:
       - django
     networks:
       - app_net
+
+volumes:
+  newscout_opensearch_data:
 
 networks:
   app_net:

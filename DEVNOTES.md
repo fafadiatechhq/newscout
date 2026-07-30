@@ -55,6 +55,48 @@ These are general develop instructions
 1. Once the environment is setup ensure you setup pre-commit correctly `pip3 install pre-commit`
 1. With virtualenv activiated do `pre-commit install` from project's root directory
 
+### OpenSearch article search
+
+Article discovery uses **OpenSearch** (not Postgres `icontains`). The dedicated
+endpoint is `GET /api/v1/search/`. The existing `GET /api/v1/articles/?search=`
+list filter remains Postgres-backed for CRUD listing.
+
+| Piece | Detail |
+|-------|--------|
+| Packages | `opensearch-py==3.2.0`, `django-opensearch-dsl==0.8.0` |
+| Index | `articles` (see `core/documents.py` → `ArticleDocument`) |
+| Autosync | `OPENSEARCH_DSL_AUTOSYNC=True` + `RealTimeSignalProcessor` indexes on Article create/update/delete and related Category/Source/Tag changes |
+| Env | `OPENSEARCH_HOST` (Compose DNS: `opensearch`; host: `localhost`), `OPENSEARCH_PORT` (default `9200`) |
+
+#### Search API
+
+`GET /api/v1/search/` (public)
+
+Query params:
+
+- `q` — full-text multi-match on title, summary, author
+- Filters: `category_id`, `source_id`, `tag_id`, `is_breaking`, `trending`, `featured`, `editors_pick`, `published_after`, `published_before`
+- Pagination: `limit` / `offset` (default limit 20, max 100)
+
+Response includes `count`, `next`, `previous`, `results` (Article-shaped objects from the index), and `aggregations`:
+
+- `categories` / `sources` / `tags` — `[{id, name, count}, ...]`
+- `flags` — `{trending, featured, editors_pick, is_breaking}` counts
+
+#### Reindex commands
+
+Run inside the Django container (after OpenSearch is healthy):
+
+```sh
+docker compose -f docker-compose.dev.yml exec django \
+  python manage.py opensearch index rebuild --force
+docker compose -f docker-compose.dev.yml exec django \
+  python manage.py opensearch document index --force --refresh
+```
+
+The Django `entrypoint.sh` waits for OpenSearch, then rebuilds the index and
+reindexes documents after migrate/seed so a fresh Compose boot is searchable.
+
 ## Mobile (Flutter)
 
 App path: `app/newscout/`
@@ -87,6 +129,7 @@ The app talks to Django at `AppConfig.baseApiUrl` (local Docker in debug; produc
 | Auth | `ApiAuthService` | `/auth/login/`, `/auth/signup/`, `/auth/me/`, `/auth/logout/` |
 | JWT refresh | `ApiClient` | `/auth/token/refresh/` on 401, then one retry |
 | News | `ApiNewsService` | `/articles/`, `/articles/{id}/`, `/categories/` |
+| Search | (OpenSearch) | `/search/` (`q`, facet filters, aggregations) |
 | Bookmarks | `ApiBookmarkService` + `BookmarksProvider` | `/bookmarks/` (sync when logged in; SharedPreferences offline cache) |
 
 Deep links to `/article/:id` without route `extra` load via `ArticleDetailLoader` → `GET /articles/{id}/`.
@@ -720,7 +763,7 @@ To check running containers:
 docker ps
 ```
 
-You should see: - Backend (Django) - Frontend - PostgreSQL
+You should see: - Backend (Django) - Frontend - PostgreSQL - OpenSearch
 
 
 
@@ -729,6 +772,7 @@ You should see: - Backend (Django) - Frontend - PostgreSQL
   ---------- -----------------------
   Backend    http://localhost:8000
   Frontend   http://localhost:3000
+  OpenSearch http://localhost:9200
 
 
 
@@ -750,6 +794,10 @@ Use these credentials to log in.
 -   Containers start automatically via Dev Container setup
 -   No need to manually run migrations or create superuser
 -   Everything is handled via Docker + entrypoint script
+-   OpenSearch is required for `/api/v1/search/`; entrypoint rebuilds the
+    `articles` index and reindexes after seed
+-   Env template: `backend/newscout/example.env` (includes `OPENSEARCH_HOST` /
+    `OPENSEARCH_PORT`)
 
 
 

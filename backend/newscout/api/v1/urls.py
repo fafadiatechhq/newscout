@@ -18,6 +18,7 @@ from api.v1.views import (
     SubscriptionAPI,
     TenantAPI,
 )
+from api.v1.search_views import ArticleSearchAPI
 
 app_name = "api_v1"
 
@@ -37,5 +38,6 @@ urlpatterns = [
     path("auth/logout/", LogoutView.as_view(), name="auth-logout"),
     path("auth/me/", MeView.as_view(), name="auth-me"),
     path("auth/token/refresh/", AuthTokenRefreshView.as_view(), name="auth-token-refresh"),
+    path("search/", ArticleSearchAPI.as_view(), name="article-search"),
     path("", include(router.urls)),
 ]

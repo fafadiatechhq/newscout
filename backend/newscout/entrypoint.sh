@@ -26,6 +26,28 @@ END
 
 echo "PostgreSQL started"
 
+echo "Waiting for OpenSearch..."
+
+python << END
+import socket
+import time
+import os
+
+port = int(os.environ.get("OPENSEARCH_PORT", 9200))
+host = os.environ.get("OPENSEARCH_HOST", "opensearch")
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+while True:
+    try:
+        s.connect((host, port))
+        s.close()
+        break
+    except socket.error:
+        time.sleep(0.1)
+END
+
+echo "OpenSearch started"
+
 # Run Migrations
 echo "Applying database migrations..."
 python manage.py migrate
@@ -46,5 +68,9 @@ else:
     from django.core.management import call_command
     call_command("seed_test_data")
 PYEOF
+
+echo "Creating OpenSearch indexes and indexing documents..."
+python manage.py opensearch index rebuild --force
+python manage.py opensearch document index --force --refresh
 
 exec "$@"
