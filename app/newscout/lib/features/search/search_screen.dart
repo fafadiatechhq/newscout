@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,25 +15,30 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final _controller = TextEditingController();
-  Timer? _debounce;
+  bool _hasSearched = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() => setState(() {}));
+  }
 
   @override
   void dispose() {
     _controller.dispose();
-    _debounce?.cancel();
     super.dispose();
   }
 
-  void _onChanged(String query) {
-    _debounce?.cancel();
-    _debounce = Timer(
-      Duration(milliseconds: AppConfig.searchDebounceMs),
-      () => context.read<NewsProvider>().search(query),
-    );
+  void _submit() {
+    final query = _controller.text.trim();
+    if (query.isEmpty) return;
+    setState(() => _hasSearched = true);
+    context.read<NewsProvider>().search(query);
   }
 
   void _clear() {
     _controller.clear();
+    setState(() => _hasSearched = false);
     context.read<NewsProvider>().clearSearch();
   }
 
@@ -59,16 +62,40 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: TextField(
                   controller: _controller,
                   autofocus: true,
-                  onChanged: _onChanged,
+                  onSubmitted: (_) => _submit(),
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
                     hintText: 'Search news, topics, sources…',
                     hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 15),
                     prefixIcon: const Icon(Icons.search, color: AppConfig.primaryColor),
                     suffixIcon: _controller.text.isNotEmpty
-                        ? IconButton(
-                            icon: Icon(Icons.close, color: Colors.grey.shade400),
-                            onPressed: _clear,
+                        ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.close, color: Colors.grey.shade400),
+                                onPressed: _clear,
+                              ),
+                              GestureDetector(
+                                onTap: _submit,
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: AppConfig.primaryColor,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: const Text(
+                                    'Search',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           )
                         : null,
                     filled: true,
@@ -96,6 +123,10 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget _buildBody(NewsProvider news, ThemeData theme) {
     if (_controller.text.isEmpty) {
       return _SearchEmptyState(key: const ValueKey('empty'));
+    }
+
+    if (!_hasSearched) {
+      return _SearchPrompt(key: const ValueKey('prompt'));
     }
 
     if (news.isSearching) {
@@ -174,6 +205,37 @@ class _SearchEmptyState extends StatelessWidget {
             }).toList(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _SearchPrompt extends StatelessWidget {
+  const _SearchPrompt({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.touch_app_rounded, size: 64, color: Colors.grey.shade300),
+            const SizedBox(height: 16),
+            const Text(
+              'Tap Search to find articles',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Press the Search button or the\nSearch key on your keyboard.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey.shade600, height: 1.5),
+            ),
+          ],
+        ),
       ),
     );
   }
