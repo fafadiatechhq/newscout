@@ -1,5 +1,6 @@
 import type { Article, Category, Source } from '@/utils/mock-data'
-import type { ApiArticle } from './types'
+import type { ApiArticle, ApiCategory } from './types'
+import { slugify } from './slug'
 
 function estimateReadingTime(summary: string): number {
   const wordCount = summary
@@ -18,16 +19,24 @@ function mapSource(apiSource: ApiArticle['source'][number] | undefined): Source 
   }
 }
 
-function mapCategory(apiCategory: ApiArticle['category'] | undefined): Category {
+export function mapApiCategory(apiCategory: ApiCategory): Category {
+  const name = apiCategory.name ?? 'Uncategorized'
   return {
-    id: String(apiCategory?.id ?? ''),
-    name: apiCategory?.name ?? 'Uncategorized',
-    slug: (apiCategory?.name ?? 'uncategorized')
-      .toLowerCase()
-      .replace(/\s+/g, '-'),
-    description: apiCategory?.description ?? '',
+    id: String(apiCategory.id),
+    name,
+    slug: slugify(name),
+    description: apiCategory.description ?? '',
     article_count: 0,
+    parentId:
+      apiCategory.parent != null ? String(apiCategory.parent) : null,
   }
+}
+
+function mapCategory(apiCategory: ApiArticle['category'] | undefined): Category {
+  if (!apiCategory) {
+    return mapApiCategory({ id: 0, name: 'Uncategorized' })
+  }
+  return mapApiCategory(apiCategory)
 }
 
 export function mapApiArticle(json: ApiArticle): Article {

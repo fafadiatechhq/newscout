@@ -1,7 +1,12 @@
 import { API_BASE_URL } from './config'
 import { mapApiArticle } from './mappers'
 import type { Article } from '@/utils/mock-data'
-import { ApiError, type SearchParams, type SearchResponse } from './types'
+import {
+  ApiError,
+  EMPTY_AGGREGATIONS,
+  type SearchParams,
+  type SearchResponse,
+} from './types'
 
 export interface SearchResult {
   articles: Article[]
@@ -15,6 +20,12 @@ export async function searchArticles({
   limit = 20,
   offset = 0,
   sourceId,
+  categoryId,
+  tagId,
+  trending,
+  featured,
+  editorsPick,
+  isBreaking,
 }: SearchParams): Promise<SearchResult> {
   const params = new URLSearchParams()
   params.set('q', q.trim())
@@ -23,6 +34,24 @@ export async function searchArticles({
 
   if (sourceId !== undefined) {
     params.set('source_id', String(sourceId))
+  }
+  if (categoryId !== undefined) {
+    params.set('category_id', String(categoryId))
+  }
+  if (tagId !== undefined) {
+    params.set('tag_id', String(tagId))
+  }
+  if (trending === true) {
+    params.set('trending', 'true')
+  }
+  if (featured === true) {
+    params.set('featured', 'true')
+  }
+  if (editorsPick === true) {
+    params.set('editors_pick', 'true')
+  }
+  if (isBreaking === true) {
+    params.set('is_breaking', 'true')
   }
 
   const response = await fetch(`${API_BASE_URL}/search/?${params.toString()}`)
@@ -46,6 +75,6 @@ export async function searchArticles({
     articles: data.results.map(mapApiArticle),
     count: data.count,
     next: data.next,
-    aggregations: data.aggregations,
+    aggregations: data.aggregations ?? EMPTY_AGGREGATIONS,
   }
 }

@@ -54,6 +54,18 @@ export interface SearchAggregations {
   }
 }
 
+export const EMPTY_AGGREGATIONS: SearchAggregations = {
+  categories: [],
+  sources: [],
+  tags: [],
+  flags: {
+    trending: 0,
+    featured: 0,
+    editors_pick: 0,
+    is_breaking: 0,
+  },
+}
+
 export interface SearchResponse {
   count: number
   next: string | null
@@ -62,11 +74,31 @@ export interface SearchResponse {
   aggregations: SearchAggregations
 }
 
+export interface PaginatedResponse<T> {
+  count: number
+  next: string | null
+  previous: string | null
+  results: T[]
+}
+
 export interface SearchParams {
   q: string
   limit?: number
   offset?: number
   sourceId?: number
+  categoryId?: number
+  tagId?: number
+  trending?: boolean
+  featured?: boolean
+  editorsPick?: boolean
+  isBreaking?: boolean
+}
+
+export interface ArticlesParams {
+  trending?: boolean
+  categoryId?: number
+  limit?: number
+  offset?: number
 }
 
 export class ApiError extends Error {

@@ -26,6 +26,7 @@ export interface Category {
   slug: string;
   description: string;
   article_count: number;
+  parentId?: string | null;
 }
 
 export const categories: Category[] = [
