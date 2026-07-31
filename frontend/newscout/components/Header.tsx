@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
-import { categories } from "@/utils/mock-data";
+import { useCategories } from "@/hooks/use-categories";
 
 const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -22,6 +22,8 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
   const { theme, setTheme } = useTheme();
+  const { topLevelCategories, isLoading: categoriesLoading } = useCategories();
+  const navCategories = topLevelCategories.slice(0, 6);
 
   const handleSearch = (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -95,15 +97,16 @@ const Header = () => {
             >
               All
             </Link>
-            {categories.slice(0, 6).map((cat) => (
-              <Link
-                key={cat.id}
-                href={`/feed?category=${cat.slug}`}
-                className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              >
-                {cat.name}
-              </Link>
-            ))}
+            {!categoriesLoading &&
+              navCategories.map((cat) => (
+                <Link
+                  key={cat.id}
+                  href={`/feed?category=${cat.slug}`}
+                  className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                >
+                  {cat.name}
+                </Link>
+              ))}
           </nav>
         </div>
 
@@ -158,16 +161,24 @@ const Header = () => {
       {mobileMenuOpen && (
         <div className="border-t border-border bg-background lg:hidden">
           <nav className="container flex flex-col gap-1 py-4">
-            {categories.map((cat) => (
-              <Link
-                key={cat.id}
-                href={`/feed?category=${cat.slug}`}
-                className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {cat.name}
-              </Link>
-            ))}
+            <Link
+              href="/feed"
+              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              All
+            </Link>
+            {!categoriesLoading &&
+              topLevelCategories.map((cat) => (
+                <Link
+                  key={cat.id}
+                  href={`/feed?category=${cat.slug}`}
+                  className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {cat.name}
+                </Link>
+              ))}
           </nav>
         </div>
       )}

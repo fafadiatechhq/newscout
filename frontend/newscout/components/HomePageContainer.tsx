@@ -1,43 +1,48 @@
-'use client'
-import React, { useEffect, useState } from 'react'
-import Layout from './Layout'
-import BreakingNewsTicker from './BreakingNewsTicker'
-import ArticleCardSkeleton from './ArticleCardSkeleton'
-import ArticleCard from './ArticleCard'
-import { articles, getTrendingArticles, formatTimeAgo } from '@/utils/mock-data'
-import { motion } from 'framer-motion'
-import { ArrowRight, BadgeCheck, Shield, TrendingUp, Zap } from 'lucide-react'
-import Link from 'next/link'
-import { useInfiniteScroll } from '@/hooks/use-infinite-scroll'
-import TrendingBadge from './TrendingBadge'
-import { Button } from './ui/button'
-import InfiniteScrollSentinel from './InfiniteScrollSentinel'
-import CategoryShowcase from './CategoryShowcase'
-import EditorsPicks from './EditorsPicks'
-import ForYouSection from './ForYouSection'
+"use client";
+import React, { useEffect, useState } from "react";
+import Layout from "./Layout";
+import BreakingNewsTicker from "./BreakingNewsTicker";
+import ArticleCardSkeleton from "./ArticleCardSkeleton";
+import ArticleCard from "./ArticleCard";
+import { articles, formatTimeAgo } from "@/utils/mock-data";
+import { useTrendingArticles } from "@/hooks/use-trending-articles";
+import { motion } from "framer-motion";
+import { ArrowRight, BadgeCheck, Shield, TrendingUp, Zap } from "lucide-react";
+import Link from "next/link";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
+import TrendingBadge from "./TrendingBadge";
+import { Button } from "./ui/button";
+import InfiniteScrollSentinel from "./InfiniteScrollSentinel";
+import CategoryShowcase from "./CategoryShowcase";
+import EditorsPicks from "./EditorsPicks";
+import ForYouSection from "./ForYouSection";
 
-const LATEST_PAGE_SIZE = 4
+const LATEST_PAGE_SIZE = 4;
 
 const HomePageContainer = () => {
-  const [initialLoading, setInitialLoading] = useState(true)
+  const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
     // Simulate initial data fetch
-    const timer = setTimeout(() => setInitialLoading(false), 800)
-    return () => clearTimeout(timer)
-  }, [])
+    const timer = setTimeout(() => setInitialLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
-  const heroArticle = articles[0]
-  const trending = getTrendingArticles()
-  const allLatest = articles.slice(1)
-  const sidebarArticles = articles.slice(7)
+  const heroArticle = articles[0];
+  const {
+    articles: trending,
+    isLoading: trendingLoading,
+    error: trendingError,
+  } = useTrendingArticles({ limit: 5 });
+  const allLatest = articles.slice(1);
+  const sidebarArticles = articles.slice(7);
 
   const { visibleCount, isLoading, hasMore, sentinelRef } = useInfiniteScroll({
     totalItems: allLatest.length,
     pageSize: LATEST_PAGE_SIZE,
-  })
+  });
 
-  const visibleLatest = allLatest.slice(0, visibleCount)
+  const visibleLatest = allLatest.slice(0, visibleCount);
 
   return (
     <Layout>
@@ -74,27 +79,41 @@ const HomePageContainer = () => {
                 </h3>
               </div>
               <div className="flex flex-1 flex-col gap-1">
-                {trending.slice(0, 5).map((article, i) => (
-                  <Link
-                    key={article.id}
-                    href={`/articles/${article.id}`}
-                    className="group flex items-start gap-3 rounded-lg p-2 transition-colors hover:bg-secondary"
-                  >
-                    <TrendingBadge rank={i + 1} />
-                    <div className="min-w-0 flex-1 ">
-                      <div className="text-sm font-extrabold leading-tight text-foreground transition-colors group-hover:text-primary line-clamp-2">
-                        {article.title}
+                {trendingLoading ? (
+                  Array.from({ length: 5 }).map((_, i) => (
+                    <ArticleCardSkeleton key={i} variant="compact" />
+                  ))
+                ) : trendingError ? (
+                  <p className="px-2 py-4 text-sm text-muted-foreground">
+                    Unable to load trending articles
+                  </p>
+                ) : trending.length === 0 ? (
+                  <p className="px-2 py-4 text-sm text-muted-foreground">
+                    No trending articles right now
+                  </p>
+                ) : (
+                  trending.map((article, i) => (
+                    <Link
+                      key={article.id}
+                      href={`/articles/${article.id}`}
+                      className="group flex items-start gap-3 rounded-lg p-2 transition-colors hover:bg-secondary"
+                    >
+                      <TrendingBadge rank={i + 1} />
+                      <div className="min-w-0 flex-1 ">
+                        <div className="text-sm font-extrabold leading-tight text-foreground transition-colors group-hover:text-primary line-clamp-2">
+                          {article.title}
+                        </div>
+                        <span className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+                          {article.source.is_verified && (
+                            <BadgeCheck className="h-3 w-3 text-primary" />
+                          )}
+                          {article.source.name} ·{" "}
+                          {formatTimeAgo(article.published_at)}
+                        </span>
                       </div>
-                      <span className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
-                        {article.source.is_verified && (
-                          <BadgeCheck className="h-3 w-3 text-primary" />
-                        )}
-                        {article.source.name} ·{' '}
-                        {formatTimeAgo(article.published_at)}
-                      </span>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  ))
+                )}
               </div>
               <Link href="/trending">
                 <Button
@@ -229,7 +248,7 @@ const HomePageContainer = () => {
         </div>
       </section>
     </Layout>
-  )
-}
+  );
+};
 
-export default HomePageContainer
+export default HomePageContainer;
