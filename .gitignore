@@ -47,3 +47,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Cursor
+.cursor/
+
+# Environments
+.env
+.env.local
+
+# Node
+node_modules/
+
+# Bun
+bun.lockb
