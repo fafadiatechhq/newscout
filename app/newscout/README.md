@@ -11,35 +11,6 @@ A Flutter-based news aggregator app that surfaces breaking news, trending storie
 - **Trending Now** — Ranked list of the most-read stories (Now / Today / This Week)
 - **Search** — Full-text search across news, topics, and sources with popular topic shortcuts
 
-## Screenshots
-
-<table>
-  <tr>
-    <td align="center"><b>Home</b></td>
-    <td align="center"><b>Article Detail</b></td>
-    <td align="center"><b>More from Category</b></td>
-    <td align="center"><b>Multi-Source View</b></td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/01.png" width="180"/></td>
-    <td><img src="screenshots/02.png" width="180"/></td>
-    <td><img src="screenshots/03.png" width="180"/></td>
-    <td><img src="screenshots/04.png" width="180"/></td>
-  </tr>
-  <tr>
-    <td align="center"><b>Categories</b></td>
-    <td align="center"><b>Trending Now</b></td>
-    <td align="center"><b>Search</b></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/05.png" width="180"/></td>
-    <td><img src="screenshots/06.png" width="180"/></td>
-    <td><img src="screenshots/07.png" width="180"/></td>
-    <td></td>
-  </tr>
-</table>
-
 ## Getting Started
 
 ### Prerequisites

@@ -51,6 +51,37 @@ NewScout exposes a public REST API for developers who want to integrate news dis
 
 ---
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center"><b>Home</b></td>
+    <td align="center"><b>Article Detail</b></td>
+    <td align="center"><b>More from Category</b></td>
+    <td align="center"><b>Multi-Source View</b></td>
+  </tr>
+  <tr>
+    <td><img src="app/newscout/screenshots/01.png" width="180"/></td>
+    <td><img src="app/newscout/screenshots/02.png" width="180"/></td>
+    <td><img src="app/newscout/screenshots/03.png" width="180"/></td>
+    <td><img src="app/newscout/screenshots/04.png" width="180"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Categories</b></td>
+    <td align="center"><b>Trending Now</b></td>
+    <td align="center"><b>Search</b></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="app/newscout/screenshots/05.png" width="180"/></td>
+    <td><img src="app/newscout/screenshots/06.png" width="180"/></td>
+    <td><img src="app/newscout/screenshots/07.png" width="180"/></td>
+    <td></td>
+  </tr>
+</table>
+
+---
+
 ## For Developers
 
 Setup instructions, architecture notes, Docker/Dev Container configuration, OpenSearch indexing, and the mobile development workflow are documented in [DEVNOTES.md](DEVNOTES.md).
