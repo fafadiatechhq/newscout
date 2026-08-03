@@ -53,6 +53,25 @@ NewScout exposes a public REST API for developers who want to integrate news dis
 
 ## Screenshots
 
+### Web (Desktop)
+
+<table>
+  <tr>
+    <td align="center"><b>Home</b></td>
+    <td align="center"><b>Browse Articles</b></td>
+    <td align="center"><b>Search & Filters</b></td>
+    <td align="center"><b>Bookmarks</b></td>
+  </tr>
+  <tr>
+    <td><img src="backend/newscout/screenshots/01.png" width="220"/></td>
+    <td><img src="backend/newscout/screenshots/02.png" width="220"/></td>
+    <td><img src="backend/newscout/screenshots/03.png" width="220"/></td>
+    <td><img src="backend/newscout/screenshots/04.png" width="220"/></td>
+  </tr>
+</table>
+
+### Mobile (Android & iOS)
+
 <table>
   <tr>
     <td align="center"><b>Home</b></td>
