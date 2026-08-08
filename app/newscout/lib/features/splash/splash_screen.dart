@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../config/app_config.dart';
 import '../../config/app_theme.dart';
+import '../../core/providers/config_provider.dart';
+import '../../widgets/server_url_dialog.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -41,10 +44,21 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(const Duration(milliseconds: 2400), _navigateToHome);
   }
 
-  void _navigateToHome() {
+  Future<void> _navigateToHome() async {
     if (!mounted) return;
+
+    final config = context.read<ConfigProvider>();
+    if (config.needsServerUrlSetup) {
+      var saved = false;
+      while (mounted && !saved) {
+        saved = await showServerUrlDialog(context, required: true);
+      }
+      if (!mounted || !saved) return;
+    }
+
     // Restore system UI before leaving splash
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    if (!mounted) return;
     context.go('/home');
   }
 
