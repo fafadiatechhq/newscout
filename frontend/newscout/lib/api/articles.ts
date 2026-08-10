@@ -38,3 +38,8 @@ export async function fetchArticles({
     next: data.next,
   }
 }
+
+export async function fetchArticle(id: string): Promise<Article> {
+  const data = await apiFetch<ApiArticle>(`/articles/${id}/`)
+  return mapApiArticle(data)
+}
