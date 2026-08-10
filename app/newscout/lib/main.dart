@@ -19,7 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
-  final configProvider = ConfigProvider(prefs);
+  final configProvider = await ConfigProvider.create(prefs);
   final apiClient = ApiClient(prefs, configProvider);
 
   // ── Service layer ──────────────────────────────────────────────────────────

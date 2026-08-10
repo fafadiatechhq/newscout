@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './config'
+import { getApiBaseUrl } from './config'
 import { mapApiArticle } from './mappers'
 import type { Article } from '@/utils/mock-data'
 import {
@@ -54,7 +54,7 @@ export async function searchArticles({
     params.set('is_breaking', 'true')
   }
 
-  const response = await fetch(`${API_BASE_URL}/search/?${params.toString()}`)
+  const response = await fetch(`${getApiBaseUrl()}/search/?${params.toString()}`)
 
   if (!response.ok) {
     let message = `Search request failed (${response.status})`

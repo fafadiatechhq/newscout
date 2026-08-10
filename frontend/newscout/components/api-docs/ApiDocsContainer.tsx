@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react'
 import Layout from '@/components/Layout'
 import { Code, Key, Zap, BookOpen } from 'lucide-react'
+import { getApiBaseUrl } from '@/lib/api/config'
 
 export default function ApiDocs() {
   const [endpoints, setEndpoints] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/schema/?format=json')
+    fetch(`${getApiBaseUrl().replace(/\/api\/v1$/, '')}/api/schema/?format=json`)
       .then((res) => res.json())
       .then((data) => {
         const paths = data.paths || {}

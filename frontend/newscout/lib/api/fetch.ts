@@ -1,9 +1,10 @@
-import { API_BASE_URL } from './config'
+import { getApiBaseUrl } from './config'
 import { ApiError } from './types'
 
 export async function apiFetch<T>(path: string, params?: URLSearchParams): Promise<T> {
   const query = params?.toString()
-  const url = query ? `${API_BASE_URL}${path}?${query}` : `${API_BASE_URL}${path}`
+  const baseUrl = getApiBaseUrl()
+  const url = query ? `${baseUrl}${path}?${query}` : `${baseUrl}${path}`
 
   const response = await fetch(url)
 

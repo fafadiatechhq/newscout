@@ -69,6 +69,7 @@ DJANGO_SUPERUSER_PASSWORD=newscout
 - Migrations and superuser creation are handled automatically by the entrypoint script
 - OpenSearch is required for `/api/v1/search/`; the entrypoint rebuilds the `articles` index and reindexes after seed
 - The env template is at `backend/newscout/example.env` (includes `OPENSEARCH_HOST` / `OPENSEARCH_PORT`)
+- With `DEBUG=True`, Django allows all hosts (`ALLOWED_HOSTS=["*"]`) so LAN IPs and `10.0.2.2` work without per-developer config
 
 ### Troubleshooting
 
@@ -217,6 +218,21 @@ app/api-docs/
 
 ---
 
+## Frontend API (Next.js)
+
+App path: `frontend/newscout/`
+
+The web client resolves the Django API URL in `lib/api/config.ts` via `getApiBaseUrl()`:
+
+| How you open the site | API base URL used |
+|-----------------------|-------------------|
+| `http://localhost:3000` | `http://localhost:8000/api/v1` |
+| `http://192.168.x.x:3000` | `http://192.168.x.x:8000/api/v1` (same hostname) |
+
+No `.env.local` is required for local Docker. Copy `frontend/newscout/.env.local.example` to `.env.local` only when you need a custom override (`NEXT_PUBLIC_API_BASE_URL`).
+
+---
+
 ## Mobile (Flutter)
 
 App path: `app/newscout/`
@@ -224,18 +240,20 @@ App path: `app/newscout/`
 ### Local Docker + `flutter run`
 
 1. Start the API: `docker compose -f docker-compose.dev.yml up` (host port `8000`)
-2. Ensure nothing else is bound to port `8000`. The Android emulator reaches the host via `10.0.2.2`, which resolves to `127.0.0.1` on macOS. A local `manage.py runserver 8000` on `127.0.0.1` will intercept emulator traffic before Docker and cause "Could not load news". Check with `lsof -nP -iTCP:8000 -sTCP:LISTEN` and stop any host Django process if Docker is running.
-3. From `app/newscout/`: `flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000/api/v1`
+2. Ensure nothing else is bound to port `8000`. The Android emulator reaches the host via `10.0.2.2`. A local `manage.py runserver 8000` on `127.0.0.1` will intercept emulator traffic before Docker and cause "Could not load news". Check with `lsof -nP -iTCP:8000 -sTCP:LISTEN` and stop any host Django process if Docker is running.
+3. From `app/newscout/`: `flutter run`
 
-Debug and profile builds resolve `AppConfig.baseApiUrl` automatically:
+`ConfigProvider` initializes from `AppConfig.resolveBaseApiUrl()` (emulator detection via `device_info_plus`):
 
-| Target | Base URL |
-|--------|----------|
+| Target | Default base URL |
+|--------|------------------|
 | Android emulator | `http://10.0.2.2:8000/api/v1` |
 | iOS simulator / desktop | `http://127.0.0.1:8000/api/v1` |
+| Flutter web (`flutter run -d chrome`) | `http://<page-hostname>:8000/api/v1` (e.g. `localhost`) |
+| Physical Android device | First-launch prompt for your LAN IP (Profile → Server URL to change later) |
 | Release | `https://api.newscout.in/api/v1` |
 
-To override (e.g. physical device on LAN):
+Override any build:
 
 ```bash
 flutter run --dart-define=API_BASE_URL=http://192.168.x.x:8000/api/v1
@@ -243,7 +261,7 @@ flutter run --dart-define=API_BASE_URL=http://192.168.x.x:8000/api/v1
 
 ### API Integration
 
-The app talks to Django at `AppConfig.baseApiUrl` (local Docker in debug; production in release).
+The app talks to Django through `ConfigProvider` → `ApiClient` (local Docker in debug; production in release).
 
 | Area | Service | Endpoints |
 |------|---------|-----------|
