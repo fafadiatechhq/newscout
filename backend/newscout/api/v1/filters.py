@@ -8,6 +8,8 @@ class ArticleFilter(django_filters.FilterSet):
 
     category = django_filters.NumberFilter(field_name="category_id")
     category_id = django_filters.NumberFilter(field_name="category_id")
+    source = django_filters.NumberFilter(field_name="source")
+    source_id = django_filters.NumberFilter(field_name="source")
     is_breaking = django_filters.BooleanFilter()
     trending = django_filters.BooleanFilter()
     featured = django_filters.BooleanFilter()
@@ -18,6 +20,8 @@ class ArticleFilter(django_filters.FilterSet):
         fields = [
             "category",
             "category_id",
+            "source",
+            "source_id",
             "is_breaking",
             "trending",
             "featured",

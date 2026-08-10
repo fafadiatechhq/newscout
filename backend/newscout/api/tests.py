@@ -96,6 +96,28 @@ class ArticleApiTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 2)
 
+    def test_filter_by_source_id(self):
+        source = Source.objects.create(name="Reuters", url="https://reuters.com")
+        other_source = Source.objects.create(name="BBC", url="https://bbc.com")
+        Article.objects.create(
+            title="Reuters story",
+            summary="From Reuters",
+            category=self.cat,
+            content_url="https://reuters.com/story",
+        ).source.set([source])
+        Article.objects.create(
+            title="BBC story",
+            summary="From BBC",
+            category=self.cat,
+            content_url="https://bbc.com/story",
+        ).source.set([other_source])
+        response = self.client.get(
+            "/api/v1/articles/", {"source_id": str(source.id)}
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["title"], "Reuters story")
+
 
 @override_settings(OPENSEARCH_DSL_AUTOSYNC=True, OPENSEARCH_DSL_AUTO_REFRESH=True)
 class ArticleSearchApiTests(APITestCase):

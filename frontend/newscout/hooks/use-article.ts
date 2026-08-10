@@ -32,6 +32,7 @@ export function useArticle(id: string | undefined): UseArticleReturn {
     }
 
     let cancelled = false
+    const articleId = id
 
     async function load() {
       setIsLoading(true)
@@ -39,13 +40,13 @@ export function useArticle(id: string | undefined): UseArticleReturn {
       setNotFound(false)
 
       try {
-        const result = await fetchArticle(id)
+        const result = await fetchArticle(articleId)
         if (!cancelled) {
           setArticle(result)
         }
       } catch (err) {
         if (!cancelled) {
-          const mockArticle = getArticleById(id)
+          const mockArticle = getArticleById(articleId)
           if (mockArticle) {
             setArticle(mockArticle)
           } else if (err instanceof ApiError && err.status === 404) {

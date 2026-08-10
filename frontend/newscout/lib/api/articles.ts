@@ -1,6 +1,7 @@
 import { apiFetch } from './fetch'
 import { mapApiArticle } from './mappers'
-import type { Article } from '@/utils/mock-data'
+import { getArticleById, type Article } from '@/utils/mock-data'
+import { ApiError } from './types'
 import type { ApiArticle, ArticlesParams, PaginatedResponse } from './types'
 
 export interface ArticlesResult {
@@ -12,6 +13,7 @@ export interface ArticlesResult {
 export async function fetchArticles({
   trending,
   categoryId,
+  sourceId,
   limit = 20,
   offset = 0,
 }: ArticlesParams): Promise<ArticlesResult> {
@@ -25,6 +27,10 @@ export async function fetchArticles({
 
   if (categoryId !== undefined) {
     params.set('category_id', String(categoryId))
+  }
+
+  if (sourceId !== undefined) {
+    params.set('source_id', String(sourceId))
   }
 
   const data = await apiFetch<PaginatedResponse<ApiArticle>>(
@@ -42,4 +48,15 @@ export async function fetchArticles({
 export async function fetchArticle(id: string): Promise<Article> {
   const data = await apiFetch<ApiArticle>(`/articles/${id}/`)
   return mapApiArticle(data)
+}
+
+export async function resolveArticleById(id: string): Promise<Article | null> {
+  try {
+    return await fetchArticle(id)
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 404) {
+      return getArticleById(id) ?? null
+    }
+    return getArticleById(id) ?? null
+  }
 }

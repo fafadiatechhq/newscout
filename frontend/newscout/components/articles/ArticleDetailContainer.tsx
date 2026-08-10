@@ -33,7 +33,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useArticle } from "@/hooks/use-article";
 import {
   formatTimeAgo,
-  getSourceCountForArticle,
   getSourcesForArticle,
 } from "@/utils/mock-data";
 import CommentSection from "./CommentSection";
@@ -91,13 +90,12 @@ const ArticleDetailContainer = () => {
 
   const mockSources = getSourcesForArticle(article.id);
   const articleSources =
-    mockSources.length > 0
-      ? mockSources
-      : [{ source: article.source, url: article.content_url }];
-  const sourceCount =
-    mockSources.length > 0
-      ? getSourceCountForArticle(article.id)
-      : articleSources.length;
+    article.sources && article.sources.length > 0
+      ? article.sources
+      : mockSources.length > 0
+        ? mockSources
+        : [{ source: article.source, url: article.content_url }];
+  const sourceCount = articleSources.length;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
