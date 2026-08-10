@@ -39,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: AppConfig.surfaceColor,
       body: RefreshIndicator(
         color: AppConfig.primaryColor,
         onRefresh: _loadData,
@@ -49,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
             SliverAppBar(
               floating: true,
               snap: true,
-              backgroundColor: Colors.white,
               elevation: 0,
               scrolledUnderElevation: 1,
               title: Text(
@@ -152,10 +150,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.wifi_off_rounded,
-                          size: 48, color: Colors.grey.shade400),
+                          size: 48, color: theme.colorScheme.onSurfaceVariant),
                       const SizedBox(height: 12),
                       Text('Could not load news',
-                          style: TextStyle(color: Colors.grey.shade600)),
+                          style: TextStyle(color: theme.colorScheme.onSurfaceVariant)),
                       if (news.error != null) ...[
                         const SizedBox(height: 8),
                         Padding(
@@ -164,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             news.error!,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Colors.grey.shade500,
+                              color: theme.colorScheme.onSurfaceVariant.withAlpha(180),
                               fontSize: 12,
                             ),
                           ),

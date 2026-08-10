@@ -58,6 +58,8 @@ class _BreakingNewsCarouselState extends State<BreakingNewsCarousel> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     if (widget.isLoading) {
       return const SizedBox(
         height: 220,
@@ -93,7 +95,7 @@ class _BreakingNewsCarouselState extends State<BreakingNewsCarousel> {
               decoration: BoxDecoration(
                 color: _current == i
                     ? AppConfig.primaryColor
-                    : Colors.grey.shade300,
+                    : theme.colorScheme.onSurfaceVariant.withAlpha(100),
                 borderRadius: BorderRadius.circular(3),
               ),
             );

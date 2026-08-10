@@ -32,15 +32,8 @@ class _CategoryArticlesScreenState extends State<CategoryArticlesScreen> {
     final isLoading = news.isLoadingCategory(widget.categoryId);
 
     return Scaffold(
-      backgroundColor: AppConfig.surfaceColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         leading: const BackButton(color: AppConfig.primaryColor),
-        titleTextStyle: const TextStyle(
-          color: AppConfig.primaryColor,
-          fontWeight: FontWeight.w700,
-          fontSize: 18,
-        ),
         title: category != null
             ? Row(
                 mainAxisSize: MainAxisSize.min,
@@ -68,11 +61,18 @@ class _CategoryArticlesScreenState extends State<CategoryArticlesScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(Icons.article_outlined,
-                            size: 48, color: Colors.grey.shade400),
+                            size: 48,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant),
                         const SizedBox(height: 12),
                         Text(
                           'No articles found',
-                          style: TextStyle(color: Colors.grey.shade600),
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant,
+                          ),
                         ),
                       ],
                     ),

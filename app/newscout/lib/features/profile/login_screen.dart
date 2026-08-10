@@ -59,11 +59,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
     final isLogin = _mode == _AuthMode.login;
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         leading: BackButton(
           color: AppConfig.primaryColor,
           onPressed: () => context.go('/profile'),
@@ -90,7 +89,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   isLogin
                       ? 'Welcome back! Sign in to continue.'
                       : 'Create your account to get started.',
-                  style: TextStyle(color: Colors.grey.shade600, height: 1.4),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                    height: 1.4,
+                  ),
                 ),
                 const SizedBox(height: 36),
 
@@ -202,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       isLogin
                           ? "Don't have an account? "
                           : 'Already have an account? ',
-                      style: TextStyle(color: Colors.grey.shade600),
+                      style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
                     ),
                     GestureDetector(
                       onTap: _toggleMode,
@@ -229,10 +231,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildLabel(String text) {
     return Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 13,
         fontWeight: FontWeight.w600,
-        color: Colors.black87,
+        color: Theme.of(context).colorScheme.onSurface,
       ),
     );
   }

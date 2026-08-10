@@ -120,11 +120,11 @@ class _ArticlePageState extends State<_ArticlePage> {
     );
   }
 
-  Widget _dot() => Container(
+  Widget _dot(BuildContext context) => Container(
         width: 3,
         height: 3,
         decoration: BoxDecoration(
-          color: Colors.grey.shade400,
+          color: Theme.of(context).colorScheme.onSurfaceVariant.withAlpha(150),
           shape: BoxShape.circle,
         ),
       );
@@ -137,16 +137,17 @@ class _ArticlePageState extends State<_ArticlePage> {
     final category = news.categoryById(article.categoryId);
     final related = news.relatedArticles(article.categoryId, article.id);
     final isBookmarked = bookmarks.isBookmarked(article.id);
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.colorScheme.surface,
       body: CustomScrollView(
         slivers: [
           // ── Collapsing hero app bar ─────────────────────────────────────────
           SliverAppBar(
             expandedHeight: 300,
             pinned: true,
-            backgroundColor: Colors.white,
+            backgroundColor: theme.colorScheme.surface,
             foregroundColor: Colors.white,
             leading: Padding(
               padding: const EdgeInsets.all(8),
@@ -215,10 +216,10 @@ class _ArticlePageState extends State<_ArticlePage> {
                   CachedNetworkImage(
                     imageUrl: article.imageUrl,
                     fit: BoxFit.cover,
-                    placeholder: (_, _) =>
-                        Container(color: Colors.grey.shade200),
-                    errorWidget: (_, _, _) =>
-                        Container(color: Colors.grey.shade200),
+                    placeholder: (_, _) => Container(
+                        color: theme.colorScheme.surfaceContainerHighest),
+                    errorWidget: (_, _, _) => Container(
+                        color: theme.colorScheme.surfaceContainerHighest),
                   ),
                   const DecoratedBox(
                     decoration: BoxDecoration(
@@ -291,8 +292,12 @@ class _ArticlePageState extends State<_ArticlePage> {
                   // Title
                   Text(
                     article.title,
-                    style: AppTheme.headline(22, FontWeight.w700,
-                        color: const Color(0xFF1A1A1A), height: 1.3),
+                    style: AppTheme.headline(
+                      22,
+                      FontWeight.w700,
+                      color: theme.colorScheme.onSurface,
+                      height: 1.3,
+                    ),
                   ),
 
                   const SizedBox(height: 14),
@@ -324,23 +329,29 @@ class _ArticlePageState extends State<_ArticlePage> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          _dot(),
+                          _dot(context),
                           const SizedBox(width: 8),
                           Icon(Icons.access_time,
-                              size: 13, color: Colors.grey.shade500),
+                              size: 13, color: theme.colorScheme.onSurfaceVariant),
                           const SizedBox(width: 4),
                           Text(
                             timeago.format(article.publishedAt),
-                            style: AppTheme.body(13, FontWeight.w400,
-                                color: Colors.grey.shade500),
+                            style: AppTheme.body(
+                              13,
+                              FontWeight.w400,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
                           ),
                           const SizedBox(width: 8),
-                          _dot(),
+                          _dot(context),
                           const SizedBox(width: 8),
                           Text(
                             '${article.readTimeMinutes} min read',
-                            style: AppTheme.body(13, FontWeight.w400,
-                                color: Colors.grey.shade500),
+                            style: AppTheme.body(
+                              13,
+                              FontWeight.w400,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
                           ),
                         ],
                       ),
@@ -348,14 +359,18 @@ class _ArticlePageState extends State<_ArticlePage> {
                   ),
 
                   const SizedBox(height: 20),
-                  Divider(color: Colors.grey.shade100),
+                  Divider(color: theme.dividerColor),
                   const SizedBox(height: 20),
 
                   // Body text
                   Text(
                     article.summary,
-                    style: AppTheme.body(16, FontWeight.w400,
-                        color: const Color(0xFF2C2C2C), height: 1.7),
+                    style: AppTheme.body(
+                      16,
+                      FontWeight.w400,
+                      color: theme.colorScheme.onSurface,
+                      height: 1.7,
+                    ),
                   ),
 
                   const SizedBox(height: 28),
@@ -368,12 +383,16 @@ class _ArticlePageState extends State<_ArticlePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.swipe_rounded,
-                              size: 14, color: Colors.grey.shade400),
+                              size: 14,
+                              color: theme.colorScheme.onSurfaceVariant.withAlpha(150)),
                           const SizedBox(width: 6),
                           Text(
                             'Swipe to read more articles',
-                            style: AppTheme.body(12, FontWeight.w400,
-                                color: Colors.grey.shade400),
+                            style: AppTheme.body(
+                              12,
+                              FontWeight.w400,
+                              color: theme.colorScheme.onSurfaceVariant.withAlpha(150),
+                            ),
                           ),
                         ],
                       ),
@@ -426,8 +445,10 @@ class _RelatedHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
-      color: AppConfig.surfaceColor,
+      color: theme.scaffoldBackgroundColor,
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
       child: Row(
         children: [
@@ -442,8 +463,11 @@ class _RelatedHeader extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             'More from $categoryName',
-            style: AppTheme.headline(16, FontWeight.w700,
-                color: const Color(0xFF1A1A1A)),
+            style: AppTheme.headline(
+              16,
+              FontWeight.w700,
+              color: theme.colorScheme.onSurface,
+            ),
           ),
         ],
       ),
@@ -482,8 +506,10 @@ class _RelatedArticlesCarouselState
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
-      color: AppConfig.surfaceColor,
+      color: theme.scaffoldBackgroundColor,
       padding: const EdgeInsets.only(bottom: 16),
       child: Column(
         children: [
@@ -510,7 +536,7 @@ class _RelatedArticlesCarouselState
                 decoration: BoxDecoration(
                   color: _current == i
                       ? AppConfig.primaryColor
-                      : Colors.grey.shade300,
+                      : theme.colorScheme.onSurfaceVariant.withAlpha(100),
                   borderRadius: BorderRadius.circular(3),
                 ),
               );
@@ -532,25 +558,30 @@ class _SourcesChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding:
             const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(color: theme.dividerColor),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.layers_outlined,
-                size: 14, color: Color(0xFF1A1A1A)),
+            Icon(Icons.layers_outlined,
+                size: 14, color: theme.colorScheme.onSurface),
             const SizedBox(width: 5),
             Text(
               '$count Sources',
-              style: AppTheme.body(12, FontWeight.w600,
-                  color: const Color(0xFF1A1A1A)),
+              style: AppTheme.body(
+                12,
+                FontWeight.w600,
+                color: theme.colorScheme.onSurface,
+              ),
             ),
           ],
         ),
@@ -568,6 +599,8 @@ class _SourcesDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Dialog(
       shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -592,14 +625,21 @@ class _SourcesDialog extends StatelessWidget {
                       children: [
                         Text(
                           'Published on ${article.clusterSources.length} sources',
-                          style: AppTheme.headline(20, FontWeight.w700,
-                              color: const Color(0xFF1A1A1A)),
+                          style: AppTheme.headline(
+                            20,
+                            FontWeight.w700,
+                            color: theme.colorScheme.onSurface,
+                          ),
                         ),
                         const SizedBox(height: 6),
                         Text(
                           article.title,
-                          style: AppTheme.body(13, FontWeight.w400,
-                              color: Colors.grey.shade500, height: 1.4),
+                          style: AppTheme.body(
+                            13,
+                            FontWeight.w400,
+                            color: theme.colorScheme.onSurfaceVariant,
+                            height: 1.4,
+                          ),
                         ),
                       ],
                     ),
@@ -610,12 +650,11 @@ class _SourcesDialog extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Colors.grey.shade300),
+                        border: Border.all(color: theme.dividerColor),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Icon(Icons.close,
-                          size: 18, color: Color(0xFF1A1A1A)),
+                      child: Icon(Icons.close,
+                          size: 18, color: theme.colorScheme.onSurface),
                     ),
                   ),
                 ],
@@ -634,8 +673,7 @@ class _SourcesDialog extends StatelessWidget {
                           i < article.clusterSources.length;
                           i++) ...[
                         if (i > 0)
-                          Divider(
-                              height: 1, color: Colors.grey.shade200),
+                          Divider(height: 1, color: theme.dividerColor),
                         _SourceTile(source: article.clusterSources[i]),
                       ],
                     ],
@@ -666,6 +704,8 @@ class _SourceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 14),
       child: Row(
@@ -688,8 +728,11 @@ class _SourceTile extends StatelessWidget {
                   children: [
                     Text(
                       source.name,
-                      style: AppTheme.body(15, FontWeight.w700,
-                          color: const Color(0xFF1A1A1A)),
+                      style: AppTheme.body(
+                        15,
+                        FontWeight.w700,
+                        color: theme.colorScheme.onSurface,
+                      ),
                     ),
                     const SizedBox(width: 4),
                     const Icon(Icons.verified,
@@ -699,8 +742,11 @@ class _SourceTile extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   'Verified Publisher',
-                  style: AppTheme.body(12, FontWeight.w400,
-                      color: Colors.grey.shade500),
+                  style: AppTheme.body(
+                    12,
+                    FontWeight.w400,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),
@@ -708,7 +754,7 @@ class _SourceTile extends StatelessWidget {
           GestureDetector(
             onTap: _open,
             child: Icon(Icons.open_in_new,
-                size: 20, color: Colors.grey.shade500),
+                size: 20, color: theme.colorScheme.onSurfaceVariant),
           ),
         ],
       ),

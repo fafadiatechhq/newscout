@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import 'config/app_config.dart';
 import 'config/app_theme.dart';
 import 'core/models/article.dart';
+import 'core/providers/theme_provider.dart';
 import 'features/article/article_detail_loader.dart';
 import 'features/article/article_detail_screen.dart';
 import 'features/bookmarks/bookmarks_screen.dart';
 import 'features/categories/categories_screen.dart';
 import 'features/categories/category_articles_screen.dart';
 import 'features/home/home_screen.dart';
+import 'features/profile/appearance_screen.dart';
 import 'features/profile/login_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/search/search_screen.dart';
@@ -95,6 +98,10 @@ class NewScoutApp extends StatelessWidget {
                 path: 'bookmarks',
                 builder: (context, state) => const BookmarksScreen(),
               ),
+              GoRoute(
+                path: 'appearance',
+                builder: (context, state) => const AppearanceScreen(),
+              ),
             ],
           ),
         ],
@@ -104,10 +111,14 @@ class NewScoutApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+
     return MaterialApp.router(
       title: AppConfig.appName,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: themeProvider.mode,
       routerConfig: _router,
     );
   }
