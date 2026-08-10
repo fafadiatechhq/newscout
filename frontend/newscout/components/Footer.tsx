@@ -24,14 +24,11 @@ const Footer = () => {
         <div className="grid gap-8 md:grid-cols-4">
           <div>
             <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-foreground">
-                <span className="font-serif text-base font-bold text-primary">
-                  N
-                </span>
-              </div>
-              <span className="font-serif text-xl font-bold">
-                New<span className="text-accent">Scout</span>
-              </span>
+              <img
+                src="/images/logo.png"
+                alt="NewScout"
+                className="h-13 w-auto invert dark:invert-0"
+              />
             </Link>
             <p className="mt-3 text-sm text-primary-foreground/70">
               Your centralized, searchable, and customizable news experience.
