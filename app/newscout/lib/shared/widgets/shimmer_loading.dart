@@ -7,24 +7,27 @@ class ArticleCardShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final shimmer = _shimmerColors(context);
+
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade200,
-      highlightColor: Colors.grey.shade50,
+      baseColor: shimmer.base,
+      highlightColor: shimmer.highlight,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image placeholder
             Container(
               height: 190,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(12)),
               ),
             ),
             Padding(
@@ -32,27 +35,16 @@ class ArticleCardShimmer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _box(height: 14, width: double.infinity),
+                  _box(context, height: 14, width: double.infinity),
                   const SizedBox(height: 6),
-                  _box(height: 14, width: 240),
+                  _box(context, height: 14, width: 240),
                   const SizedBox(height: 12),
-                  _box(height: 11, width: 140),
+                  _box(context, height: 11, width: 140),
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _box({required double height, required double width}) {
-    return Container(
-      height: height,
-      width: width,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(4),
       ),
     );
   }
@@ -64,14 +56,17 @@ class ArticleTileShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final shimmer = _shimmerColors(context);
+
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade200,
-      highlightColor: Colors.grey.shade50,
+      baseColor: shimmer.base,
+      highlightColor: shimmer.highlight,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -80,7 +75,7 @@ class ArticleTileShimmer extends StatelessWidget {
               width: 88,
               height: 88,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: theme.colorScheme.surface,
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
@@ -89,29 +84,18 @@ class ArticleTileShimmer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _box(height: 13, width: double.infinity),
+                  _box(context, height: 13, width: double.infinity),
                   const SizedBox(height: 6),
-                  _box(height: 13, width: 200),
+                  _box(context, height: 13, width: 200),
                   const SizedBox(height: 6),
-                  _box(height: 13, width: 140),
+                  _box(context, height: 13, width: 140),
                   const SizedBox(height: 10),
-                  _box(height: 11, width: 100),
+                  _box(context, height: 11, width: 100),
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _box({required double height, required double width}) {
-    return Container(
-      height: height,
-      width: width,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(4),
       ),
     );
   }
@@ -123,17 +107,47 @@ class BreakingNewsShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final shimmer = _shimmerColors(context);
+
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade200,
-      highlightColor: Colors.grey.shade50,
+      baseColor: shimmer.base,
+      highlightColor: shimmer.highlight,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
         ),
         height: 200,
       ),
     );
   }
+}
+
+class _ShimmerColors {
+  final Color base;
+  final Color highlight;
+
+  const _ShimmerColors({required this.base, required this.highlight});
+}
+
+_ShimmerColors _shimmerColors(BuildContext context) {
+  final isDark = Theme.of(context).brightness == Brightness.dark;
+  return _ShimmerColors(
+    base: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
+    highlight: isDark ? Colors.grey.shade700 : Colors.grey.shade50,
+  );
+}
+
+Widget _box(BuildContext context,
+    {required double height, required double width}) {
+  return Container(
+    height: height,
+    width: width,
+    decoration: BoxDecoration(
+      color: Theme.of(context).colorScheme.surface,
+      borderRadius: BorderRadius.circular(4),
+    ),
+  );
 }

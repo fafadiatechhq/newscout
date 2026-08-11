@@ -44,27 +44,18 @@ class AppTheme {
   // ── Text theme ────────────────────────────────────────────────────────────
 
   static TextTheme get _textTheme => TextTheme(
-        // Display — largest editorial text (e.g. hero sections)
         displayLarge: headline(57, FontWeight.w400),
         displayMedium: headline(45, FontWeight.w400),
         displaySmall: headline(36, FontWeight.w400),
-
-        // Headline — article titles, section headers
         headlineLarge: headline(32, FontWeight.w700),
         headlineMedium: headline(28, FontWeight.w700),
         headlineSmall: headline(24, FontWeight.w700),
-
-        // Title — card titles, app bar text, dialog headings
         titleLarge: headline(22, FontWeight.w700),
         titleMedium: body(16, FontWeight.w600),
         titleSmall: body(14, FontWeight.w600),
-
-        // Body — article summaries, paragraphs
         bodyLarge: body(16, FontWeight.w400, height: 1.7),
         bodyMedium: body(14, FontWeight.w400, height: 1.6),
         bodySmall: body(12, FontWeight.w400),
-
-        // Label — chips, badges, metadata, buttons
         labelLarge: body(14, FontWeight.w600),
         labelMedium: body(12, FontWeight.w500),
         labelSmall: body(11, FontWeight.w500),
@@ -72,29 +63,52 @@ class AppTheme {
 
   // ── Theme ─────────────────────────────────────────────────────────────────
 
-  static ThemeData get light {
-    final textTheme = _textTheme;
+  static ThemeData get light => _buildTheme(Brightness.light);
+
+  static ThemeData get dark => _buildTheme(Brightness.dark);
+
+  static ThemeData _buildTheme(Brightness brightness) {
+    final isDark = brightness == Brightness.dark;
+    final textTheme = _textTheme.apply(
+      bodyColor: isDark ? AppConfig.onSurfaceDark : null,
+      displayColor: isDark ? AppConfig.onSurfaceDark : null,
+    );
+
+    final surfaceColor =
+        isDark ? AppConfig.surfaceColorDark : AppConfig.surfaceColor;
+    final cardColor = isDark ? AppConfig.cardColorDark : AppConfig.cardColor;
+    final appBarColor = isDark ? AppConfig.cardColorDark : Colors.white;
+    final inputFillColor = isDark ? AppConfig.cardColorDark : Colors.white;
+    final borderColor =
+        isDark ? Colors.grey.shade700 : Colors.grey.shade200;
+    final mutedColor =
+        isDark ? AppConfig.mutedTextDark : Colors.grey;
+    final shadowColor = isDark ? Colors.black54 : Colors.black26;
 
     final colorScheme = ColorScheme.fromSeed(
       seedColor: AppConfig.primaryColor,
       primary: AppConfig.primaryColor,
       secondary: AppConfig.accentColor,
-      surface: AppConfig.surfaceColor,
-      brightness: Brightness.light,
+      surface: surfaceColor,
+      onSurface: isDark ? AppConfig.onSurfaceDark : Colors.black87,
+      onSurfaceVariant: isDark ? AppConfig.mutedTextDark : Colors.grey.shade600,
+      brightness: brightness,
     );
 
     return ThemeData(
       useMaterial3: true,
+      brightness: brightness,
       colorScheme: colorScheme,
       textTheme: textTheme,
       primaryTextTheme: textTheme,
-      scaffoldBackgroundColor: AppConfig.surfaceColor,
+      scaffoldBackgroundColor: surfaceColor,
+      dividerColor: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
       appBarTheme: AppBarTheme(
-        backgroundColor: Colors.white,
+        backgroundColor: appBarColor,
         foregroundColor: AppConfig.primaryColor,
         elevation: 0,
         scrolledUnderElevation: 1,
-        shadowColor: Colors.black12,
+        shadowColor: isDark ? Colors.black45 : Colors.black12,
         titleTextStyle: headline(
           20,
           FontWeight.w700,
@@ -103,13 +117,13 @@ class AppTheme {
         ),
       ),
       cardTheme: CardThemeData(
-        color: AppConfig.cardColor,
+        color: cardColor,
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: EdgeInsets.zero,
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: AppConfig.primaryColor.withAlpha(20),
+        backgroundColor: AppConfig.primaryColor.withAlpha(isDark ? 40 : 20),
         labelStyle: body(
           11,
           FontWeight.w600,
@@ -120,34 +134,34 @@ class AppTheme {
         side: BorderSide.none,
       ),
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: Colors.white,
+        backgroundColor: appBarColor,
         indicatorColor: AppConfig.primaryColor.withAlpha(30),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return const IconThemeData(color: AppConfig.primaryColor);
           }
-          return const IconThemeData(color: Colors.grey);
+          return IconThemeData(color: mutedColor);
         }),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return body(12, FontWeight.w600, color: AppConfig.primaryColor);
           }
-          return body(12, FontWeight.w400, color: Colors.grey);
+          return body(12, FontWeight.w400, color: mutedColor);
         }),
         elevation: 8,
-        shadowColor: Colors.black26,
+        shadowColor: shadowColor,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: Colors.white,
-        hintStyle: body(14, FontWeight.w400, color: Colors.grey),
+        fillColor: inputFillColor,
+        hintStyle: body(14, FontWeight.w400, color: mutedColor),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderSide: BorderSide(color: borderColor),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderSide: BorderSide(color: borderColor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -172,6 +186,10 @@ class AppTheme {
           padding: const EdgeInsets.symmetric(vertical: 14),
           textStyle: body(15, FontWeight.w600),
         ),
+      ),
+      listTileTheme: ListTileThemeData(
+        iconColor: isDark ? AppConfig.mutedTextDark : Colors.grey.shade600,
+        textColor: isDark ? AppConfig.onSurfaceDark : Colors.black87,
       ),
     );
   }

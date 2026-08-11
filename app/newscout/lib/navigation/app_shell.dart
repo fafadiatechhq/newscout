@@ -52,10 +52,11 @@ class _HeroBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final theme = Theme.of(context);
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.colorScheme.surface,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withAlpha(26),
@@ -127,7 +128,8 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = selected ? AppConfig.primaryColor : Colors.grey;
+    final theme = Theme.of(context);
+    final color = selected ? AppConfig.primaryColor : theme.colorScheme.onSurfaceVariant;
 
     return Expanded(
       child: InkWell(
@@ -163,6 +165,8 @@ class _CenterTrendingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
@@ -182,7 +186,7 @@ class _CenterTrendingButton extends StatelessWidget {
                   fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                   color: selected
                       ? AppConfig.accentColor
-                      : Colors.grey.shade600,
+                      : theme.colorScheme.onSurfaceVariant,
                 ),
               ),
             ),
@@ -196,7 +200,7 @@ class _CenterTrendingButton extends StatelessWidget {
                   color: AppConfig.accentColor,
                   shape: BoxShape.circle,
                   border: selected
-                      ? Border.all(color: Colors.white, width: 3)
+                      ? Border.all(color: theme.colorScheme.surface, width: 3)
                       : null,
                   boxShadow: [
                     BoxShadow(

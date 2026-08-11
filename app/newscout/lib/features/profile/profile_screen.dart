@@ -27,15 +27,11 @@ class _AnonymousProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: AppConfig.surfaceColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text(
-          'Profile',
-          style: TextStyle(
-              color: AppConfig.primaryColor, fontWeight: FontWeight.w800),
-        ),
+        title: const Text('Profile'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -52,15 +48,20 @@ class _AnonymousProfile extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'You\'re browsing anonymously',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
             ),
             const SizedBox(height: 8),
             Text(
               'Sign in to personalise your feed,\nsync bookmarks, and more.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey.shade600, height: 1.5),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+                height: 1.5,
+              ),
             ),
             const SizedBox(height: 32),
             SizedBox(
@@ -81,6 +82,11 @@ class _AnonymousProfile extends StatelessWidget {
             const SizedBox(height: 40),
             const Divider(),
             const SizedBox(height: 16),
+            _SettingsTile(
+              icon: Icons.dark_mode_outlined,
+              title: 'Appearance',
+              onTap: () => context.push('/profile/appearance'),
+            ),
             _SettingsTile(
               icon: Icons.bookmark_outline,
               title: 'Bookmarks',
@@ -119,23 +125,18 @@ class _LoggedInProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = auth.currentUser!;
     final news = context.watch<NewsProvider>();
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: AppConfig.surfaceColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text(
-          'Profile',
-          style: TextStyle(
-              color: AppConfig.primaryColor, fontWeight: FontWeight.w800),
-        ),
+        title: const Text('Profile'),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             // ── User header ──────────────────────────────────────────────
             Container(
-              color: Colors.white,
+              color: theme.colorScheme.surface,
               padding: const EdgeInsets.all(24),
               child: Row(
                 children: [
@@ -158,16 +159,16 @@ class _LoggedInProfile extends StatelessWidget {
                       children: [
                         Text(
                           user.name,
-                          style: const TextStyle(
-                            fontSize: 18,
+                          style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           user.email,
-                          style: TextStyle(
-                              color: Colors.grey.shade600, fontSize: 14),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
                         ),
                       ],
                     ),
@@ -181,31 +182,35 @@ class _LoggedInProfile extends StatelessWidget {
             // ── Preferred categories ─────────────────────────────────────
             if (news.categories.isNotEmpty)
               Container(
-                color: Colors.white,
+                color: theme.colorScheme.surface,
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Your Interests',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 15),
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
                       children: news.categories.map((cat) {
-                        final isSelected = user.preferredCategoryIds
-                            .contains(cat.id);
+                        final isSelected =
+                            user.preferredCategoryIds.contains(cat.id);
                         return FilterChip(
                           label: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(cat.icon, size: 14,
-                                  color: isSelected
-                                      ? AppConfig.primaryColor
-                                      : Colors.grey.shade600),
+                              Icon(
+                                cat.icon,
+                                size: 14,
+                                color: isSelected
+                                    ? AppConfig.primaryColor
+                                    : theme.colorScheme.onSurfaceVariant,
+                              ),
                               const SizedBox(width: 4),
                               Text(cat.name),
                             ],
@@ -217,7 +222,7 @@ class _LoggedInProfile extends StatelessWidget {
                           labelStyle: TextStyle(
                             color: isSelected
                                 ? AppConfig.primaryColor
-                                : Colors.grey.shade700,
+                                : theme.colorScheme.onSurfaceVariant,
                             fontWeight: isSelected
                                 ? FontWeight.w600
                                 : FontWeight.normal,
@@ -226,7 +231,7 @@ class _LoggedInProfile extends StatelessWidget {
                           side: isSelected
                               ? const BorderSide(
                                   color: AppConfig.primaryColor, width: 1.5)
-                              : BorderSide(color: Colors.grey.shade200),
+                              : BorderSide(color: theme.dividerColor),
                         );
                       }).toList(),
                     ),
@@ -238,33 +243,39 @@ class _LoggedInProfile extends StatelessWidget {
 
             // ── Settings ─────────────────────────────────────────────────
             Container(
-              color: Colors.white,
+              color: theme.colorScheme.surface,
               child: Column(
                 children: [
+                  _SettingsTile(
+                    icon: Icons.dark_mode_outlined,
+                    title: 'Appearance',
+                    onTap: () => context.push('/profile/appearance'),
+                  ),
+                  Divider(indent: 56, height: 1, color: theme.dividerColor),
                   _SettingsTile(
                     icon: Icons.bookmark_outline,
                     title: 'Bookmarks',
                     onTap: () => context.push('/profile/bookmarks'),
                   ),
-                  const Divider(indent: 56, height: 1),
+                  Divider(indent: 56, height: 1, color: theme.dividerColor),
                   _SettingsTile(
                     icon: Icons.notifications_outlined,
                     title: 'Notifications',
                     onTap: () {},
                   ),
-                  const Divider(indent: 56, height: 1),
+                  Divider(indent: 56, height: 1, color: theme.dividerColor),
                   _SettingsTile(
                     icon: Icons.dns_outlined,
                     title: 'Server URL',
                     onTap: () => showServerUrlDialog(context),
                   ),
-                  const Divider(indent: 56, height: 1),
+                  Divider(indent: 56, height: 1, color: theme.dividerColor),
                   _SettingsTile(
                     icon: Icons.info_outline,
                     title: 'About ${AppConfig.appName}',
                     onTap: () => _showAbout(context),
                   ),
-                  const Divider(indent: 56, height: 1),
+                  Divider(indent: 56, height: 1, color: theme.dividerColor),
                   _SettingsTile(
                     icon: Icons.logout,
                     title: 'Sign Out',
@@ -326,19 +337,27 @@ class _SettingsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return ListTile(
       onTap: onTap,
-      leading: Icon(icon,
-          color: iconColor ?? Colors.grey.shade600, size: 22),
+      leading: Icon(
+        icon,
+        color: iconColor ?? theme.colorScheme.onSurfaceVariant,
+        size: 22,
+      ),
       title: Text(
         title,
         style: TextStyle(
-          color: titleColor ?? Colors.black87,
+          color: titleColor ?? theme.colorScheme.onSurface,
           fontWeight: FontWeight.w500,
         ),
       ),
-      trailing:
-          Icon(Icons.chevron_right, color: Colors.grey.shade400, size: 20),
+      trailing: Icon(
+        Icons.chevron_right,
+        color: theme.colorScheme.onSurfaceVariant.withAlpha(150),
+        size: 20,
+      ),
     );
   }
 }

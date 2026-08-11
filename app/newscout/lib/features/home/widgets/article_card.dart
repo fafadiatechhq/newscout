@@ -28,7 +28,7 @@ class ArticleCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.cardTheme.color ?? theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -54,13 +54,13 @@ class ArticleCard extends StatelessWidget {
                     fit: BoxFit.cover,
                     placeholder: (_, _) => Container(
                       height: 200,
-                      color: Colors.grey.shade100,
+                      color: theme.colorScheme.surfaceContainerHighest,
                     ),
                     errorWidget: (_, _, _) => Container(
                       height: 200,
-                      color: Colors.grey.shade100,
-                      child: const Icon(Icons.image_not_supported_outlined,
-                          color: Colors.grey, size: 40),
+                      color: theme.colorScheme.surfaceContainerHighest,
+                      child: Icon(Icons.image_not_supported_outlined,
+                          color: theme.colorScheme.onSurfaceVariant, size: 40),
                     ),
                   ),
                 ),
@@ -98,7 +98,7 @@ class ArticleCard extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: Colors.white.withAlpha(230),
+                        color: theme.colorScheme.surface.withAlpha(230),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -108,7 +108,7 @@ class ArticleCard extends StatelessWidget {
                         size: 18,
                         color: isBookmarked
                             ? AppConfig.primaryColor
-                            : Colors.grey.shade600,
+                            : theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ),
@@ -134,7 +134,7 @@ class ArticleCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.grey.shade600,
+                      color: theme.colorScheme.onSurfaceVariant,
                       height: 1.4,
                     ),
                   ),
@@ -142,12 +142,12 @@ class ArticleCard extends StatelessWidget {
                   Row(
                     children: [
                       Icon(Icons.newspaper_outlined,
-                          size: 13, color: Colors.grey.shade500),
+                          size: 13, color: theme.colorScheme.onSurfaceVariant),
                       const SizedBox(width: 4),
                       Text(
                         article.source,
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.grey.shade500,
+                          color: theme.colorScheme.onSurfaceVariant,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -156,7 +156,7 @@ class ArticleCard extends StatelessWidget {
                         width: 3,
                         height: 3,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade400,
+                          color: theme.colorScheme.onSurfaceVariant.withAlpha(150),
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -164,17 +164,17 @@ class ArticleCard extends StatelessWidget {
                       Text(
                         timeago.format(article.publishedAt),
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.grey.shade500,
+                          color: theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
                       const Spacer(),
                       Icon(Icons.access_time,
-                          size: 12, color: Colors.grey.shade400),
+                          size: 12, color: theme.colorScheme.onSurfaceVariant.withAlpha(150)),
                       const SizedBox(width: 3),
                       Text(
                         '${article.readTimeMinutes} min',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.grey.shade400,
+                          color: theme.colorScheme.onSurfaceVariant.withAlpha(150),
                           fontSize: 11,
                         ),
                       ),

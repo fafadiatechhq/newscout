@@ -7,6 +7,7 @@ import 'core/providers/auth_provider.dart';
 import 'core/providers/bookmarks_provider.dart';
 import 'core/providers/config_provider.dart';
 import 'core/providers/news_provider.dart';
+import 'core/providers/theme_provider.dart';
 import 'core/providers/trending_provider.dart';
 import 'core/services/api_auth_service.dart';
 import 'core/services/api_bookmark_service.dart';
@@ -20,6 +21,7 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final configProvider = await ConfigProvider.create(prefs);
+  final themeProvider = await ThemeProvider.create(prefs);
   final apiClient = ApiClient(prefs, configProvider);
 
   // ── Service layer ──────────────────────────────────────────────────────────
@@ -37,6 +39,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: configProvider),
+        ChangeNotifierProvider.value(value: themeProvider),
         ChangeNotifierProvider(
           create: (_) => NewsProvider(newsService),
         ),

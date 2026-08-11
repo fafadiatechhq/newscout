@@ -35,16 +35,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     final news = context.watch<NewsProvider>();
 
     return Scaffold(
-      backgroundColor: AppConfig.surfaceColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text(
-          'Categories',
-          style: TextStyle(
-            color: AppConfig.primaryColor,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
+        title: const Text('Categories'),
       ),
       body: news.isLoadingCategories
           ? const Center(

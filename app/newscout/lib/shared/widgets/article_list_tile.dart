@@ -26,7 +26,7 @@ class ArticleListTile extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.cardTheme.color ?? theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -50,14 +50,14 @@ class ArticleListTile extends StatelessWidget {
                 placeholder: (_, _) => Container(
                   width: 88,
                   height: 88,
-                  color: Colors.grey.shade100,
+                  color: theme.colorScheme.surfaceContainerHighest,
                 ),
                 errorWidget: (_, _, _) => Container(
                   width: 88,
                   height: 88,
-                  color: Colors.grey.shade100,
-                  child: const Icon(Icons.image_not_supported_outlined,
-                      color: Colors.grey),
+                  color: theme.colorScheme.surfaceContainerHighest,
+                  child: Icon(Icons.image_not_supported_outlined,
+                      color: theme.colorScheme.onSurfaceVariant),
                 ),
               ),
             ),
@@ -80,7 +80,7 @@ class ArticleListTile extends StatelessWidget {
                         child: Text(
                           '${article.source} · ${timeago.format(article.publishedAt)}',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: Colors.grey.shade500,
+                            color: theme.colorScheme.onSurfaceVariant,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -93,8 +93,8 @@ class ArticleListTile extends StatelessWidget {
                               : Icons.bookmark_outline,
                           size: 18,
                           color: isBookmarked
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.grey.shade400,
+                              ? theme.colorScheme.primary
+                              : theme.colorScheme.onSurfaceVariant.withAlpha(150),
                         ),
                       ),
                     ],

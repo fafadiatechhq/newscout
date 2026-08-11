@@ -16,6 +16,12 @@ class AppConfig {
   static const Color surfaceColor = Color(0xFFF7F8FA);
   static const Color cardColor = Color(0xFFFFFFFF);
 
+  // ── Dark mode palette ────────────────────────────────────────────────────
+  static const Color surfaceColorDark = Color(0xFF121212);
+  static const Color cardColorDark = Color(0xFF1E1E1E);
+  static const Color onSurfaceDark = Color(0xFFE8E8E8);
+  static const Color mutedTextDark = Color(0xFF9E9E9E);
+
   // ── Typography ───────────────────────────────────────────────────────────
   // Change these two values to retype the entire app for a white-label build.
   // Values must be valid Google Fonts family names (case-sensitive).

@@ -48,9 +48,7 @@ class _SearchScreenState extends State<SearchScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: AppConfig.surfaceColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title: const Text('Search'),
         bottom: PreferredSize(
@@ -66,14 +64,19 @@ class _SearchScreenState extends State<SearchScreen> {
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
                     hintText: 'Search news, topics, sources…',
-                    hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 15),
-                    prefixIcon: const Icon(Icons.search, color: AppConfig.primaryColor),
+                    hintStyle: TextStyle(
+                      color: theme.colorScheme.onSurfaceVariant.withAlpha(180),
+                      fontSize: 15,
+                    ),
+                    prefixIcon:
+                        const Icon(Icons.search, color: AppConfig.primaryColor),
                     suffixIcon: _controller.text.isNotEmpty
                         ? Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               IconButton(
-                                icon: Icon(Icons.close, color: Colors.grey.shade400),
+                                icon: Icon(Icons.close,
+                                    color: theme.colorScheme.onSurfaceVariant),
                                 onPressed: _clear,
                               ),
                               GestureDetector(
@@ -99,7 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           )
                         : null,
                     filled: true,
-                    fillColor: AppConfig.surfaceColor,
+                    fillColor: theme.scaffoldBackgroundColor,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
@@ -108,7 +111,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               ),
-              Divider(height: 1, color: Colors.grey.shade200),
+              Divider(height: 1, color: theme.dividerColor),
             ],
           ),
         ),
@@ -180,7 +183,7 @@ class _SearchEmptyState extends StatelessWidget {
             'Popular topics',
             style: theme.textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.w700,
-              color: Colors.grey.shade500,
+              color: theme.colorScheme.onSurfaceVariant,
               letterSpacing: 0.5,
             ),
           ),
@@ -215,24 +218,30 @@ class _SearchPrompt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.touch_app_rounded, size: 64, color: Colors.grey.shade300),
+            Icon(Icons.touch_app_rounded,
+                size: 64, color: theme.colorScheme.onSurfaceVariant.withAlpha(120)),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'Tap Search to find articles',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: theme.textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
               'Press the Search button or the\nSearch key on your keyboard.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey.shade600, height: 1.5),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+                height: 1.5,
+              ),
             ),
           ],
         ),
@@ -248,6 +257,8 @@ class _NoResults extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
@@ -255,19 +266,21 @@ class _NoResults extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.search_off_rounded,
-                size: 64, color: Colors.grey.shade300),
+                size: 64, color: theme.colorScheme.onSurfaceVariant.withAlpha(120)),
             const SizedBox(height: 16),
             Text(
               'No results for "$query"',
-              style: const TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.w600),
+              style: theme.textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
               'Try different keywords or check\nyour spelling.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey.shade600, height: 1.5),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+                height: 1.5,
+              ),
             ),
           ],
         ),

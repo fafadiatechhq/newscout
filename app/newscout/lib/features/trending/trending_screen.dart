@@ -53,7 +53,6 @@ class _TrendingScreenState extends State<TrendingScreen> {
     final rest = items.length > 1 ? items.sublist(1) : <Article>[];
 
     return Scaffold(
-      backgroundColor: AppConfig.surfaceColor,
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(child: _TrendingHeader()),
@@ -181,6 +180,7 @@ class _PeriodChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     const labels = {
       TrendingPeriod.now: 'Now',
       TrendingPeriod.today: 'Today',
@@ -188,7 +188,7 @@ class _PeriodChips extends StatelessWidget {
     };
 
     return Container(
-      color: Colors.white,
+      color: theme.colorScheme.surface,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: TrendingPeriod.values.map((period) {
@@ -203,16 +203,16 @@ class _PeriodChips extends StatelessWidget {
               labelStyle: TextStyle(
                 color: isSelected
                     ? AppConfig.accentColor
-                    : Colors.grey.shade700,
+                    : theme.colorScheme.onSurfaceVariant,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                 fontSize: 13,
               ),
               side: BorderSide(
                 color: isSelected
                     ? AppConfig.accentColor
-                    : Colors.grey.shade300,
+                    : theme.dividerColor,
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: theme.colorScheme.surface,
               showCheckmark: false,
             ),
           );
@@ -232,6 +232,7 @@ class _HeroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final bookmarks = context.watch<BookmarksProvider>();
     final isBookmarked = bookmarks.isBookmarked(article.id);
+    final theme = Theme.of(context);
 
     return GestureDetector(
       onTap: () => context.push('/article/${article.id}', extra: article),
@@ -259,7 +260,7 @@ class _HeroCard extends StatelessWidget {
           const SizedBox(height: 10),
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: theme.cardTheme.color ?? theme.colorScheme.surface,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
@@ -282,13 +283,13 @@ class _HeroCard extends StatelessWidget {
                       fit: BoxFit.cover,
                       placeholder: (_, _) => Container(
                         height: 200,
-                        color: Colors.grey.shade100,
+                        color: theme.colorScheme.surfaceContainerHighest,
                       ),
                       errorWidget: (_, _, _) => Container(
                         height: 200,
-                        color: Colors.grey.shade100,
-                        child: const Icon(Icons.image_not_supported_outlined,
-                            color: Colors.grey, size: 40),
+                        color: theme.colorScheme.surfaceContainerHighest,
+                        child: Icon(Icons.image_not_supported_outlined,
+                            color: theme.colorScheme.onSurfaceVariant, size: 40),
                       ),
                     ),
                     Positioned(
@@ -299,7 +300,7 @@ class _HeroCard extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
-                            color: Colors.white.withAlpha(230),
+                            color: theme.colorScheme.surface.withAlpha(230),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -309,7 +310,7 @@ class _HeroCard extends StatelessWidget {
                             size: 18,
                             color: isBookmarked
                                 ? AppConfig.primaryColor
-                                : Colors.grey.shade600,
+                                : theme.colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ),
@@ -336,7 +337,7 @@ class _HeroCard extends StatelessWidget {
                         style: AppTheme.body(
                           13,
                           FontWeight.w400,
-                          color: Colors.grey.shade600,
+                          color: theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -360,11 +361,13 @@ class _MetaRibbon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: AppConfig.surfaceColor,
+        color: theme.scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Wrap(
@@ -398,14 +401,20 @@ class _Stat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 14, color: Colors.grey.shade500),
+        Icon(icon, size: 14, color: theme.colorScheme.onSurfaceVariant),
         const SizedBox(width: 4),
         Text(
           label,
-          style: AppTheme.body(12, FontWeight.w500, color: Colors.grey.shade600),
+          style: AppTheme.body(
+            12,
+            FontWeight.w500,
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
         ),
       ],
     );
@@ -422,6 +431,7 @@ class _RankedTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bookmarks = context.watch<BookmarksProvider>();
     final isBookmarked = bookmarks.isBookmarked(article.id);
+    final theme = Theme.of(context);
 
     return GestureDetector(
       onTap: () => context.push('/article/${article.id}', extra: article),
@@ -429,7 +439,7 @@ class _RankedTile extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.cardTheme.color ?? theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -463,14 +473,14 @@ class _RankedTile extends StatelessWidget {
                 placeholder: (_, _) => Container(
                   width: 72,
                   height: 72,
-                  color: Colors.grey.shade100,
+                  color: theme.colorScheme.surfaceContainerHighest,
                 ),
                 errorWidget: (_, _, _) => Container(
                   width: 72,
                   height: 72,
-                  color: Colors.grey.shade100,
-                  child: const Icon(Icons.image_not_supported_outlined,
-                      color: Colors.grey),
+                  color: theme.colorScheme.surfaceContainerHighest,
+                  child: Icon(Icons.image_not_supported_outlined,
+                      color: theme.colorScheme.onSurfaceVariant),
                 ),
               ),
             ),
@@ -494,7 +504,7 @@ class _RankedTile extends StatelessWidget {
                           style: AppTheme.body(
                             12,
                             FontWeight.w400,
-                            color: Colors.grey.shade500,
+                            color: theme.colorScheme.onSurfaceVariant,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -508,7 +518,7 @@ class _RankedTile extends StatelessWidget {
                           size: 18,
                           color: isBookmarked
                               ? AppConfig.primaryColor
-                              : Colors.grey.shade400,
+                              : theme.colorScheme.onSurfaceVariant.withAlpha(150),
                         ),
                       ),
                     ],
@@ -531,15 +541,22 @@ class _ErrorBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
-          const Icon(Icons.wifi_off_outlined, size: 48, color: Colors.grey),
+          Icon(Icons.wifi_off_outlined,
+              size: 48, color: theme.colorScheme.onSurfaceVariant),
           const SizedBox(height: 12),
           Text(
             'Could not load trending articles',
-            style: AppTheme.body(14, FontWeight.w500, color: Colors.grey.shade700),
+            style: AppTheme.body(
+              14,
+              FontWeight.w500,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
@@ -555,16 +572,22 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(32),
       child: Column(
         children: [
-          const Icon(Icons.local_fire_department_outlined,
-              size: 48, color: Colors.grey),
+          Icon(Icons.local_fire_department_outlined,
+              size: 48, color: theme.colorScheme.onSurfaceVariant),
           const SizedBox(height: 12),
           Text(
             'No trending stories for this period',
-            style: AppTheme.body(14, FontWeight.w500, color: Colors.grey.shade600),
+            style: AppTheme.body(
+              14,
+              FontWeight.w500,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
         ],

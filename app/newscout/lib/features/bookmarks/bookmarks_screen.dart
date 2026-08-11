@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../config/app_config.dart';
 import '../../core/providers/bookmarks_provider.dart';
 import '../../shared/widgets/article_list_tile.dart';
 
@@ -15,23 +14,15 @@ class BookmarksScreen extends StatelessWidget {
     final articles = bookmarks.bookmarks;
 
     return Scaffold(
-      backgroundColor: AppConfig.surfaceColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text(
-          'Bookmarks',
-          style: TextStyle(
-            color: AppConfig.primaryColor,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
+        title: const Text('Bookmarks'),
         actions: [
           if (articles.isNotEmpty)
             TextButton(
               onPressed: () => _confirmClearAll(context, bookmarks),
-              child: const Text(
+              child: Text(
                 'Clear all',
-                style: TextStyle(color: Colors.grey),
+                style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
               ),
             ),
         ],
@@ -97,6 +88,8 @@ class _EmptyBookmarks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
@@ -106,13 +99,12 @@ class _EmptyBookmarks extends StatelessWidget {
             Icon(
               Icons.bookmark_outline,
               size: 72,
-              color: Colors.grey.shade300,
+              color: theme.colorScheme.onSurfaceVariant.withAlpha(120),
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'No saved articles yet',
-              style: TextStyle(
-                fontSize: 18,
+              style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -120,7 +112,10 @@ class _EmptyBookmarks extends StatelessWidget {
             Text(
               'Tap the bookmark icon on any article\nto save it for later.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey.shade600, height: 1.5),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+                height: 1.5,
+              ),
             ),
             const SizedBox(height: 24),
             FilledButton.icon(
