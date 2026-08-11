@@ -77,17 +77,14 @@ const Header = () => {
       </div>
 
       {/* Main nav */}
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container flex h-18 items-center justify-between mb-1 ">
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-              <span className="font-serif text-sm md:text-lg font-bold text-primary-foreground">
-                N
-              </span>
-            </div>
-            <span className="font-serif text-xl md:text-2xl font-bold text-foreground">
-              New<span className="text-accent">Scout</span>
-            </span>
+          <Link href="/" className="flex items-center">
+            <img
+              src="/images/logo.png"
+              alt="NewScout"
+              className="h-13 w-auto"
+            />
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">

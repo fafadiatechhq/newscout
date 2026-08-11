@@ -26,15 +26,12 @@ const AdminSidebar = () => {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="px-4 py-5 ">
-        <Link href="/admin" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-sidebar-accent">
-            <span className="font-serif text-sm font-bold text-sidebar-accent-foreground">
-              N
-            </span>
-          </div>
-          <span className="truncate font-serif text-lg font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
-            NewScout
-          </span>
+        <Link href="/admin" className="flex items-center">
+          <img
+            src="/images/logo.png"
+            alt="NewScout"
+            className="h-10 w-auto shrink-0 group-data-[collapsible=icon]:hidden"
+          />
         </Link>
       </SidebarHeader>
 
