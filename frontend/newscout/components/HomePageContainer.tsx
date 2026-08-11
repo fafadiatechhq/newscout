@@ -67,7 +67,7 @@ const HomePageContainer = () => {
 
             {/* Side trending */}
             <motion.div
-              className="flex flex-col rounded-xl bg-background p-5"
+              className="flex flex-col rounded-xl bg-background p-5 mb-8"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
