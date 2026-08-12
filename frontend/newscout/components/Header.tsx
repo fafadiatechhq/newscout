@@ -77,13 +77,17 @@ const Header = () => {
       </div>
 
       {/* Main nav */}
-      <div className="container flex h-18 items-center justify-between mb-1 ">
-        <div className="flex items-center gap-8">
+      <div className="container flex h-18 items-center justify-between gap-2 mb-1">
+        <div
+          className={`items-center gap-8 ${
+            searchOpen ? "hidden md:flex" : "flex"
+          }`}
+        >
           <Link href="/" className="flex items-center">
             <img
               src="/images/logo.png"
               alt="NewScout"
-              className="h-13 w-auto"
+              className="h-10 w-auto md:h-13"
             />
           </Link>
 
@@ -107,22 +111,29 @@ const Header = () => {
           </nav>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div
+          className={`flex items-center gap-2 min-w-0 ${
+            searchOpen ? "flex-1 md:flex-none" : ""
+          }`}
+        >
           {searchOpen ? (
-            <form onSubmit={handleSearch} className="flex items-center gap-2">
+            <form
+              onSubmit={handleSearch}
+              className="flex flex-1 md:flex-none items-center gap-2 min-w-0"
+            >
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search articles..."
-                className="h-9 w-48 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring md:w-64"
+                className="h-9 w-full min-w-0 flex-1 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring md:flex-none md:w-64"
                 autoFocus
               />
               <Button
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="h-9 w-9"
+                className="h-9 w-9 shrink-0"
                 onClick={() => setSearchOpen(false)}
               >
                 <X className="h-4 w-4" />
@@ -142,7 +153,7 @@ const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="h-9 w-9 lg:hidden"
+            className="h-9 w-9 shrink-0 lg:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? (

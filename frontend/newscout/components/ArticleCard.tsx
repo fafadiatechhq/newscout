@@ -143,7 +143,7 @@ const ArticleCard = ({ article, variant = "default" }: ArticleCardProps) => {
     return (
       <Link
         href={`/articles/${article.id}`}
-        className="group relative block overflow-hidden rounded-xl"
+        className="group relative block overflow-hidden rounded-xl mt-4"
       >
         <div className="aspect-video overflow-hidden">
           <img
