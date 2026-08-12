@@ -30,17 +30,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useReadingHistory } from "@/hooks/use-reading-history";
 import { useToast } from "@/hooks/use-toast";
+import { useArticle } from "@/hooks/use-article";
 import {
-  getArticleById,
   formatTimeAgo,
-  getSourceCountForArticle,
   getSourcesForArticle,
 } from "@/utils/mock-data";
 import CommentSection from "./CommentSection";
+import ArticleDetailSkeleton from "./ArticleDetailSkeleton";
 
 const ArticleDetailContainer = () => {
   const { id } = useParams<{ id: string }>();
-  const article = getArticleById(id || "");
+  const { article, isLoading, error, notFound, retry } = useArticle(id);
   const { toast } = useToast();
   const { trackView } = useReadingHistory();
 
@@ -50,7 +50,26 @@ const ArticleDetailContainer = () => {
     }
   }, [article, trackView]);
 
-  if (!article) {
+  if (isLoading) {
+    return <ArticleDetailSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <ReadingProgressBar />
+        <div className="container py-16 text-center">
+          <h1 className="font-serif text-3xl font-bold text-foreground">
+            Unable to Load Article
+          </h1>
+          <p className="mt-2 text-muted-foreground">{error}</p>
+          <Button className="mt-4" onClick={retry}>Try again</Button>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (notFound || !article) {
     return (
       <Layout>
         <ReadingProgressBar />
@@ -69,8 +88,14 @@ const ArticleDetailContainer = () => {
     );
   }
 
-  const sourceCount = getSourceCountForArticle(article.id);
-  const articleSources = getSourcesForArticle(article.id);
+  const mockSources = getSourcesForArticle(article.id);
+  const articleSources =
+    article.sources && article.sources.length > 0
+      ? article.sources
+      : mockSources.length > 0
+        ? mockSources
+        : [{ source: article.source, url: article.content_url }];
+  const sourceCount = articleSources.length;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);

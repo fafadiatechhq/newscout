@@ -7,15 +7,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 // import { Button } from "@/components/ui/button";
-import { type Source } from "@/utils/mock-data";
-
-interface SourceEntry {
-  source: Source;
-  url: string;
-}
+import { type ArticleSourceEntry } from "@/utils/mock-data";
 
 interface SourcesModalProps {
-  sources: SourceEntry[];
+  sources: ArticleSourceEntry[];
   articleTitle: string;
   trigger: React.ReactNode;
 }

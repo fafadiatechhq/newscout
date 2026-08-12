@@ -16,9 +16,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { getArticleById } from '@/utils/mock-data'
+import { resolveArticleById } from '@/lib/api/articles'
 import { useToast } from '@/hooks/use-toast'
 import type { Article } from '@/utils/mock-data'
+import ArticleCardSkeleton from '@/components/ArticleCardSkeleton'
 
 const BOOKMARKS_KEY = 'newscout-bookmarks'
 const DEFAULT_BOOKMARKS = ['a1', 'a3', 'a5', 'a7', 'a9', 'a11']
@@ -38,15 +39,30 @@ function getBookmarkedIds(): string[] {
 const BookmarksContainer = () => {
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(getBookmarkedIds)
   const [articles, setArticles] = useState<Article[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [removeTarget, setRemoveTarget] = useState<string | null>(null)
   const [showClearAll, setShowClearAll] = useState(false)
   const { toast } = useToast()
 
   useEffect(() => {
-    const resolved = bookmarkedIds
-      .map((id) => getArticleById(id))
-      .filter(Boolean) as Article[]
-    setArticles(resolved)
+    let cancelled = false
+
+    async function load() {
+      setIsLoading(true)
+      const resolved = (
+        await Promise.all(bookmarkedIds.map((id) => resolveArticleById(id)))
+      ).filter(Boolean) as Article[]
+
+      if (!cancelled) {
+        setArticles(resolved)
+        setIsLoading(false)
+      }
+    }
+
+    void load()
+    return () => {
+      cancelled = true
+    }
   }, [bookmarkedIds])
 
   const removeBookmark = (articleId: string) => {
@@ -91,7 +107,13 @@ const BookmarksContainer = () => {
       {/* Content */}
       <section className="py-10">
         <div className="container">
-          {articles.length > 0 ? (
+          {isLoading ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <ArticleCardSkeleton key={i} />
+              ))}
+            </div>
+          ) : articles.length > 0 ? (
             <>
               <div className="mb-6 flex items-center justify-between">
                 <p className="text-sm text-muted-foreground">

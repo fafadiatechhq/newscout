@@ -97,6 +97,7 @@ export interface SearchParams {
 export interface ArticlesParams {
   trending?: boolean
   categoryId?: number
+  sourceId?: number
   limit?: number
   offset?: number
 }

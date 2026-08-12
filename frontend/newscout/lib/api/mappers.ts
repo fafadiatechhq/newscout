@@ -1,4 +1,4 @@
-import type { Article, Category, Source } from '@/utils/mock-data'
+import type { Article, ArticleSourceEntry, Category, Source } from '@/utils/mock-data'
 import type { ApiArticle, ApiCategory } from './types'
 import { slugify } from './slug'
 
@@ -17,6 +17,20 @@ function mapSource(apiSource: ApiArticle['source'][number] | undefined): Source 
     logo_url: apiSource?.logo_url ?? '',
     is_verified: apiSource?.is_verified ?? false,
   }
+}
+
+export function mapArticleSources(json: ApiArticle): ArticleSourceEntry[] {
+  const contentUrl = json.content_url ?? ''
+  const apiSources = json.source ?? []
+
+  if (apiSources.length === 0) {
+    return []
+  }
+
+  return apiSources.map((apiSource, index) => ({
+    source: mapSource(apiSource),
+    url: apiSource.url ?? (index === 0 ? contentUrl : '#'),
+  }))
 }
 
 export function mapApiCategory(apiCategory: ApiCategory): Category {
@@ -55,5 +69,6 @@ export function mapApiArticle(json: ApiArticle): Article {
     tags: (json.tags ?? []).map((tag) => tag.name),
     reading_time: estimateReadingTime(json.summary ?? ''),
     views: 0,
+    sources: mapArticleSources(json),
   }
 }

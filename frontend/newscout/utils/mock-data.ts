@@ -11,6 +11,7 @@ export interface Article {
   tags: string[];
   reading_time: number;
   views: number;
+  sources?: ArticleSourceEntry[];
 }
 
 export interface Source {
@@ -18,6 +19,11 @@ export interface Source {
   name: string;
   logo_url: string;
   is_verified: boolean;
+}
+
+export interface ArticleSourceEntry {
+  source: Source;
+  url: string;
 }
 
 export interface Category {
